@@ -286,7 +286,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 65,
                                     height: 65,
                                     child: Image.asset(
-                                      "assets/images/icon/icon_tree.png",
+                                      "assets/images/icon/icon_user_add.png",
                                     ),
                                   ),
                                 ),
