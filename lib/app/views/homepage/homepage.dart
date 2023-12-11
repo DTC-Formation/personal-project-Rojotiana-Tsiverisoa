@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    // var size = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
 
     return SafeArea(
       child: Scaffold(
@@ -158,13 +158,255 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        body: const SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MyCarousel(),
+                const MyCarousel(),
+                const SizedBox(
+                  height: 15,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: size.width,
+                    height: 85,
+                    decoration: BoxDecoration(
+                      gradient: MyPackage.gradient05,
+                      borderRadius: BorderRadius.circular(
+                        MyPackage.radius01,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 15,
+                          ),
+                          child: Opacity(
+                            opacity: 0.7,
+                            child: SizedBox(
+                              width: 75,
+                              height: 75,
+                              child: Image.asset(
+                                "assets/images/icon/icon_tree.png",
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        const Text(
+                          'Arbre généalogique',
+                          style: TextStyle(
+                            color: MyPackage.color05,
+                            fontSize: MyPackage.fontSize02,
+                            fontWeight: MyPackage.fontWeight01,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 105,
+                          decoration: BoxDecoration(
+                            gradient: MyPackage.gradient04,
+                            borderRadius: BorderRadius.circular(
+                              MyPackage.radius01,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 15,
+                                ),
+                                child: Opacity(
+                                  opacity: 0.7,
+                                  child: SizedBox(
+                                    width: 65,
+                                    height: 65,
+                                    child: Image.asset(
+                                      "assets/images/icon/icon_familly.png",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Text(
+                                'Famille',
+                                style: TextStyle(
+                                  color: MyPackage.color05,
+                                  fontSize: MyPackage.fontSize02,
+                                  fontWeight: MyPackage.fontWeight01,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Flexible(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 105,
+                          decoration: BoxDecoration(
+                            gradient: MyPackage.gradient03,
+                            borderRadius: BorderRadius.circular(
+                              MyPackage.radius01,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 15,
+                                ),
+                                child: Opacity(
+                                  opacity: 0.7,
+                                  child: SizedBox(
+                                    width: 65,
+                                    height: 65,
+                                    child: Image.asset(
+                                      "assets/images/icon/icon_tree.png",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Text(
+                                'Adhésion',
+                                style: TextStyle(
+                                  color: MyPackage.color05,
+                                  fontSize: MyPackage.fontSize02,
+                                  fontWeight: MyPackage.fontWeight01,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 105,
+                          decoration: BoxDecoration(
+                            gradient: MyPackage.gradient02,
+                            borderRadius: BorderRadius.circular(
+                              MyPackage.radius01,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 15,
+                                ),
+                                child: Opacity(
+                                  opacity: 0.7,
+                                  child: SizedBox(
+                                    width: 65,
+                                    height: 65,
+                                    child: Image.asset(
+                                      "assets/images/icon/icon_gallery_1.png",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Text(
+                                'Gallerie',
+                                style: TextStyle(
+                                  color: MyPackage.color05,
+                                  fontSize: MyPackage.fontSize02,
+                                  fontWeight: MyPackage.fontWeight01,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Flexible(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 105,
+                          decoration: BoxDecoration(
+                            gradient: MyPackage.gradient01,
+                            borderRadius: BorderRadius.circular(
+                              MyPackage.radius01,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 15,
+                                ),
+                                child: Opacity(
+                                  opacity: 0.7,
+                                  child: SizedBox(
+                                    width: 65,
+                                    height: 65,
+                                    child: Image.asset(
+                                      "assets/images/icon/icon_user.png",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Text(
+                                'Profil',
+                                style: TextStyle(
+                                  color: MyPackage.color05,
+                                  fontSize: MyPackage.fontSize02,
+                                  fontWeight: MyPackage.fontWeight01,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
