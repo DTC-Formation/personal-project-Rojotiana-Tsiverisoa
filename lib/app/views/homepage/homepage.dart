@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:tetiharana/components/carousel.dart';
 import 'package:tetiharana/package/my_package.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +13,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    // var size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -154,6 +156,17 @@ class _HomePageState extends State<HomePage> {
                 ),
               )
             ],
+          ),
+        ),
+        body: const SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyCarousel(),
+              ],
+            ),
           ),
         ),
       ),

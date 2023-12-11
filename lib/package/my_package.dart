@@ -12,6 +12,8 @@ class MyPackage {
   static const Color color09 = Color.fromRGBO(158, 158, 158, 1); // #9E9E9E
   static const Color color10 = Color.fromRGBO(77, 77, 78, 1); // #4D4E4E
   static const Color color11 = Color.fromARGB(122, 0, 0, 0);
+  static const Color color12 = Color.fromARGB(221, 236, 236, 236);
+  static const Color color13 = Color.fromARGB(160, 228, 228, 228);
 
   static const LinearGradient gradient01 = LinearGradient(
     begin: Alignment.topLeft,
@@ -65,4 +67,6 @@ class MyPackage {
   static const fontSize02 = 18.0;
 
   static const FontWeight fontWeight01 = FontWeight.w500;
+
+  static double radius01 = 10;
 }
