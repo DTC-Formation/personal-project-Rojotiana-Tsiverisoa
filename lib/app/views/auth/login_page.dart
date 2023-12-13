@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:tetiharana/package/my_package.dart';
+import 'package:tetiharana/utilities/tools.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         alignment: Alignment.topCenter,
                         colorFilter: ColorFilter.mode(
-                          MyPackage.color11,
+                          Tools.color11,
                           BlendMode.darken,
                         ),
                       ),
@@ -59,9 +59,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   width: size.width,
                   decoration: const BoxDecoration(
-                    color: MyPackage.color05,
+                    color: Tools.color05,
                     boxShadow: [
-                      MyPackage.shadow01,
+                      Tools.shadow01,
                     ],
                   ),
                   child: Padding(
@@ -79,73 +79,73 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               'Se connecter à votre compte',
                               style: TextStyle(
-                                color: MyPackage.color07,
-                                fontSize: MyPackage.fontSize01,
-                                fontWeight: MyPackage.fontWeight01,
+                                color: Tools.color07,
+                                fontSize: Tools.fontSize01,
+                                fontWeight: Tools.fontWeight01,
                               ),
                             ),
                           ),
                         ),
                         TextField(
-                          cursorColor: MyPackage.color10,
+                          cursorColor: Tools.color10,
                           decoration: InputDecoration(
                             suffixIcon: Transform.translate(
                               offset: const Offset(14, 6),
                               child: const Icon(
                                 Icons.mail_outline,
-                                color: MyPackage.color09,
+                                color: Tools.color09,
                               ),
                             ),
                             labelText: 'Email',
                             floatingLabelStyle: const TextStyle(
-                              color: MyPackage.color09,
+                              color: Tools.color09,
                             ),
                             enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: MyPackage.color10,
+                                color: Tools.color10,
                               ),
                             ),
                             focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: MyPackage.color10,
+                                color: Tools.color10,
                               ),
                             ),
                           ),
                           style: const TextStyle(
-                            color: MyPackage.color10,
+                            color: Tools.color10,
                           ),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         TextField(
-                          cursorColor: MyPackage.color10,
+                          cursorColor: Tools.color10,
                           obscureText: true,
                           decoration: InputDecoration(
                             suffixIcon: Transform.translate(
                               offset: const Offset(14, 6),
                               child: const Icon(
                                 Icons.lock_outline,
-                                color: MyPackage.color09,
+                                color: Tools.color09,
                               ),
                             ),
                             labelText: 'Mot de passe',
                             floatingLabelStyle: const TextStyle(
-                              color: MyPackage.color09,
+                              color: Tools.color09,
                             ),
                             enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: MyPackage.color10,
+                                color: Tools.color10,
                               ),
                             ),
                             focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: MyPackage.color10,
+                                color: Tools.color10,
                               ),
                             ),
                           ),
                           style: const TextStyle(
-                            color: MyPackage.color10,
+                            color: Tools.color10,
                           ),
                         ),
                         Padding(
@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Text(
                                     'Mot de passe oublié ?',
                                     style: TextStyle(
-                                      color: MyPackage.color07,
+                                      color: Tools.color07,
                                     ),
                                   ),
                                 ),
@@ -183,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                             height: 50,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: MyPackage.color08,
+                                backgroundColor: Tools.color08,
                               ),
                               onPressed: () => {
                                 Navigator.of(context).pushNamed('/home'),
@@ -191,8 +191,8 @@ class _LoginPageState extends State<LoginPage> {
                               child: const Text(
                                 'Se connecter',
                                 style: TextStyle(
-                                  color: MyPackage.color05,
-                                  fontSize: MyPackage.fontSize02,
+                                  color: Tools.color05,
+                                  fontSize: Tools.fontSize02,
                                 ),
                               ),
                             ),

@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
-import 'package:tetiharana/package/my_package.dart';
+import 'package:tetiharana/utilities/tools.dart';
 
 class MyCarousel extends StatefulWidget {
   const MyCarousel({super.key});
@@ -16,15 +16,15 @@ class _MyCarouselState extends State<MyCarousel> {
   List imageList = [
     {
       "id": 1,
-      "image_path": "assets/images/background/bg_1.webp",
+      "image_path": "assets/images/familly/familly_1.jpg",
     },
     {
       "id": 2,
-      "image_path": "assets/images/background/bg_2.webp",
+      "image_path": "assets/images/familly/familly_2.webp",
     },
     {
       "id": 3,
-      "image_path": "assets/images/background/bg_3.webp",
+      "image_path": "assets/images/familly/familly_3.jpg",
     },
   ];
 
@@ -41,7 +41,7 @@ class _MyCarouselState extends State<MyCarousel> {
               .map(
                 (item) => Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(MyPackage.radius01),
+                    borderRadius: BorderRadius.circular(Tools.radius01),
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: AssetImage(
@@ -49,7 +49,7 @@ class _MyCarouselState extends State<MyCarousel> {
                       ),
                       alignment: Alignment.topCenter,
                       colorFilter: const ColorFilter.mode(
-                        MyPackage.color11,
+                        Tools.color11,
                         BlendMode.darken,
                       ),
                     ),
@@ -59,7 +59,7 @@ class _MyCarouselState extends State<MyCarousel> {
               .toList(),
           carouselController: carouselController,
           options: CarouselOptions(
-            height: 210,
+            height: Tools.imageHeight01,
             scrollPhysics: const BouncingScrollPhysics(),
             autoPlay: true,
             // aspectRatio: 2,
@@ -91,10 +91,10 @@ class _MyCarouselState extends State<MyCarousel> {
                     horizontal: 3.0,
                   ),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(MyPackage.radius01),
+                      borderRadius: BorderRadius.circular(Tools.radius01),
                       color: currentIndex == entry.key
-                          ? MyPackage.color12
-                          : MyPackage.color13),
+                          ? Tools.color12
+                          : Tools.color13),
                 ),
               );
             }).toList(),
@@ -116,7 +116,7 @@ class _MyCarouselState extends State<MyCarousel> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
-                  MyPackage.radius01,
+                  Tools.radius01,
                 ),
               ),
               width: size.width,
@@ -135,7 +135,7 @@ class _MyCarouselState extends State<MyCarousel> {
                         decoration: BoxDecoration(
                           color: Colors.transparent,
                           borderRadius: BorderRadius.circular(
-                            MyPackage.radius01,
+                            Tools.radius01,
                           ),
                         ),
                       ),
@@ -144,7 +144,7 @@ class _MyCarouselState extends State<MyCarousel> {
                   const Text(
                     'Apprenez plus sur l\'histoire de votre famille',
                     style: TextStyle(
-                      color: MyPackage.color05,
+                      color: Tools.color05,
                     ),
                     textAlign: TextAlign.center,
                   ),

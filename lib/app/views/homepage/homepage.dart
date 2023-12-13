@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:tetiharana/components/carousel.dart';
-import 'package:tetiharana/package/my_package.dart';
+import 'package:tetiharana/widget/navigation/app_bar.dart';
+import 'package:tetiharana/widget/image/carousel.dart';
+import 'package:tetiharana/widget/navigation/drawer.dart';
+import 'package:tetiharana/utilities/tools.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,147 +19,13 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(58.0),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: AppBar(
-              iconTheme: const IconThemeData(
-                color: MyPackage.color07,
-              ),
-              title: const Text(
-                'Accueil',
-                style: TextStyle(
-                  color: MyPackage.color07,
-                ),
-              ),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.search,
-                    color: MyPackage.color07,
-                  ),
-                  onPressed: () {},
-                ),
-              ],
-            ),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(58.0),
+          child: MyAppBar(
+            title: 'Bienvenue Rojotiana',
           ),
         ),
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text('Drawer Header'),
-              ),
-              ListTile(
-                title: const Text(
-                  'Accueil',
-                  style: TextStyle(
-                    color: MyPackage.color06,
-                  ),
-                ),
-                onTap: () {},
-                leading: const Icon(
-                  Icons.home_rounded,
-                  color: MyPackage.color06,
-                ),
-              ),
-              ListTile(
-                title: const Text(
-                  'Arbre généalogique',
-                  style: TextStyle(
-                    color: MyPackage.color06,
-                  ),
-                ),
-                onTap: () {},
-                leading: const Icon(
-                  Icons.account_tree_rounded,
-                  color: MyPackage.color06,
-                ),
-              ),
-              ListTile(
-                title: const Text(
-                  'Classement par Famille',
-                  style: TextStyle(
-                    color: MyPackage.color06,
-                  ),
-                ),
-                onTap: () {},
-                leading: const Icon(
-                  Icons.family_restroom_rounded,
-                  color: MyPackage.color06,
-                ),
-              ),
-              ListTile(
-                title: const Text(
-                  'Adhésion / Membres',
-                  style: TextStyle(
-                    color: MyPackage.color06,
-                  ),
-                ),
-                onTap: () {},
-                leading: const Icon(
-                  Icons.person_add_alt_rounded,
-                  color: MyPackage.color06,
-                ),
-              ),
-              ListTile(
-                title: const Text(
-                  'Gallerie',
-                  style: TextStyle(
-                    color: MyPackage.color06,
-                  ),
-                ),
-                onTap: () {},
-                leading: const Icon(
-                  Icons.image,
-                  color: MyPackage.color06,
-                ),
-              ),
-              ListTile(
-                title: const Text(
-                  'Profil utilisateur',
-                  style: TextStyle(
-                    color: MyPackage.color06,
-                  ),
-                ),
-                onTap: () {},
-                leading: const Icon(
-                  Icons.account_circle_rounded,
-                  color: MyPackage.color06,
-                ),
-              ),
-              const Divider(
-                color: MyPackage.color09,
-              ),
-              ListTile(
-                title: const Text(
-                  'Se déconnecter',
-                  style: TextStyle(
-                    color: MyPackage.color06,
-                  ),
-                ),
-                onTap: () {},
-                leading: const Icon(
-                  Icons.logout_rounded,
-                  color: MyPackage.color06,
-                ),
-              )
-            ],
-          ),
-        ),
+        drawer: const MyDrawer(),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -174,9 +42,9 @@ class _HomePageState extends State<HomePage> {
                     width: size.width,
                     height: 85,
                     decoration: BoxDecoration(
-                      gradient: MyPackage.gradient05,
+                      gradient: Tools.gradient05,
                       borderRadius: BorderRadius.circular(
-                        MyPackage.radius01,
+                        Tools.radius01,
                       ),
                     ),
                     child: Row(
@@ -202,9 +70,9 @@ class _HomePageState extends State<HomePage> {
                         const Text(
                           'Arbre généalogique',
                           style: TextStyle(
-                            color: MyPackage.color05,
-                            fontSize: MyPackage.fontSize02,
-                            fontWeight: MyPackage.fontWeight01,
+                            color: Tools.color05,
+                            fontSize: Tools.fontSize02,
+                            fontWeight: Tools.fontWeight01,
                           ),
                         ),
                       ],
@@ -222,9 +90,9 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           height: 105,
                           decoration: BoxDecoration(
-                            gradient: MyPackage.gradient04,
+                            gradient: Tools.gradient04,
                             borderRadius: BorderRadius.circular(
-                              MyPackage.radius01,
+                              Tools.radius01,
                             ),
                           ),
                           child: Row(
@@ -250,9 +118,9 @@ class _HomePageState extends State<HomePage> {
                               const Text(
                                 'Famille',
                                 style: TextStyle(
-                                  color: MyPackage.color05,
-                                  fontSize: MyPackage.fontSize02,
-                                  fontWeight: MyPackage.fontWeight01,
+                                  color: Tools.color05,
+                                  fontSize: Tools.fontSize02,
+                                  fontWeight: Tools.fontWeight01,
                                 ),
                               ),
                             ],
@@ -269,9 +137,9 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           height: 105,
                           decoration: BoxDecoration(
-                            gradient: MyPackage.gradient03,
+                            gradient: Tools.gradient03,
                             borderRadius: BorderRadius.circular(
-                              MyPackage.radius01,
+                              Tools.radius01,
                             ),
                           ),
                           child: Row(
@@ -297,9 +165,9 @@ class _HomePageState extends State<HomePage> {
                               const Text(
                                 'Adhésion',
                                 style: TextStyle(
-                                  color: MyPackage.color05,
-                                  fontSize: MyPackage.fontSize02,
-                                  fontWeight: MyPackage.fontWeight01,
+                                  color: Tools.color05,
+                                  fontSize: Tools.fontSize02,
+                                  fontWeight: Tools.fontWeight01,
                                 ),
                               ),
                             ],
@@ -320,9 +188,9 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           height: 105,
                           decoration: BoxDecoration(
-                            gradient: MyPackage.gradient02,
+                            gradient: Tools.gradient02,
                             borderRadius: BorderRadius.circular(
-                              MyPackage.radius01,
+                              Tools.radius01,
                             ),
                           ),
                           child: Row(
@@ -348,9 +216,9 @@ class _HomePageState extends State<HomePage> {
                               const Text(
                                 'Gallerie',
                                 style: TextStyle(
-                                  color: MyPackage.color05,
-                                  fontSize: MyPackage.fontSize02,
-                                  fontWeight: MyPackage.fontWeight01,
+                                  color: Tools.color05,
+                                  fontSize: Tools.fontSize02,
+                                  fontWeight: Tools.fontWeight01,
                                 ),
                               ),
                             ],
@@ -367,9 +235,9 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           height: 105,
                           decoration: BoxDecoration(
-                            gradient: MyPackage.gradient01,
+                            gradient: Tools.gradient01,
                             borderRadius: BorderRadius.circular(
-                              MyPackage.radius01,
+                              Tools.radius01,
                             ),
                           ),
                           child: Row(
@@ -395,9 +263,9 @@ class _HomePageState extends State<HomePage> {
                               const Text(
                                 'Profil',
                                 style: TextStyle(
-                                  color: MyPackage.color05,
-                                  fontSize: MyPackage.fontSize02,
-                                  fontWeight: MyPackage.fontWeight01,
+                                  color: Tools.color05,
+                                  fontSize: Tools.fontSize02,
+                                  fontWeight: Tools.fontWeight01,
                                 ),
                               ),
                             ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MyPackage {
+class Tools {
   static const Color color01 = Color.fromRGBO(219, 219, 219, 1); //#DBDBDB
   static const Color color02 = Color.fromRGBO(3, 58, 67, 1); // #033A43
   static const Color color03 = Color.fromRGBO(52, 52, 52, 1); // #343434
@@ -69,4 +69,8 @@ class MyPackage {
   static const FontWeight fontWeight01 = FontWeight.w500;
 
   static double radius01 = 10;
+
+  static double padding01 = 10;
+
+  static double imageHeight01 = 210;
 }
