@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tetiharana/app/views/auth/forgot_password.dart';
 import 'package:tetiharana/app/views/auth/login_page.dart';
+import 'package:tetiharana/app/views/familly/familly.dart';
 import 'package:tetiharana/app/views/homepage/homepage.dart';
 import 'package:tetiharana/app/views/member/member.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         '/forgot-password': (context) => const ForgotPassword(),
         '/home': (context) => const HomePage(),
         // '/tree-app': (context) => const TreeApp(),
-        // '/familly': (context) => const Familly(),
+        '/familly': (context) => const FamillyList(),
         '/member': (context) => const MemberAdd(),
         // '/gallery': (context) => const Gallery(),
         // '/profile': (context) => const Profile(),

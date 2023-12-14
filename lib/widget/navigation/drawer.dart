@@ -19,6 +19,7 @@ class _MyDrawerState extends State<MyDrawer> {
         icon: Icons.home_rounded,
         title: 'Accueil',
         action: () => {
+          Navigator.pop(context),
           Navigator.of(context).pushNamed('/home'),
         },
       ),
@@ -26,6 +27,7 @@ class _MyDrawerState extends State<MyDrawer> {
         icon: Icons.account_tree_rounded,
         title: 'Arbre généalogique',
         action: () => {
+          Navigator.pop(context),
           // Navigator.of(context).pushNamed('/tree-app'),
         },
       ),
@@ -33,13 +35,15 @@ class _MyDrawerState extends State<MyDrawer> {
         icon: Icons.family_restroom_rounded,
         title: 'Classement par Famille',
         action: () => {
-          // Navigator.of(context).pushNamed('/familly'),
+          Navigator.pop(context),
+          Navigator.of(context).pushNamed('/familly'),
         },
       ),
       DrawerItem(
         icon: Icons.person_add_alt_rounded,
         title: 'Adhésion / Membres',
         action: () => {
+          Navigator.pop(context),
           Navigator.of(context).pushNamed('/member'),
         },
       ),
@@ -47,6 +51,7 @@ class _MyDrawerState extends State<MyDrawer> {
         icon: Icons.image,
         title: 'Gallerie',
         action: () => {
+          Navigator.pop(context),
           // Navigator.of(context).pushNamed('/gallery'),
         },
       ),
@@ -54,6 +59,7 @@ class _MyDrawerState extends State<MyDrawer> {
         icon: Icons.account_circle_rounded,
         title: 'Profil utilisateur',
         action: () => {
+          Navigator.pop(context),
           // Navigator.of(context).pushNamed('/profile'),
         },
       ),
@@ -70,13 +76,13 @@ class _MyDrawerState extends State<MyDrawer> {
               child: const DrawerHeader(
                 padding: EdgeInsets.zero,
                 decoration: BoxDecoration(
-                  gradient: Tools.gradient06,
-                  // image: DecorationImage(
-                  //   fit: BoxFit.cover,
-                  //   image: AssetImage(
-                  //     'assets/images/background/bg_2.webp',
-                  //   ),
-                  // ),
+                  // gradient: Tools.gradient06,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(
+                      'assets/images/background/bg_2.webp',
+                    ),
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
