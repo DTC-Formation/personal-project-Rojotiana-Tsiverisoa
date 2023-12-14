@@ -52,7 +52,7 @@ class _MyDrawerState extends State<MyDrawer> {
         title: 'Gallerie',
         action: () => {
           Navigator.pop(context),
-          // Navigator.of(context).pushNamed('/gallery'),
+          Navigator.of(context).pushNamed('/gallery'),
         },
       ),
       DrawerItem(
