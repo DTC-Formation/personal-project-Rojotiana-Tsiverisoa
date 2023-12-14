@@ -55,6 +55,15 @@ class Tools {
       Color.fromRGBO(255, 94, 98, 1), // #FF5E62
     ],
   );
+  static const LinearGradient gradient06 = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFA3744A), // #A3744A
+      Color(0xFF865C5D), // #865C5D
+      Color(0xFF6C433D), // #6C433D
+    ],
+  );
 
   static const BoxShadow shadow01 = BoxShadow(
     color: Color.fromARGB(19, 0, 0, 0),

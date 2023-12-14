@@ -1,4 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+
+import 'package:image_picker/image_picker.dart';
+// import 'package:image_cropper/image_cropper.dart';
 
 import 'package:tetiharana/utilities/tools.dart';
 
@@ -23,9 +27,34 @@ class _MyImagePickerState extends State<MyImagePicker> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    _takePictureFromCamera() {}
+    File? _selectedImage;
 
-    _takePictureFromGallery() {}
+    Future takePicture(String source) async {
+      ImageSource imageSource;
+
+      switch (source) {
+        case "camera":
+          imageSource = ImageSource.camera;
+          break;
+
+        case "gallery":
+          imageSource = ImageSource.gallery;
+          break;
+
+        default:
+          return;
+      }
+
+      final returnedImage = await ImagePicker().pickImage(source: imageSource);
+      if (returnedImage == null) return;
+
+      setState(() {
+        // print('Selected path: ${returnedImage.path}');
+        // print('Selected name: ${returnedImage.name}');
+        _selectedImage = File(returnedImage.path);
+        Navigator.pop(context);
+      });
+    }
 
     takePictureButton() {
       return InkWell(
@@ -64,7 +93,7 @@ class _MyImagePickerState extends State<MyImagePicker> {
                           children: [
                             InkWell(
                               borderRadius: BorderRadius.circular(30),
-                              onTap: _takePictureFromCamera,
+                              onTap: () => {takePicture("camera")},
                               child: Image.asset(
                                 "assets/images/icon/icon_camera.png",
                                 fit: BoxFit.cover,
@@ -83,7 +112,7 @@ class _MyImagePickerState extends State<MyImagePicker> {
                           children: [
                             InkWell(
                               borderRadius: BorderRadius.circular(30),
-                              onTap: _takePictureFromGallery,
+                              onTap: () => {takePicture("gallery")},
                               child: Image.asset(
                                 "assets/images/icon/icon_gallery_2.png",
                                 fit: BoxFit.cover,

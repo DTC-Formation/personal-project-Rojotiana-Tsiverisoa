@@ -70,12 +70,13 @@ class _MyDrawerState extends State<MyDrawer> {
               child: const DrawerHeader(
                 padding: EdgeInsets.zero,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(
-                      'assets/images/background/bg_2.webp',
-                    ),
-                  ),
+                  gradient: Tools.gradient06,
+                  // image: DecorationImage(
+                  //   fit: BoxFit.cover,
+                  //   image: AssetImage(
+                  //     'assets/images/background/bg_2.webp',
+                  //   ),
+                  // ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

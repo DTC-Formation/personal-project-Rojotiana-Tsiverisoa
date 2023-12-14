@@ -200,7 +200,9 @@ class _MemberAddState extends State<MemberAdd> {
                                   });
                                 },
                               ),
-                              const ImagePicker(),
+                              const ImagePicker(
+                                title: "Profile",
+                              ),
                             ],
                           ),
                         ),
@@ -247,7 +249,12 @@ class _MemberAddState extends State<MemberAdd> {
 }
 
 class ImagePicker extends StatefulWidget {
-  const ImagePicker({super.key});
+  final String title;
+
+  const ImagePicker({
+    super.key,
+    required this.title,
+  });
 
   @override
   State<ImagePicker> createState() => _ImagePickerState();
@@ -271,16 +278,16 @@ class _ImagePickerState extends State<ImagePicker> {
           Stack(
             children: [
               filename != ""
-                  ? const Text(
-                      "Profile",
-                      style: TextStyle(
+                  ? Text(
+                      widget.title,
+                      style: const TextStyle(
                         fontSize: 13,
                         color: Tools.color09,
                       ),
                     )
-                  : const Text(
-                      "Profile",
-                      style: TextStyle(
+                  : Text(
+                      widget.title,
+                      style: const TextStyle(
                         fontSize: 0,
                         color: Tools.color09,
                       ),
@@ -305,7 +312,7 @@ class _ImagePickerState extends State<ImagePicker> {
                       alignment: Alignment.centerLeft,
                       children: [
                         Text(
-                          filename != "" ? filename : "Profile",
+                          filename != "" ? filename : widget.title,
                           style: const TextStyle(
                             fontSize: 16,
                           ),
