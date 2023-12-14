@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tetiharana/utilities/tools.dart';
 
+import 'package:tetiharana/utilities/tools.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/navigation/drawer.dart';
 
@@ -13,17 +13,17 @@ class Gallery extends StatefulWidget {
 
 class _GalleryState extends State<Gallery> {
   List<GalleryItem> galleryItem = [
-    GalleryItem(
+    const GalleryItem(
       source: "assets/images/familly/familly_1.jpg",
-      action: () => {},
+      name: "Nom",
     ),
-    GalleryItem(
+    const GalleryItem(
       source: "assets/images/familly/familly_2.webp",
-      action: () => {},
+      name: "Nom",
     ),
-    GalleryItem(
+    const GalleryItem(
       source: "assets/images/familly/familly_3.jpg",
-      action: () => {},
+      name: "Nom",
     ),
   ];
   @override
@@ -68,12 +68,12 @@ class _GalleryState extends State<Gallery> {
 
 class GalleryItem extends StatefulWidget {
   final String source;
-  final void Function() action;
+  final String name;
 
   const GalleryItem({
     super.key,
     required this.source,
-    required this.action,
+    required this.name,
   });
 
   @override
@@ -84,7 +84,67 @@ class _GalleryItemState extends State<GalleryItem> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: widget.action,
+      onTap: () => showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                Tools.radius01,
+              ),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons.close_rounded,
+                      color: Tools.color02,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      Tools.radius01,
+                    ),
+                    child: Image.asset(
+                      widget.source,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                    bottom: 8,
+                  ),
+                  child: Text(
+                    widget.name,
+                    style: const TextStyle(
+                      color: Tools.color07,
+                      fontWeight: Tools.fontWeight01,
+                      fontSize: Tools.fontSize02,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       borderRadius: BorderRadius.circular(Tools.radius01),
       child: Container(
         decoration: BoxDecoration(
