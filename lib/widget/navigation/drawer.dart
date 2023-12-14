@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:tetiharana/app/views/auth/login_page.dart';
 import 'package:tetiharana/utilities/tools.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -121,7 +122,14 @@ class _MyDrawerState extends State<MyDrawer> {
                 DrawerItem(
                   icon: Icons.logout_rounded,
                   title: 'Se déconnecter',
-                  action: () {},
+                  action: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                      (route) => false,
+                    );
+                  },
                 ),
               ],
             ),

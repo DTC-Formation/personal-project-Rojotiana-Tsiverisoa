@@ -37,7 +37,9 @@ class _HomePageState extends State<HomePage> {
                   height: 15,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    // Navigator.of(context).pushNamed('/tree-app');
+                  },
                   child: Container(
                     width: size.width,
                     height: 85,
@@ -86,7 +88,9 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Flexible(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/familly');
+                        },
                         child: Container(
                           height: 105,
                           decoration: BoxDecoration(
@@ -133,7 +137,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Flexible(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/member');
+                        },
                         child: Container(
                           height: 105,
                           decoration: BoxDecoration(
@@ -184,7 +190,9 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Flexible(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/gallery');
+                        },
                         child: Container(
                           height: 105,
                           decoration: BoxDecoration(
@@ -231,7 +239,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Flexible(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          // Navigator.of(context).pushNamed('/profile');
+                        },
                         child: Container(
                           height: 105,
                           decoration: BoxDecoration(
