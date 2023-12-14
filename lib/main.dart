@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:tetiharana/app/views/auth/forgot_password.dart';
 import 'package:tetiharana/app/views/auth/login_page.dart';
 import 'package:tetiharana/app/views/familly/familly.dart';
@@ -7,7 +9,8 @@ import 'package:tetiharana/app/views/gallery/gallery.dart';
 import 'package:tetiharana/app/views/homepage/homepage.dart';
 import 'package:tetiharana/app/views/member/member.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
