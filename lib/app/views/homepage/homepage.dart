@@ -240,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                     Flexible(
                       child: InkWell(
                         onTap: () {
-                          // Navigator.of(context).pushNamed('/profile');
+                          Navigator.of(context).pushNamed('/profile');
                         },
                         child: Container(
                           height: 105,

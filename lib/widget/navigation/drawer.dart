@@ -61,7 +61,7 @@ class _MyDrawerState extends State<MyDrawer> {
         title: 'Profil utilisateur',
         action: () => {
           Navigator.pop(context),
-          // Navigator.of(context).pushNamed('/profile'),
+          Navigator.of(context).pushNamed('/profile'),
         },
       ),
     ];
@@ -77,7 +77,7 @@ class _MyDrawerState extends State<MyDrawer> {
               child: const DrawerHeader(
                 padding: EdgeInsets.zero,
                 decoration: BoxDecoration(
-                  // gradient: Tools.gradient06,
+                  gradient: Tools.gradient06,
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage(

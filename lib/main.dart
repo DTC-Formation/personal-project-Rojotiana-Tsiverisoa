@@ -8,6 +8,7 @@ import 'package:tetiharana/app/views/familly/familly.dart';
 import 'package:tetiharana/app/views/gallery/gallery.dart';
 import 'package:tetiharana/app/views/homepage/homepage.dart';
 import 'package:tetiharana/app/views/member/member.dart';
+import 'package:tetiharana/app/views/profile/profile.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/familly': (context) => const FamillyList(),
         '/member': (context) => const MemberAdd(),
         '/gallery': (context) => const Gallery(),
-        // '/profile': (context) => const Profile(),
+        '/profile': (context) => const UserProfile(),
       },
     );
   }
