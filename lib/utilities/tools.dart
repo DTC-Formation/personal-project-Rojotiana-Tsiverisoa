@@ -19,8 +19,8 @@ class Tools {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color.fromRGBO(67, 198, 72, 1), // #43C6AC
-      Color.fromRGBO(35, 122, 87, 1), // #237A57
+      Color(0xFF56AD2F), // #56AD2F
+      Color(0xFFA8E063), // #A8E063
     ],
   );
   static const LinearGradient gradient02 = LinearGradient(

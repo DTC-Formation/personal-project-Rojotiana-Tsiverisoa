@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tetiharana/widget/input/dropdown.dart';
 
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/button/button.dart';
@@ -29,6 +30,7 @@ class _UserProfileState extends State<UserProfile> {
   var emailController = TextEditingController();
   String birthdateController = "";
   String deathdateController = "";
+  String maritalStatusController = "";
 
   @override
   Widget build(BuildContext context) {
@@ -241,6 +243,20 @@ class _UserProfileState extends State<UserProfile> {
                                   });
                                 },
                               ),
+                              MyDropdown(
+                                items: [
+                                  DropdownItem(list: "one", value: "1"),
+                                  DropdownItem(list: "two", value: "2"),
+                                  DropdownItem(list: "three", value: "3"),
+                                ],
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    maritalStatusController = newValue;
+                                  });
+                                },
+                                hintText: 'Situation matrimoniale',
+                                controller: maritalStatusController,
+                              ),
                             ],
                           ),
                         ),
@@ -250,6 +266,17 @@ class _UserProfileState extends State<UserProfile> {
                   const SizedBox(
                     height: 20,
                   ),
+                  // MyDropdown(
+                  //   items: [
+                  //     DropdownItem(list: "one", value: "1"),
+                  //     DropdownItem(list: "two", value: "2"),
+                  //     DropdownItem(list: "three", value: "3"),
+                  //   ],
+                  //   onChanged: (selectedValue) {
+                  //     print('Selected Value: $selectedValue');
+                  //   },
+                  //   hintText: 'rojo',
+                  // ),
                   // --------------------- Button ---------------------
                   Row(
                     children: [

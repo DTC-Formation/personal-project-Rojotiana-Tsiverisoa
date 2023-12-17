@@ -26,7 +26,7 @@ class _MyTextInputState extends State<MyTextInput> {
       cursorColor: Tools.color10,
       decoration: InputDecoration(
         suffixIcon: Transform.translate(
-          offset: const Offset(14, 6),
+          offset: const Offset(10, 6),
           child: Icon(
             widget.icon,
             color: Tools.color09,

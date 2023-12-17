@@ -160,7 +160,8 @@ class _MyDatePickerState extends State<MyDatePicker> {
                           ),
                         ),
                         Positioned(
-                          right: -15,
+                          // right: -15,
+                          right: -10,
                           child: PickDate(
                             icon: Icons.calendar_month_rounded,
                             iconColor: Tools.color09,
