@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:tetiharana/app/views/about/about.dart';
 import 'package:tetiharana/app/views/auth/forgot_password.dart';
 import 'package:tetiharana/app/views/auth/login_page.dart';
 import 'package:tetiharana/app/views/familly/familly.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/member': (context) => const MemberAdd(),
         '/gallery': (context) => const Gallery(),
         '/profile': (context) => const UserProfile(),
+        '/about': (context) => const About(),
       },
     );
   }

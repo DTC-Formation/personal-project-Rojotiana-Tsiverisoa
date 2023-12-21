@@ -38,12 +38,12 @@ class _MyTextInputState extends State<MyTextInput> {
         ),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Tools.color10,
+            color: Tools.color09,
           ),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Tools.color10,
+            color: Tools.color09,
           ),
         ),
       ),

@@ -140,8 +140,8 @@ class _MyDatePickerState extends State<MyDatePicker> {
                   decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        width: 1,
-                        color: Tools.color10,
+                        width: 1.5,
+                        color: Tools.color09,
                       ),
                     ),
                   ),

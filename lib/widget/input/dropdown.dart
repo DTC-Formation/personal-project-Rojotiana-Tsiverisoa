@@ -27,7 +27,7 @@ class _MyDropdownState extends State<MyDropdown> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 10,
       ),
       child: Stack(
@@ -77,7 +77,8 @@ class _MyDropdownState extends State<MyDropdown> {
                 decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: Tools.color10,
+                      color: Tools.color09,
+                      width: 1.5,
                     ),
                   ),
                 ),

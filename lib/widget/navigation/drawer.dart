@@ -117,7 +117,10 @@ class _MyDrawerState extends State<MyDrawer> {
                 DrawerItem(
                   icon: Icons.info_outline_rounded,
                   title: 'A propos',
-                  action: () {},
+                  action: () {
+                    Navigator.pop(context);
+                    Navigator.of(context).pushNamed('/about');
+                  },
                 ),
                 DrawerItem(
                   icon: Icons.logout_rounded,
