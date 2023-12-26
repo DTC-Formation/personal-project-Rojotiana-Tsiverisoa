@@ -4,14 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:tetiharana/utilities/constants.dart';
 
 class AuthServices {
-  String url = "${Constant.apiUrl}/api";
+  String apiUrl = "${Constant.apiUrl}/api";
   Dio dio = Dio();
 
   login({required var data}) async {
     Response response;
 
     try {
-      response = await dio.post("$url/login", data: data);
+      response = await dio.post("$apiUrl/login", data: data);
       AuthServices auth = AuthServices();
       auth.saveToken(token: response.data['token']);
       return response.statusCode;
@@ -27,7 +27,7 @@ class AuthServices {
     Response response;
 
     try {
-      response = await dio.post("$url/logout", data: {});
+      response = await dio.post("$apiUrl/logout", data: {});
       await auth.removeToken();
       return response.statusCode;
     } on DioException catch (e) {
@@ -67,7 +67,7 @@ class AuthServices {
     Response response;
 
     try {
-      response = await dio.get("$url/user/auth/$extractedToken");
+      response = await dio.get("$apiUrl/user/auth/$extractedToken");
       return response.data;
     } on DioException catch (e) {
       return e.response?.statusCode;

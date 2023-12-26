@@ -5,21 +5,38 @@ import 'package:tetiharana/utilities/constants.dart';
 
 class ApiServices {
   AuthServices auth = AuthServices();
-  String url = "${Constant.apiUrl}/api";
+  String apiUrl = "${Constant.apiUrl}/api";
   Dio dio = Dio();
 
-  createItems() {}
+  createItems({
+    required String endpoints,
+    required var data,
+  }) async {
+    var token = await auth.getToken();
+    dio.options.headers['Authorization'] = "Bearer $token";
+    Response response;
 
-  getItems({required String endpoints, var params}) async {
+    try {
+      response = await dio.post("$apiUrl/$endpoints", data: data);
+      return response.data;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getItems({
+    required String endpoints,
+    var params,
+  }) async {
     var token = await auth.getToken();
     dio.options.headers['Authorization'] = "Bearer $token";
     Response response;
 
     try {
       if (params != null) {
-        response = await dio.get("$url/$endpoints/$params");
+        response = await dio.get("$apiUrl/$endpoints/$params");
       } else {
-        response = await dio.get("$url/$endpoints");
+        response = await dio.get("$apiUrl/$endpoints");
       }
       return response.data;
     } catch (e) {
@@ -27,7 +44,36 @@ class ApiServices {
     }
   }
 
-  updateItems() {}
+  updateItems({
+    required String endpoints,
+    var data,
+    required int id,
+  }) async {
+    var token = await auth.getToken();
+    dio.options.headers['Authorization'] = "Bearer $token";
+    Response response;
 
-  deleteItems() {}
+    try {
+      response = await dio.put("$apiUrl/$endpoints/$id", data: data);
+      return response.data;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  deleteItems({
+    required String endpoints,
+    required var id,
+  }) async {
+    var token = await auth.getToken();
+    dio.options.headers['Authorization'] = "Bearer $token";
+    Response response;
+
+    try {
+      response = await dio.delete("$apiUrl/$endpoints/$id");
+      return response.data;
+    } catch (e) {
+      print(e);
+    }
+  }
 }
