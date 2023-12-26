@@ -4,11 +4,6 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 
 class MyToast {
-  String? description;
-  String? notifier;
-  int? duration;
-  BuildContext? context;
-
   toast(
     String description,
     String notifier,

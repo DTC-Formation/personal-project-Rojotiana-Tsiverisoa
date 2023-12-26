@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tetiharana/utilities/tools.dart';
+import 'package:tetiharana/widget/button/button.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -131,28 +132,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         const SizedBox(
                           height: 30,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 30,
-                          ),
-                          child: SizedBox(
-                            width: size.width,
-                            height: 50,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Tools.color08,
-                              ),
-                              onPressed: () => (),
-                              child: const Text(
-                                'Réinitialiser',
-                                style: TextStyle(
-                                  color: Tools.color05,
-                                  fontSize: Tools.fontSize02,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
+                        MyButton(
+                          title: 'Réinitialiser',
+                          action: () => {},
+                          textColor: Tools.color05,
+                          backgroundColor: Tools.color08,
+                          borderColor: Colors.transparent,
+                        ),
                       ],
                     ),
                   ),

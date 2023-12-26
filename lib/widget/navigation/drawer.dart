@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:tetiharana/app/services/auth_services.dart';
 import 'package:tetiharana/app/views/auth/login_page.dart';
 import 'package:tetiharana/utilities/tools.dart';
+import 'package:tetiharana/widget/dialog/dialog.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -11,6 +13,32 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
+  AuthServices auth = AuthServices();
+  MyDialog myDialog = MyDialog();
+
+  logout() async {
+    var response = await auth.logout();
+ 
+    if (response != 200) {
+      setState(() {
+        myDialog.showMyDialog(
+          "Erreur",
+          "Désolé, une erreur est survenu lors de la déconnexion!",
+          context,
+        );
+      });
+    } else {
+      setState(() {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ),
+          (route) => false,
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -125,14 +153,15 @@ class _MyDrawerState extends State<MyDrawer> {
                 DrawerItem(
                   icon: Icons.logout_rounded,
                   title: 'Se déconnecter',
-                  action: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                      (route) => false,
-                    );
-                  },
+                  // action: () {
+                  //   Navigator.of(context).pushAndRemoveUntil(
+                  //     MaterialPageRoute(
+                  //       builder: (context) => const LoginPage(),
+                  //     ),
+                  //     (route) => false,
+                  //   );
+                  // },
+                  action: logout,
                 ),
               ],
             ),

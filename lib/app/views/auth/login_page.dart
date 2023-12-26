@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:tetiharana/app/services/auth_services.dart';
 import 'package:tetiharana/utilities/tools.dart';
+import 'package:tetiharana/widget/button/button.dart';
+import 'package:tetiharana/widget/dialog/dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +13,36 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // Controller
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  AuthServices auth = AuthServices();
+  MyDialog myDialog = MyDialog();
+
+  login() async {
+    var data = {
+      "email": emailController.text,
+      "password": passwordController.text,
+    };
+
+    var response = await auth.login(data: data);
+
+    if (response != 401) {
+      setState(() {
+        Navigator.of(context).pushNamed('/home');
+      });
+    } else {
+      setState(() {
+        myDialog.showMyDialog(
+          "Erreur",
+          "Désolé, une erreur est survenu!",
+          context,
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -87,6 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         TextField(
+                          controller: emailController,
                           cursorColor: Tools.color10,
                           decoration: InputDecoration(
                             suffixIcon: Transform.translate(
@@ -119,6 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 20,
                         ),
                         TextField(
+                          controller: passwordController,
                           cursorColor: Tools.color10,
                           obscureText: true,
                           decoration: InputDecoration(
@@ -174,30 +209,13 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 30,
-                          ),
-                          child: SizedBox(
-                            width: size.width,
-                            height: 50,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Tools.color08,
-                              ),
-                              onPressed: () => {
-                                Navigator.of(context).pushNamed('/home'),
-                              },
-                              child: const Text(
-                                'Se connecter',
-                                style: TextStyle(
-                                  color: Tools.color05,
-                                  fontSize: Tools.fontSize02,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
+                        MyButton(
+                          title: 'Se connecter',
+                          action: () => login(),
+                          textColor: Tools.color05,
+                          backgroundColor: Tools.color08,
+                          borderColor: Colors.transparent,
+                        ),
                       ],
                     ),
                   ),
