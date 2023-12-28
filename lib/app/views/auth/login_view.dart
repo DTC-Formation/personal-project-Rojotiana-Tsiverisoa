@@ -17,24 +17,26 @@ class _LoginViewState extends State<LoginView> {
   // Controller
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  AuthController authController = AuthController();
 
   MyDialog myDialog = MyDialog();
 
-  login() {
+// ***************** Authentication *****************
+  AuthController authController = AuthController();
+
+  login() async {
     var data = {
       "email": emailController.text,
       "password": passwordController.text,
     };
 
-    authController.login(data, onSuccess, onError);
+    await authController.login(data, onAuthSuccess, onAuthFail);
   }
 
-  onSuccess() {
+  onAuthSuccess() {
     Navigator.of(context).pushNamed('/home');
   }
 
-  onError(response) {
+  onAuthFail(response) {
     String title = "";
     String description = "";
     switch (response) {
@@ -70,6 +72,7 @@ class _LoginViewState extends State<LoginView> {
       context: context,
     );
   }
+// ***************** End authentication *****************
 
   @override
   Widget build(BuildContext context) {
