@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:tetiharana/app/controller/auth_controller.dart';
-// import 'package:tetiharana/app/services/auth_services.dart';
 import 'package:tetiharana/utilities/tools.dart';
 import 'package:tetiharana/widget/button/button.dart';
 import 'package:tetiharana/widget/dialog/dialog.dart';
