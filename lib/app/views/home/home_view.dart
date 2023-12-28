@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tetiharana/app/controller/user_controller.dart';
-// import 'package:tetiharana/app/services/api_services.dart';
-// import 'package:tetiharana/app/services/auth_services.dart';
+import 'package:tetiharana/widget/dialog/dialog.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/image/carousel.dart';
 import 'package:tetiharana/widget/navigation/drawer.dart';
@@ -17,37 +16,34 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   UserController userController = UserController();
+  MyDialog myDialog = MyDialog();
+  String lastname = "";
 
-  // AuthServices authServices = AuthServices();
-  // List userInfo = [];
-  // String rojo = "";
-  // Future<String> loadData() async {
-  //   var data = await authServices.getCurrentUser();
-  //   setState(() {
-  //     userInfo = data;
-  //     userInfo
-  //         .map((item) => {
-  //               (print(item['firstname'])),
-  //               rojo = "${item['firstname']} ${item['lastname']}",
-  //               (print(rojo)),
-  //             })
-  //         .toList();
-  //     print(userInfo);
-  //   });
-  //   return "success";
-  // }
+  loadCurrentUser() async {
+    await userController.getCurrentUser(onLoadSuccess, onLoadFail);
+  }
 
-  onSuccess() {}
+  onLoadSuccess(userData) {
+    setState(() {
+      lastname = userData['lastname'];
+    });
+  }
 
-  onError() {
-    print("Désolé, une erreur est survenue!");
+  onLoadFail(error) {
+    // print("Désolé, une erreur est survenue! $error");
+    myDialog.showMyDialog(
+      title: "Oupss",
+      description: "Désolé, une erreur est survenue!",
+      confirmAction: () => {Navigator.of(context).pop()},
+      confirmTitle: "Ok",
+      context: context,
+    );
   }
 
   @override
   void initState() {
-    // loadData();
-    userController.getCurrentUser(onSuccess, onError);
     super.initState();
+    loadCurrentUser();
   }
 
   @override
@@ -56,10 +52,10 @@ class _HomeViewState extends State<HomeView> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(58.0),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(58.0),
           child: MyAppBar(
-            title: 'Bienvenue Rojotiana',
+            title: 'Bienvenue $lastname',
           ),
         ),
         drawer: const MyDrawer(),

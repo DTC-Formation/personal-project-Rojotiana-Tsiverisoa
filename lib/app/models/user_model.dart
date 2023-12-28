@@ -5,9 +5,9 @@ class UserModel {
   ApiServices apiServices = ApiServices();
   AuthServices authServices = AuthServices();
 
-  Future<List> getCurrentUser() async {
+  Future<Map<String, dynamic>> getCurrentUser() async {
     // Get current user info after log in
-    List response = await authServices.getCurrentUser();
-    return response.toList();
+    List<dynamic> response = await authServices.getCurrentUser();
+    return response.first;
   }
 }

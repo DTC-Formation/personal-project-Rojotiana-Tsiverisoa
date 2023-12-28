@@ -1,4 +1,8 @@
+import 'package:tetiharana/utilities/constants.dart';
+
 class Helper {
+  String apiUrl = "${Constant.apiUrl}";
+
   int ageCalculator(String birthdate) {
     List<String> parts = birthdate.split('-');
     DateTime now = DateTime.now();
@@ -30,5 +34,21 @@ class Helper {
     }
 
     return initial;
+  }
+
+  String getFilePath(String path) {
+    String directory = "";
+
+    switch (path) {
+      case "profile":
+        directory = "$apiUrl/assets/upload/profile";
+        break;
+
+      default:
+        directory = 'undefined path';
+        break;
+    }
+
+    return directory;
   }
 }

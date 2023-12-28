@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tetiharana/app/controller/auth_controller.dart';
-// import 'package:tetiharana/app/services/auth_services.dart';
+import 'package:tetiharana/app/controller/user_controller.dart';
 import 'package:tetiharana/app/views/auth/login_view.dart';
 import 'package:tetiharana/utilities/helper.dart';
 import 'package:tetiharana/utilities/tools.dart';
@@ -16,41 +16,57 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
   Helper helper = Helper();
-  String name = "Rojotiana RAKOTOVOLOLONA";
-  String initial = "RR";
-  String profile = "";
-  // AuthServices auth = AuthServices();
   MyDialog myDialog = MyDialog();
-  AuthController authController = AuthController();
 
-  // logout() async {
-  //   var response = await auth.logout();
+// ***************** Get authenticated user info *****************
+  UserController userController = UserController();
+  String name = "";
+  String initial = "";
+  String? profile;
 
-  //   if (response != 200) {
-  //     setState(() {
-  //       myDialog.showMyDialog(
-  //         "Erreur",
-  //         "Désolé, une erreur est survenu lors de la déconnexion!",
-  //         context,
-  //       );
-  //     });
-  //   } else {
-  //     setState(() {
-  //       Navigator.of(context).pushAndRemoveUntil(
-  //         MaterialPageRoute(
-  //           builder: (context) => const LoginPage(),
-  //         ),
-  //         (route) => false,
-  //       );
-  //     });
-  //   }
-  // }
-
-  logout() {
-    authController.logout(onSuccess, onError);
+  loadCurrentUser() async {
+    await userController.getCurrentUser(onLoadSuccess, onLoadFail);
   }
 
-  onSuccess() {
+  onLoadSuccess(userData) {
+    String firstname = userData['firstname'];
+    String lastname = userData['lastname'];
+    String filePath = helper.getFilePath("profile");
+    String filename = userData['filename'];
+
+    setState(() {
+      name = "$lastname $firstname";
+      initial = helper.getInitial(firstname, lastname);
+      profile = "$filePath/$filename";
+    });
+  }
+
+  onLoadFail(error) {
+    // print("Une erreur est survenue! $error");
+    // myDialog.showMyDialog(
+    //   title: "Oupss",
+    //   description: "Une erreur est survenue!",
+    //   confirmAction: () => {Navigator.of(context).pop()},
+    //   confirmTitle: "Ok",
+    //   context: context,
+    // );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadCurrentUser();
+  }
+// ***************** End getting authenticated user info *****************
+
+// ***************** Logout method *****************
+  AuthController authController = AuthController();
+
+  logout() {
+    authController.logout(onLogoutSuccess, onLogoutError);
+  }
+
+  onLogoutSuccess() {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const LoginView(),
@@ -59,7 +75,7 @@ class _MyDrawerState extends State<MyDrawer> {
     );
   }
 
-  onError() {
+  onLogoutError() {
     myDialog.showMyDialog(
       title: "Erreur",
       description: "Désolé, une erreur est survenu lors de la déconnexion!",
@@ -68,6 +84,7 @@ class _MyDrawerState extends State<MyDrawer> {
       context: context,
     );
   }
+// ***************** End Logout method *****************
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +164,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    profile != ""
+                    profile != null
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(70),
                             child: Container(
@@ -157,9 +174,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               child: CircleAvatar(
                                 radius: 70,
                                 backgroundColor: Colors.transparent,
-                                backgroundImage: AssetImage(
-                                  profile,
-                                ),
+                                backgroundImage: NetworkImage("$profile"),
                               ),
                             ),
                           )

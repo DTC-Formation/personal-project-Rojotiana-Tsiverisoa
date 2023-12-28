@@ -18,7 +18,7 @@ class AuthController {
         break;
 
       default:
-        onError();
+        onError(response);
         break;
     }
   }

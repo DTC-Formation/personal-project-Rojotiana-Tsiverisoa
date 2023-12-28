@@ -20,30 +20,6 @@ class _LoginViewState extends State<LoginView> {
   AuthController authController = AuthController();
 
   MyDialog myDialog = MyDialog();
-  // AuthServices auth = AuthServices();
-
-  // login() async {
-  //   var data = {
-  //     "email": emailController.text,
-  //     "password": passwordController.text,
-  //   };
-
-  //   var response = await auth.login(data: data);
-
-  //   if (response != 401) {
-  //     setState(() {
-  //       Navigator.of(context).pushNamed('/home');
-  //     });
-  //   } else {
-  //     setState(() {
-  //       myDialog.showMyDialog(
-  //         "Erreur",
-  //         "Désolé, une erreur est survenu!",
-  //         context,
-  //       );
-  //     });
-  //   }
-  // }
 
   login() {
     var data = {
@@ -58,10 +34,37 @@ class _LoginViewState extends State<LoginView> {
     Navigator.of(context).pushNamed('/home');
   }
 
-  onError() {
+  onError(response) {
+    String title = "";
+    String description = "";
+    switch (response) {
+      case 401:
+        title = "Oupss";
+        description = "Veuillez vérifier votre email ou votre mot de passe!";
+        break;
+
+      case 404:
+        title = "Attention";
+        description =
+            "Veuillez remplir les champs correspondants s'il vous plaît!";
+        break;
+
+      case 500:
+        title = "Erreur";
+        description =
+            "Le serveur est en maintenance pour le moment. Veuillez réessayer plus tard!";
+        break;
+
+      default:
+        title = "Oupss";
+        description =
+            "Erreur de connexion! Veuillez réessayer s'il vous plaît.";
+        break;
+    }
+
     myDialog.showMyDialog(
-      title: "Oupss",
-      description: "Erreur de connexion! Veuillez réessayer s'il vous plaît.",
+      title: title,
+      description: description,
       confirmAction: () => {Navigator.of(context).pop()},
       confirmTitle: "Ok",
       context: context,

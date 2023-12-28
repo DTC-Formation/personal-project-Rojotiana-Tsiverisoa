@@ -5,6 +5,11 @@ class UserController {
 
   Future<void> getCurrentUser(Function onSuccess, Function onError) async {
     // Get current user info after log in
-    var response = await userModel.getCurrentUser();
+    try {
+      Map<String, dynamic> userData = await userModel.getCurrentUser();
+      onSuccess(userData);
+    } catch (error) {
+      onError(error);
+    }
   }
 }
