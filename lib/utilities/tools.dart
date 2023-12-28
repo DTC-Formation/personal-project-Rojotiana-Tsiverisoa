@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 
 class Tools {
-  static const Color color01 = Color.fromRGBO(219, 219, 219, 1); //#DBDBDB
-  static const Color color02 = Color.fromRGBO(3, 58, 67, 1); // #033A43
-  static const Color color03 = Color.fromRGBO(52, 52, 52, 1); // #343434
-  static const Color color04 = Color.fromRGBO(251, 66, 66, 1); // #FB4242
-  static const Color color05 = Color.fromRGBO(255, 255, 255, 1); // #FFFFFF
-  static const Color color06 = Color.fromRGBO(47, 48, 48, 1); // #2F3030
-  static const Color color07 = Color.fromRGBO(62, 37, 4, 1); // #3E2504
-  static const Color color08 = Color.fromRGBO(129, 73, 0, 1); // #814900
-  static const Color color09 = Color.fromRGBO(158, 158, 158, 1); // #9E9E9E
-  static const Color color10 = Color.fromRGBO(77, 77, 78, 1); // #4D4E4E
+  static const Color color01 = Color(0xFFDBDBDB); // #DBDBDB
+  static const Color color02 = Color(0xFF033A43); // #033A43
+  static const Color color03 = Color(0xFF343434); // #343434
+  static const Color color04 = Color(0xFFFB4242); // #FB4242
+  static const Color color05 = Color(0xFFFFFFFF); // #FFFFFF
+  static const Color color06 = Color(0xFF2F3030); // #2F3030
+  static const Color color07 = Color(0xFF3E2504); // #3E2504
+  static const Color color08 = Color(0xFF814900); // #814900
+  static const Color color09 = Color(0xFF9E9E9E); // #9E9E9E
+  static const Color color10 = Color(0xFF4D4E4E); // #4D4E4E
   static const Color color11 = Color.fromARGB(122, 0, 0, 0);
   static const Color color12 = Color.fromARGB(221, 236, 236, 236);
   static const Color color13 = Color.fromARGB(160, 228, 228, 228);
+  static const Color color14 = Color.fromRGBO(112, 112, 112, 1); //
+  static const Color color15 = Color.fromARGB(255, 231, 231, 231); //
+  static const Color color16 = Color.fromARGB(255, 214, 164, 117); //
 
   static const LinearGradient gradient01 = LinearGradient(
     begin: Alignment.topLeft,
@@ -72,8 +75,15 @@ class Tools {
     spreadRadius: 2,
   );
 
+  static const BoxShadow shadow02 = BoxShadow(
+    color: Color.fromARGB(66, 56, 45, 16),
+    blurRadius: 8,
+    spreadRadius: 2,
+  );
+
   static const fontSize01 = 22.0;
   static const fontSize02 = 18.0;
+  static const fontSize03 = 30.0;
 
   static const FontWeight fontWeight01 = FontWeight.w500;
 

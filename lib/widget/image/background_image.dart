@@ -19,6 +19,7 @@ class _MyBackgroundImageState extends State<MyBackgroundImage> {
     return Container(
       height: Tools.imageHeight01,
       decoration: BoxDecoration(
+        gradient: Tools.gradient06,
         borderRadius: BorderRadius.circular(Tools.radius01),
         image: DecorationImage(
           fit: BoxFit.cover,

@@ -1,35 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:tetiharana/app/views/familly/familly_tree_view.dart';
 
 import 'package:tetiharana/utilities/tools.dart';
 import 'package:tetiharana/widget/image/background_image.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/navigation/drawer.dart';
 
-class FamillyList extends StatefulWidget {
-  const FamillyList({super.key});
+class FamillyListView extends StatefulWidget {
+  const FamillyListView({super.key});
 
   @override
-  State<FamillyList> createState() => _FamillyListState();
+  State<FamillyListView> createState() => _FamillyListViewState();
 }
 
-class _FamillyListState extends State<FamillyList> {
-  List<FamillyItem> famillyItem = [
-    FamillyItem(
-      image: "assets/images/familly/familly_1.jpg",
-      famillyName: "Alexandre",
-      child: 2,
-      action: () => {},
-    ),
-    FamillyItem(
-      image: "assets/images/familly/familly_2.webp",
-      famillyName: "Léon",
-      child: 4,
-      action: () => {},
-    ),
-  ];
-
+class _FamillyListViewState extends State<FamillyListView> {
   @override
   Widget build(BuildContext context) {
+    List<FamillyItem> famillyItem = [
+      FamillyItem(
+        image: "assets/images/familly/familly_1.jpg",
+        famillyName: "Alexandre",
+        child: 2,
+        action: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const FamillyTreeView(
+                userInfo: [
+                  {
+                    "id": 1,
+                    "firstname": "Alexandre",
+                    "lastname": "Dubois",
+                    "image": "assets/images/familly/familly_1.jpg",
+                  }
+                ],
+              ),
+            ),
+          ),
+        },
+      ),
+      FamillyItem(
+        image: "assets/images/familly/familly_2.webp",
+        famillyName: "Léon",
+        child: 4,
+        action: () => {},
+      ),
+    ];
+
     return SafeArea(
       child: Scaffold(
         appBar: const PreferredSize(

@@ -1,46 +1,71 @@
 import 'package:flutter/material.dart';
 
-import 'package:tetiharana/app/services/auth_services.dart';
+import 'package:tetiharana/app/controller/auth_controller.dart';
+// import 'package:tetiharana/app/services/auth_services.dart';
 import 'package:tetiharana/utilities/tools.dart';
 import 'package:tetiharana/widget/button/button.dart';
 import 'package:tetiharana/widget/dialog/dialog.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginViewState extends State<LoginView> {
   // Controller
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  AuthController authController = AuthController();
 
-  AuthServices auth = AuthServices();
   MyDialog myDialog = MyDialog();
+  // AuthServices auth = AuthServices();
 
-  login() async {
+  // login() async {
+  //   var data = {
+  //     "email": emailController.text,
+  //     "password": passwordController.text,
+  //   };
+
+  //   var response = await auth.login(data: data);
+
+  //   if (response != 401) {
+  //     setState(() {
+  //       Navigator.of(context).pushNamed('/home');
+  //     });
+  //   } else {
+  //     setState(() {
+  //       myDialog.showMyDialog(
+  //         "Erreur",
+  //         "Désolé, une erreur est survenu!",
+  //         context,
+  //       );
+  //     });
+  //   }
+  // }
+
+  login() {
     var data = {
       "email": emailController.text,
       "password": passwordController.text,
     };
 
-    var response = await auth.login(data: data);
+    authController.login(data, onSuccess, onError);
+  }
 
-    if (response != 401) {
-      setState(() {
-        Navigator.of(context).pushNamed('/home');
-      });
-    } else {
-      setState(() {
-        myDialog.showMyDialog(
-          "Erreur",
-          "Désolé, une erreur est survenu!",
-          context,
-        );
-      });
-    }
+  onSuccess() {
+    Navigator.of(context).pushNamed('/home');
+  }
+
+  onError() {
+    myDialog.showMyDialog(
+      title: "Oupss",
+      description: "Erreur de connexion! Veuillez réessayer s'il vous plaît.",
+      confirmAction: () => {Navigator.of(context).pop()},
+      confirmTitle: "Ok",
+      context: context,
+    );
   }
 
   @override

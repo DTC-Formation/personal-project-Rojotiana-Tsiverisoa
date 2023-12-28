@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:tetiharana/utilities/tools.dart';
+import 'package:tetiharana/widget/button/button.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ForgotPasswordView extends StatefulWidget {
+  const ForgotPasswordView({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ForgotPasswordView> createState() => _ForgotPasswordViewState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -52,6 +53,19 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+                  Positioned(
+                    top: 18,
+                    left: 23,
+                    child: InkWell(
+                      onTap: () => {
+                        Navigator.of(context).pop(),
+                      },
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: Tools.color05,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Padding(
@@ -77,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                               bottom: 10,
                             ),
                             child: Text(
-                              'Se connecter à votre compte',
+                              'Mot de passe oublié ?',
                               style: TextStyle(
                                 color: Tools.color07,
                                 fontSize: Tools.fontSize01,
@@ -116,88 +130,15 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 30,
                         ),
-                        TextField(
-                          cursorColor: Tools.color10,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            suffixIcon: Transform.translate(
-                              offset: const Offset(14, 6),
-                              child: const Icon(
-                                Icons.lock_outline,
-                                color: Tools.color09,
-                              ),
-                            ),
-                            labelText: 'Mot de passe',
-                            floatingLabelStyle: const TextStyle(
-                              color: Tools.color09,
-                            ),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Tools.color10,
-                              ),
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Tools.color10,
-                              ),
-                            ),
-                          ),
-                          style: const TextStyle(
-                            color: Tools.color10,
-                          ),
+                        MyButton(
+                          title: 'Réinitialiser',
+                          action: () => {},
+                          textColor: Tools.color05,
+                          backgroundColor: Tools.color08,
+                          borderColor: Colors.transparent,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 20,
-                            bottom: 25,
-                          ),
-                          child: Row(
-                            children: [
-                              const Spacer(),
-                              InkWell(
-                                child: const Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    'Mot de passe oublié ?',
-                                    style: TextStyle(
-                                      color: Tools.color07,
-                                    ),
-                                  ),
-                                ),
-                                onTap: () => {
-                                  Navigator.of(context)
-                                      .pushNamed('/forgot-password'),
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 30,
-                          ),
-                          child: SizedBox(
-                            width: size.width,
-                            height: 50,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Tools.color08,
-                              ),
-                              onPressed: () => {
-                                Navigator.of(context).pushNamed('/home'),
-                              },
-                              child: const Text(
-                                'Se connecter',
-                                style: TextStyle(
-                                  color: Tools.color05,
-                                  fontSize: Tools.fontSize02,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   ),

@@ -12,18 +12,20 @@ import 'package:tetiharana/utilities/tools.dart';
 
 enum SexeChoice { male, female }
 
-class MemberAdd extends StatefulWidget {
-  const MemberAdd({super.key});
+class UserProfileView extends StatefulWidget {
+  const UserProfileView({super.key});
 
   @override
-  State<MemberAdd> createState() => _MemberAddState();
+  State<UserProfileView> createState() => _UserProfileViewState();
 }
 
-class _MemberAddState extends State<MemberAdd> {
+class _UserProfileViewState extends State<UserProfileView> {
   SexeChoice? _sexe = SexeChoice.male;
   IconData _sexeIcon = Icons.male_rounded;
 
   // -------------- input controller --------------
+  String profile = "";
+  String initial = "RR";
   TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   String sexeController = 'male';
@@ -92,7 +94,7 @@ class _MemberAddState extends State<MemberAdd> {
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(58.0),
           child: MyAppBar(
-            title: 'Adhésion / Membres',
+            title: 'Profil utilisateur',
           ),
         ),
         drawer: const MyDrawer(),
@@ -104,9 +106,80 @@ class _MemberAddState extends State<MemberAdd> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // --------------------- Image ---------------------
-                  const MyBackgroundImage(
-                    source: "assets/images/background/bg_3.webp",
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const MyBackgroundImage(
+                        source: "assets/images/background/bg_2.webp",
+                      ),
+                      Stack(
+                        children: [
+                          profile != ""
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(70),
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      boxShadow: [Tools.shadow02],
+                                    ),
+                                    child: CircleAvatar(
+                                      radius: 70,
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage: AssetImage(
+                                        profile,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(70),
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      boxShadow: [Tools.shadow02],
+                                    ),
+                                    width: 140,
+                                    height: 140,
+                                    child: Center(
+                                      child: Text(
+                                        initial,
+                                        style: const TextStyle(
+                                          color: Tools.color05,
+                                          fontSize: Tools.fontSize03,
+                                          fontWeight: Tools.fontWeight01,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                          Positioned(
+                            bottom: 5,
+                            right: 13,
+                            child: InkWell(
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(50),
+                                ),
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    boxShadow: [
+                                      Tools.shadow01,
+                                    ],
+                                    color: Tools.color05,
+                                  ),
+                                  padding: const EdgeInsets.all(5),
+                                  child: const MyImagePicker(
+                                    icon: Icons.photo_camera,
+                                    iconColor: Tools.color09,
+                                    iconSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
+
                   const SizedBox(
                     height: 15,
                   ),
@@ -360,95 +433,6 @@ class _MemberAddState extends State<MemberAdd> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ImagePicker extends StatefulWidget {
-  final String title;
-
-  const ImagePicker({
-    super.key,
-    required this.title,
-  });
-
-  @override
-  State<ImagePicker> createState() => _ImagePickerState();
-}
-
-class _ImagePickerState extends State<ImagePicker> {
-  String filename = "";
-
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 10,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              filename != ""
-                  ? Text(
-                      widget.title,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Tools.color09,
-                      ),
-                    )
-                  : Text(
-                      widget.title,
-                      style: const TextStyle(
-                        fontSize: 0,
-                        color: Tools.color09,
-                      ),
-                    ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 5,
-                ),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        width: 1,
-                        color: Tools.color10,
-                      ),
-                    ),
-                  ),
-                  child: SizedBox(
-                    width: size.width,
-                    height: 50,
-                    child: Stack(
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        Text(
-                          filename != "" ? filename : widget.title,
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        const Positioned(
-                          right: -2,
-                          child: MyImagePicker(
-                            icon: Icons.image_rounded,
-                            iconColor: Tools.color09,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

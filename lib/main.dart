@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:tetiharana/app/views/about/about.dart';
-import 'package:tetiharana/app/views/auth/forgot_password.dart';
-import 'package:tetiharana/app/views/auth/login_page.dart';
-import 'package:tetiharana/app/views/familly/familly.dart';
+import 'package:tetiharana/app/views/about/about_view.dart';
+import 'package:tetiharana/app/views/auth/forgot_password_view.dart';
+import 'package:tetiharana/app/views/auth/login_view.dart';
+import 'package:tetiharana/app/views/familly/familly_list_view.dart';
 import 'package:tetiharana/app/views/gallery/gallery.dart';
-import 'package:tetiharana/app/views/homepage/homepage.dart';
-import 'package:tetiharana/app/views/member/member.dart';
-import 'package:tetiharana/app/views/profile/profile.dart';
+import 'package:tetiharana/app/views/home/home_view.dart';
+import 'package:tetiharana/app/views/tree/tree_view.dart';
+import 'package:tetiharana/app/views/user/user_add_view.dart';
+import 'package:tetiharana/app/views/user/user_info_view.dart';
+import 'package:tetiharana/app/views/user/user_profile_view.dart';
+import 'package:tetiharana/app/views/user/user_update_view.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -29,18 +32,20 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home: const LoginView(),
       initialRoute: '/login',
       routes: {
-        '/login': (context) => const LoginPage(),
-        '/forgot-password': (context) => const ForgotPassword(),
-        '/home': (context) => const HomePage(),
-        // '/tree-app': (context) => const TreeApp(),
-        '/familly': (context) => const FamillyList(),
-        '/member': (context) => const MemberAdd(),
+        '/login': (context) => const LoginView(),
+        '/forgot-password': (context) => const ForgotPasswordView(),
+        '/home': (context) => const HomeView(),
+        '/tree-app': (context) => const TreeView(),
+        '/familly': (context) => const FamillyListView(),
+        '/user/add': (context) => const UserAddView(),
+        '/user/update': (context) => const UserUpdateView(),
+        '/user/view': (context) => const UserInfoView(),
         '/gallery': (context) => const Gallery(),
-        '/profile': (context) => const UserProfile(),
-        '/about': (context) => const About(),
+        '/user/profile': (context) => const UserProfileView(),
+        '/about': (context) => const AboutView(),
       },
     );
   }

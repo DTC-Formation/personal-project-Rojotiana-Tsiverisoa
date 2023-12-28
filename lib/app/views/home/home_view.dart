@@ -1,18 +1,55 @@
 import 'package:flutter/material.dart';
 
+import 'package:tetiharana/app/controller/user_controller.dart';
+// import 'package:tetiharana/app/services/api_services.dart';
+// import 'package:tetiharana/app/services/auth_services.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/image/carousel.dart';
 import 'package:tetiharana/widget/navigation/drawer.dart';
 import 'package:tetiharana/utilities/tools.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeViewState extends State<HomeView> {
+  UserController userController = UserController();
+
+  // AuthServices authServices = AuthServices();
+  // List userInfo = [];
+  // String rojo = "";
+  // Future<String> loadData() async {
+  //   var data = await authServices.getCurrentUser();
+  //   setState(() {
+  //     userInfo = data;
+  //     userInfo
+  //         .map((item) => {
+  //               (print(item['firstname'])),
+  //               rojo = "${item['firstname']} ${item['lastname']}",
+  //               (print(rojo)),
+  //             })
+  //         .toList();
+  //     print(userInfo);
+  //   });
+  //   return "success";
+  // }
+
+  onSuccess() {}
+
+  onError() {
+    print("Désolé, une erreur est survenue!");
+  }
+
+  @override
+  void initState() {
+    // loadData();
+    userController.getCurrentUser(onSuccess, onError);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -38,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 InkWell(
                   onTap: () {
-                    // Navigator.of(context).pushNamed('/tree-app');
+                    Navigator.of(context).pushNamed('/tree-app');
                   },
                   child: Container(
                     width: size.width,
@@ -138,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                     Flexible(
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/member');
+                          Navigator.of(context).pushNamed('/user/add');
                         },
                         child: Container(
                           height: 105,
@@ -240,7 +277,7 @@ class _HomePageState extends State<HomePage> {
                     Flexible(
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/profile');
+                          Navigator.of(context).pushNamed('/user/profile');
                         },
                         child: Container(
                           height: 105,

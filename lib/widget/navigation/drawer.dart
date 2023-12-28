@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:tetiharana/app/services/auth_services.dart';
-import 'package:tetiharana/app/views/auth/login_page.dart';
+import 'package:tetiharana/app/controller/auth_controller.dart';
+// import 'package:tetiharana/app/services/auth_services.dart';
+import 'package:tetiharana/app/views/auth/login_view.dart';
+import 'package:tetiharana/utilities/helper.dart';
 import 'package:tetiharana/utilities/tools.dart';
 import 'package:tetiharana/widget/dialog/dialog.dart';
 
@@ -13,30 +15,58 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  AuthServices auth = AuthServices();
+  Helper helper = Helper();
+  String name = "Rojotiana RAKOTOVOLOLONA";
+  String initial = "RR";
+  String profile = "";
+  // AuthServices auth = AuthServices();
   MyDialog myDialog = MyDialog();
+  AuthController authController = AuthController();
 
-  logout() async {
-    var response = await auth.logout();
- 
-    if (response != 200) {
-      setState(() {
-        myDialog.showMyDialog(
-          "Erreur",
-          "Désolé, une erreur est survenu lors de la déconnexion!",
-          context,
-        );
-      });
-    } else {
-      setState(() {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => const LoginPage(),
-          ),
-          (route) => false,
-        );
-      });
-    }
+  // logout() async {
+  //   var response = await auth.logout();
+
+  //   if (response != 200) {
+  //     setState(() {
+  //       myDialog.showMyDialog(
+  //         "Erreur",
+  //         "Désolé, une erreur est survenu lors de la déconnexion!",
+  //         context,
+  //       );
+  //     });
+  //   } else {
+  //     setState(() {
+  //       Navigator.of(context).pushAndRemoveUntil(
+  //         MaterialPageRoute(
+  //           builder: (context) => const LoginPage(),
+  //         ),
+  //         (route) => false,
+  //       );
+  //     });
+  //   }
+  // }
+
+  logout() {
+    authController.logout(onSuccess, onError);
+  }
+
+  onSuccess() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const LoginView(),
+      ),
+      (route) => false,
+    );
+  }
+
+  onError() {
+    myDialog.showMyDialog(
+      title: "Erreur",
+      description: "Désolé, une erreur est survenu lors de la déconnexion!",
+      confirmAction: () => {Navigator.of(context).pop()},
+      confirmTitle: "Ok",
+      context: context,
+    );
   }
 
   @override
@@ -57,7 +87,7 @@ class _MyDrawerState extends State<MyDrawer> {
         title: 'Arbre généalogique',
         action: () => {
           Navigator.pop(context),
-          // Navigator.of(context).pushNamed('/tree-app'),
+          Navigator.of(context).pushNamed('/tree-app'),
         },
       ),
       DrawerItem(
@@ -73,7 +103,7 @@ class _MyDrawerState extends State<MyDrawer> {
         title: 'Adhésion / Membres',
         action: () => {
           Navigator.pop(context),
-          Navigator.of(context).pushNamed('/member'),
+          Navigator.of(context).pushNamed('/user/add'),
         },
       ),
       DrawerItem(
@@ -89,7 +119,7 @@ class _MyDrawerState extends State<MyDrawer> {
         title: 'Profil utilisateur',
         action: () => {
           Navigator.pop(context),
-          Navigator.of(context).pushNamed('/profile'),
+          Navigator.of(context).pushNamed('/user/profile'),
         },
       ),
     ];
@@ -102,9 +132,9 @@ class _MyDrawerState extends State<MyDrawer> {
             SizedBox(
               width: size.width,
               height: 220,
-              child: const DrawerHeader(
+              child: DrawerHeader(
                 padding: EdgeInsets.zero,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: Tools.gradient06,
                   image: DecorationImage(
                     fit: BoxFit.cover,
@@ -117,18 +147,47 @@ class _MyDrawerState extends State<MyDrawer> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 70,
-                      backgroundColor: Tools.color06,
-                      backgroundImage: AssetImage(
-                        'assets/images/icon/icon_user.png',
-                      ),
-                    ),
-                    SizedBox(height: 12),
+                    profile != ""
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(70),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                boxShadow: [Tools.shadow02],
+                              ),
+                              child: CircleAvatar(
+                                radius: 70,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage: AssetImage(
+                                  profile,
+                                ),
+                              ),
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(70),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                boxShadow: [Tools.shadow02],
+                              ),
+                              width: 140,
+                              height: 140,
+                              child: Center(
+                                child: Text(
+                                  initial,
+                                  style: const TextStyle(
+                                    color: Tools.color05,
+                                    fontSize: Tools.fontSize03,
+                                    fontWeight: Tools.fontWeight01,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                    const SizedBox(height: 12),
                     Text(
-                      'Rojotiana RAKOTOVOLOLONA',
-                      style: TextStyle(
-                        color: Colors.white,
+                      name,
+                      style: const TextStyle(
+                        color: Tools.color05,
                         fontSize: 16,
                       ),
                       textAlign: TextAlign.center,

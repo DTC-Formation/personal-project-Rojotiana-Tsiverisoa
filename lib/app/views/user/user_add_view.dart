@@ -12,14 +12,14 @@ import 'package:tetiharana/utilities/tools.dart';
 
 enum SexeChoice { male, female }
 
-class MemberAdd extends StatefulWidget {
-  const MemberAdd({super.key});
+class UserAddView extends StatefulWidget {
+  const UserAddView({super.key});
 
   @override
-  State<MemberAdd> createState() => _MemberAddState();
+  State<UserAddView> createState() => _MemberAddState();
 }
 
-class _MemberAddState extends State<MemberAdd> {
+class _MemberAddState extends State<UserAddView> {
   SexeChoice? _sexe = SexeChoice.male;
   IconData _sexeIcon = Icons.male_rounded;
 
