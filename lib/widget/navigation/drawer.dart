@@ -6,6 +6,7 @@ import 'package:tetiharana/app/views/auth/login_view.dart';
 import 'package:tetiharana/utilities/helper.dart';
 import 'package:tetiharana/utilities/tools.dart';
 import 'package:tetiharana/widget/dialog/dialog.dart';
+import 'package:tetiharana/widget/loader/loader.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -17,6 +18,7 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   Helper helper = Helper();
   MyDialog myDialog = MyDialog();
+  bool isLoading = false;
 
 // ***************** Get authenticated user info *****************
   UserController userController = UserController();
@@ -63,10 +65,18 @@ class _MyDrawerState extends State<MyDrawer> {
   AuthController authController = AuthController();
 
   logout() {
+    setState(() {
+      isLoading = true;
+    });
+
     authController.logout(onLogoutSuccess, onLogoutError);
   }
 
   onLogoutSuccess() {
+    setState(() {
+      isLoading = false;
+    });
+
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const LoginView(),
@@ -76,6 +86,10 @@ class _MyDrawerState extends State<MyDrawer> {
   }
 
   onLogoutError() {
+    setState(() {
+      isLoading = false;
+    });
+
     myDialog.showMyDialog(
       title: "Erreur",
       description: "Désolé, une erreur est survenu lors de la déconnexion!",
@@ -141,107 +155,112 @@ class _MyDrawerState extends State<MyDrawer> {
       ),
     ];
 
-    return Drawer(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            // --------------------- Drawer Header ---------------------
-            SizedBox(
-              width: size.width,
-              height: 220,
-              child: DrawerHeader(
-                padding: EdgeInsets.zero,
-                decoration: const BoxDecoration(
-                  gradient: Tools.gradient06,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(
-                      'assets/images/background/bg_2.webp',
+    return Stack(
+      children: [
+        Drawer(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // --------------------- Drawer Header ---------------------
+                SizedBox(
+                  width: size.width,
+                  height: 220,
+                  child: DrawerHeader(
+                    padding: EdgeInsets.zero,
+                    decoration: const BoxDecoration(
+                      gradient: Tools.gradient06,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(
+                          'assets/images/background/bg_2.webp',
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    profile != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(70),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                boxShadow: [Tools.shadow02],
-                              ),
-                              child: CircleAvatar(
-                                radius: 70,
-                                backgroundColor: Colors.transparent,
-                                backgroundImage: NetworkImage("$profile"),
-                              ),
-                            ),
-                          )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(70),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                boxShadow: [Tools.shadow02],
-                              ),
-                              width: 140,
-                              height: 140,
-                              child: Center(
-                                child: Text(
-                                  initial,
-                                  style: const TextStyle(
-                                    color: Tools.color05,
-                                    fontSize: Tools.fontSize03,
-                                    fontWeight: Tools.fontWeight01,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        profile != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(70),
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    boxShadow: [Tools.shadow02],
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 70,
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage: NetworkImage("$profile"),
+                                  ),
+                                ),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(70),
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    boxShadow: [Tools.shadow02],
+                                  ),
+                                  width: 140,
+                                  height: 140,
+                                  child: Center(
+                                    child: Text(
+                                      initial,
+                                      style: const TextStyle(
+                                        color: Tools.color05,
+                                        fontSize: Tools.fontSize03,
+                                        fontWeight: Tools.fontWeight01,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                        const SizedBox(height: 12),
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            color: Tools.color05,
+                            fontSize: 16,
                           ),
-                    const SizedBox(height: 12),
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        color: Tools.color05,
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.center,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // --------------------- Drawer Item ---------------------
+                Column(children: drawerItem),
+                Column(
+                  children: [
+                    const Divider(),
+                    DrawerItem(
+                      icon: Icons.info_outline_rounded,
+                      title: 'A propos',
+                      action: () {
+                        Navigator.pop(context);
+                        Navigator.of(context).pushNamed('/about');
+                      },
+                    ),
+                    DrawerItem(
+                      icon: Icons.logout_rounded,
+                      title: 'Se déconnecter',
+                      // action: () {
+                      //   Navigator.of(context).pushAndRemoveUntil(
+                      //     MaterialPageRoute(
+                      //       builder: (context) => const LoginPage(),
+                      //     ),
+                      //     (route) => false,
+                      //   );
+                      // },
+                      action: logout,
                     ),
                   ],
                 ),
-              ),
-            ),
-            // --------------------- Drawer Item ---------------------
-            Column(children: drawerItem),
-            Column(
-              children: [
-                const Divider(),
-                DrawerItem(
-                  icon: Icons.info_outline_rounded,
-                  title: 'A propos',
-                  action: () {
-                    Navigator.pop(context);
-                    Navigator.of(context).pushNamed('/about');
-                  },
-                ),
-                DrawerItem(
-                  icon: Icons.logout_rounded,
-                  title: 'Se déconnecter',
-                  // action: () {
-                  //   Navigator.of(context).pushAndRemoveUntil(
-                  //     MaterialPageRoute(
-                  //       builder: (context) => const LoginPage(),
-                  //     ),
-                  //     (route) => false,
-                  //   );
-                  // },
-                  action: logout,
-                ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
+        if (isLoading) const MyLoader(),
+      ],
     );
   }
 }
