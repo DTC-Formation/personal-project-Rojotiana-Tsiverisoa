@@ -5,6 +5,7 @@ import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/navigation/drawer.dart';
 import 'package:tetiharana/widget/image/background_image.dart';
 import 'package:tetiharana/utilities/tools.dart';
+import 'package:tetiharana/widget/panel/expansion_panel.dart';
 
 class UserInfoView extends StatefulWidget {
   const UserInfoView({super.key});
@@ -149,10 +150,22 @@ class _UserInfoViewState extends State<UserInfoView> {
                   ),
 
                   // --------------------- Details ---------------------
-                  Column(children: infoPerso),
-                  Column(children: parents),
-                  Column(children: maritalStatus),
-                  Column(children: children),
+                  MyExpansionPanel(
+                    title: "Informations personnelles",
+                    children: infoPerso,
+                  ),
+                  MyExpansionPanel(
+                    title: "Parents",
+                    children: parents,
+                  ),
+                  MyExpansionPanel(
+                    title: "Situation matrimoniale",
+                    children: maritalStatus,
+                  ),
+                  MyExpansionPanel(
+                    title: "Enfants",
+                    children: children,
+                  ),
                 ],
               ),
             ),
@@ -182,8 +195,8 @@ class _UserInfoItemState extends State<UserInfoItem> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: 5,
-        bottom: 5,
+        top: 8,
+        bottom: 8,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -245,67 +258,63 @@ class _ChildrenItemState extends State<ChildrenItem> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
-            child: Row(
-              children: [
-                widget.profile != ""
-                    ? CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Tools.color02,
-                        backgroundImage: AssetImage(
-                          widget.profile,
-                        ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          color: Tools.color02,
-                          padding: const EdgeInsets.all(8),
-                          child: Center(
-                            child: Text(
-                              initial,
-                              style: const TextStyle(
-                                fontWeight: Tools.fontWeight01,
-                                color: Tools.color05,
-                              ),
+          Row(
+            children: [
+              widget.profile != ""
+                  ? CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Tools.color02,
+                      backgroundImage: AssetImage(
+                        widget.profile,
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        color: Tools.color02,
+                        padding: const EdgeInsets.all(8),
+                        child: Center(
+                          child: Text(
+                            initial,
+                            style: const TextStyle(
+                              fontWeight: Tools.fontWeight01,
+                              color: Tools.color05,
                             ),
                           ),
                         ),
                       ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.firstname,
-                      style: const TextStyle(
-                        color: Tools.color06,
-                        fontWeight: Tools.fontWeight01,
-                      ),
                     ),
-                    Text(
-                      widget.lastname,
-                      style: const TextStyle(
-                        color: Tools.color06,
-                        fontWeight: Tools.fontWeight01,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Text(
-              "${widget.age} ans",
-              textAlign: TextAlign.right,
-              style: const TextStyle(
-                color: Tools.color02,
+              const SizedBox(
+                width: 10,
               ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.firstname,
+                    style: const TextStyle(
+                      color: Tools.color06,
+                      fontWeight: Tools.fontWeight01,
+                    ),
+                  ),
+                  Text(
+                    widget.lastname,
+                    style: const TextStyle(
+                      color: Tools.color06,
+                      fontWeight: Tools.fontWeight01,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Text(
+            "${widget.age} ans",
+            textAlign: TextAlign.right,
+            style: const TextStyle(
+              color: Tools.color02,
             ),
           ),
         ],
