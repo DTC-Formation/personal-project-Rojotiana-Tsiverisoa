@@ -16,7 +16,7 @@ class _MyCarouselState extends State<MyCarousel> {
   List imageList = [
     {
       "id": 1,
-      "image_path": "assets/images/familly/familly_1.jpg",
+      "image_path": "assets/images/familly/familly_1.webp",
     },
     {
       "id": 2,
@@ -24,7 +24,7 @@ class _MyCarouselState extends State<MyCarousel> {
     },
     {
       "id": 3,
-      "image_path": "assets/images/familly/familly_3.jpg",
+      "image_path": "assets/images/familly/familly_3.webp",
     },
   ];
 

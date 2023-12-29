@@ -14,7 +14,7 @@ class Gallery extends StatefulWidget {
 class _GalleryState extends State<Gallery> {
   List<GalleryItem> galleryItem = [
     const GalleryItem(
-      source: "assets/images/familly/familly_1.jpg",
+      source: "assets/images/familly/familly_1.webp",
       name: "Nom",
     ),
     const GalleryItem(
@@ -22,7 +22,7 @@ class _GalleryState extends State<Gallery> {
       name: "Nom",
     ),
     const GalleryItem(
-      source: "assets/images/familly/familly_3.jpg",
+      source: "assets/images/familly/familly_3.webp",
       name: "Nom",
     ),
   ];
@@ -125,7 +125,6 @@ class _GalleryItemState extends State<GalleryItem> {
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 10,

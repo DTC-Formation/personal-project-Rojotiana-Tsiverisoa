@@ -18,7 +18,7 @@ class _FamillyListViewState extends State<FamillyListView> {
   Widget build(BuildContext context) {
     List<FamillyItem> famillyItem = [
       FamillyItem(
-        image: "assets/images/familly/familly_1.jpg",
+        image: "assets/images/familly/familly_1.webp",
         famillyName: "Alexandre",
         child: 2,
         action: () => {
@@ -31,7 +31,7 @@ class _FamillyListViewState extends State<FamillyListView> {
                     "id": 1,
                     "firstname": "Alexandre",
                     "lastname": "Dubois",
-                    "image": "assets/images/familly/familly_1.jpg",
+                    "image": "assets/images/familly/familly_1.webp",
                   }
                 ],
               ),
@@ -64,7 +64,7 @@ class _FamillyListViewState extends State<FamillyListView> {
               children: [
                 // --------------------- Image ---------------------
                 const MyBackgroundImage(
-                  source: "assets/images/familly/familly_3.jpg",
+                  source: "assets/images/familly/familly_3.webp",
                 ),
                 const SizedBox(
                   height: 15,
