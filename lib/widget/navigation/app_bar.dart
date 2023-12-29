@@ -24,6 +24,7 @@ class _MyAppBarState extends State<MyAppBar> {
         ],
       ),
       child: AppBar(
+        scrolledUnderElevation: 0,
         iconTheme: const IconThemeData(
           color: Tools.color07,
         ),
