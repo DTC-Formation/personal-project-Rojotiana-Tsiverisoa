@@ -21,59 +21,91 @@ class _UserInfoViewState extends State<UserInfoView> {
 
   @override
   Widget build(BuildContext context) {
+    // *************** Info perso ***************
+    TextEditingController firstnameController = TextEditingController();
+    TextEditingController lastnameController = TextEditingController();
+    TextEditingController sexeController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController contactController = TextEditingController();
+    TextEditingController birthdayController = TextEditingController();
+    TextEditingController deathdayController = TextEditingController();
+
     List<UserInfoItem> infoPerso = [
-      const UserInfoItem(
+      UserInfoItem(
         title: "Nom(s):",
-        content: "",
+        controller: firstnameController,
+        readOnly: true,
       ),
-      const UserInfoItem(
+      UserInfoItem(
         title: "Prénom(s):",
-        content: "",
+        controller: lastnameController,
+        readOnly: true,
       ),
-      const UserInfoItem(
+      UserInfoItem(
         title: "Sexe:",
-        content: "",
+        controller: sexeController,
+        readOnly: true,
       ),
-      const UserInfoItem(
+      UserInfoItem(
         title: "Email:",
-        content: "",
+        controller: emailController,
+        readOnly: true,
       ),
-      const UserInfoItem(
+      UserInfoItem(
         title: "Contact:",
-        content: "",
+        controller: contactController,
+        readOnly: true,
       ),
-      const UserInfoItem(
+      UserInfoItem(
         title: "Date de naissance:",
-        content: "",
+        controller: birthdayController,
+        readOnly: true,
       ),
-      const UserInfoItem(
+      UserInfoItem(
         title: "Date de décès:",
-        content: "",
+        controller: deathdayController,
+        readOnly: true,
       ),
     ];
+    // *************** End Info perso ***************
+
+    // *************** parents info ***************
+    TextEditingController fathernameController = TextEditingController();
+    TextEditingController mothernameController = TextEditingController();
 
     List<UserInfoItem> parents = [
-      const UserInfoItem(
+      UserInfoItem(
         title: "Nom du père:",
-        content: "",
+        controller: fathernameController,
+        readOnly: true,
       ),
-      const UserInfoItem(
+      UserInfoItem(
         title: "Nom de la mère:",
-        content: "",
+        controller: mothernameController,
+        readOnly: true,
       ),
     ];
+    // *************** End parents info ***************
+
+    // *************** Marital status info ***************
+    TextEditingController spouseController = TextEditingController();
+    TextEditingController childrenController = TextEditingController();
 
     List<UserInfoItem> maritalStatus = [
-      const UserInfoItem(
+      UserInfoItem(
         title: "Epoux(se) de:",
-        content: "",
+        controller: spouseController,
+        readOnly: true,
       ),
-      const UserInfoItem(
+      UserInfoItem(
         title: "Nombres d'enfants:",
-        content: "",
+        controller: childrenController,
+        readOnly: true,
       ),
     ];
+    // *************** End Marital status info ***************
 
+    // *************** Children info ***************
     List<ChildrenItem> children = [
       ChildrenItem(
         profile: "",
@@ -82,6 +114,7 @@ class _UserInfoViewState extends State<UserInfoView> {
         age: helper.ageCalculator("1990-02-14"),
       ),
     ];
+    // *************** End children info ***************
 
     return SafeArea(
       child: Scaffold(
@@ -176,14 +209,163 @@ class _UserInfoViewState extends State<UserInfoView> {
   }
 }
 
+// class UserInfoItem extends StatefulWidget {
+//   final String title;
+//   final String? content;
+
+//   const UserInfoItem({
+//     super.key,
+//     required this.title,
+//     this.content,
+//   });
+
+//   @override
+//   State<UserInfoItem> createState() => _UserInfoItemState();
+// }
+
+// class _UserInfoItemState extends State<UserInfoItem> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(
+//         top: 8,
+//         bottom: 8,
+//       ),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//           Flexible(
+//             child: Text(
+//               widget.title,
+//               style: const TextStyle(
+//                 color: Tools.color06,
+//                 fontWeight: Tools.fontWeight01,
+//               ),
+//             ),
+//           ),
+//           Flexible(
+//             child: Text(
+//               "${widget.content}",
+//               textAlign: TextAlign.right,
+//               style: const TextStyle(
+//                 color: Tools.color02,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class ChildrenItem extends StatefulWidget {
+//   final String profile;
+//   final String firstname;
+//   final String lastname;
+//   final int age;
+
+//   const ChildrenItem({
+//     super.key,
+//     required this.profile,
+//     required this.firstname,
+//     required this.lastname,
+//     required this.age,
+//   });
+
+//   @override
+//   State<ChildrenItem> createState() => _ChildrenItemState();
+// }
+
+// class _ChildrenItemState extends State<ChildrenItem> {
+//   Helper helper = Helper();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     String initial = helper.getInitial(widget.firstname, widget.lastname);
+
+//     return Padding(
+//       padding: const EdgeInsets.only(
+//         top: 5,
+//         bottom: 5,
+//       ),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//           Row(
+//             children: [
+//               widget.profile != ""
+//                   ? CircleAvatar(
+//                       radius: 20,
+//                       backgroundColor: Tools.color02,
+//                       backgroundImage: AssetImage(
+//                         widget.profile,
+//                       ),
+//                     )
+//                   : ClipRRect(
+//                       borderRadius: BorderRadius.circular(20),
+//                       child: Container(
+//                         width: 40,
+//                         height: 40,
+//                         color: Tools.color02,
+//                         padding: const EdgeInsets.all(8),
+//                         child: Center(
+//                           child: Text(
+//                             initial,
+//                             style: const TextStyle(
+//                               fontWeight: Tools.fontWeight01,
+//                               color: Tools.color05,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//               const SizedBox(
+//                 width: 10,
+//               ),
+//               Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Text(
+//                     widget.firstname,
+//                     style: const TextStyle(
+//                       color: Tools.color06,
+//                       fontWeight: Tools.fontWeight01,
+//                     ),
+//                   ),
+//                   Text(
+//                     widget.lastname,
+//                     style: const TextStyle(
+//                       color: Tools.color06,
+//                       fontWeight: Tools.fontWeight01,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//           Text(
+//             "${widget.age} ans",
+//             textAlign: TextAlign.right,
+//             style: const TextStyle(
+//               color: Tools.color02,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 class UserInfoItem extends StatefulWidget {
   final String title;
-  final String? content;
+  final TextEditingController? controller;
+  final bool readOnly;
 
   const UserInfoItem({
     super.key,
     required this.title,
-    this.content,
+    this.controller,
+    this.readOnly = false,
   });
 
   @override
@@ -211,11 +393,17 @@ class _UserInfoItemState extends State<UserInfoItem> {
             ),
           ),
           Flexible(
-            child: Text(
-              "${widget.content}",
-              textAlign: TextAlign.right,
+            child: TextField(
+              controller: widget.controller,
+              readOnly: widget.readOnly,
+              textDirection: TextDirection.rtl,
               style: const TextStyle(
                 color: Tools.color02,
+              ),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
               ),
             ),
           ),
