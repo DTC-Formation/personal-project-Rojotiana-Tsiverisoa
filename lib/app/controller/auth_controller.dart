@@ -1,17 +1,19 @@
+import 'package:flutter/material.dart';
+
 import 'package:tetiharana/app/models/auth_model.dart';
-import 'package:tetiharana/app/services/auth_services.dart';
 
 class AuthController {
-  AuthServices auth = AuthServices();
   AuthModel authModel = AuthModel();
 
-  Future<void> login(
-    var data,
-    Function onSuccess,
-    Function onError,
-  ) async {
-    // Log in session
-    var response = await authModel.login(data);
+  // Log in session
+  Future<void> login({
+    required var body,
+    required Function onSuccess,
+    required Function onError,
+  }) async {
+    var response = await authModel.login(body);
+    debugPrint("Response from AuthController.login: $response");
+    
     switch (response) {
       case 200:
         onSuccess();
@@ -23,11 +25,11 @@ class AuthController {
     }
   }
 
+  // Log out session
   Future<void> logout(
     Function onSuccess,
     Function onError,
   ) async {
-    // Log out session
     int response = await authModel.logout();
     switch (response) {
       case 200:

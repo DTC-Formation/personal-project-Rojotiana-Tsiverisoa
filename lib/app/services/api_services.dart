@@ -14,10 +14,10 @@ class ApiServices {
   }) async {
     var token = await auth.getToken();
     dio.options.headers['Authorization'] = "Bearer $token";
-    Response response;
+    // final response;
 
     try {
-      response = await dio.post("$apiUrl/$endpoints", data: data);
+      final response = await dio.post("$apiUrl/$endpoints", data: data);
       return response.data;
     } catch (e) {
       print(e);

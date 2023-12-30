@@ -10,4 +10,9 @@ class UserModel {
     List<dynamic> response = await authServices.getCurrentUser();
     return response.first;
   }
+
+  Future<Map<String, dynamic>> createUser(Map<String, dynamic> userData) async {
+    // Create a new user
+    return await apiServices.createItems(endpoints: 'user', data: userData);
+  }
 }

@@ -1,17 +1,20 @@
+import 'package:flutter/material.dart';
+
 import 'package:tetiharana/app/services/auth_services.dart';
 
 class AuthModel {
-  AuthServices auth = AuthServices();
+  AuthServices authServices = AuthServices();
 
-  Future<int> login(Map<String, String> data) async {
+  Future<int> login(Map<String, String> body) async {
     // Log in session
-    int response = await auth.login(data: data);
+    int response = await authServices.login(endpoints: "login", body: body);
+    debugPrint("Response from AuthModel.login: $response");
     return response;
   }
 
   Future<int> logout() async {
     // Log out session
-    int response = await auth.logout();
+    int response = await authServices.logout();
     return response;
   }
 }

@@ -25,7 +25,7 @@ class _LoginViewState extends State<LoginView> {
   bool isLoading = false;
 
   login() async {
-    var data = {
+    final data = {
       "email": emailController.text,
       "password": passwordController.text,
     };
@@ -34,15 +34,27 @@ class _LoginViewState extends State<LoginView> {
       isLoading = true;
     });
 
-    await authController.login(data, onAuthSuccess, onAuthFail);
+    await authController.login(
+      body: data,
+      onSuccess: onAuthSuccess,
+      onError: onAuthFail,
+    );
   }
 
   onAuthSuccess() {
-    Navigator.of(context).pushNamed('/home');
+    // Navigator.of(context).pushNamed('/home');
 
     setState(() {
       isLoading = false;
     });
+
+    myDialog.showMyDialog(
+      title: "Success",
+      description: "Io fa mety",
+      confirmAction: () => {Navigator.of(context).pop()},
+      confirmTitle: "Ok",
+      context: context,
+    );
   }
 
   onAuthFail(response) {
@@ -52,6 +64,7 @@ class _LoginViewState extends State<LoginView> {
 
     String title = "";
     String description = "";
+
     switch (response) {
       case 401:
         title = "Oupss";
@@ -76,6 +89,8 @@ class _LoginViewState extends State<LoginView> {
             "Erreur de connexion! Veuillez réessayer s'il vous plaît.";
         break;
     }
+
+    debugPrint('$title. $description');
 
     myDialog.showMyDialog(
       title: title,
@@ -267,24 +282,6 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
-                  // Stack(
-                  //   children: [
-                  //     Container(
-                  //       width: size.width,
-                  //       height: size.height,
-                  //       color: Colors.red,
-                  //       child: SpinKitCubeGrid(
-                  //         itemBuilder: (BuildContext context, int index) {
-                  //           return DecoratedBox(
-                  //             decoration: BoxDecoration(
-                  //               color: Colors.white,
-                  //             ),
-                  //           );
-                  //         },
-                  //       ),
-                  //     ),
-                  //   ],
-                  // )
                 ],
               ),
             ),

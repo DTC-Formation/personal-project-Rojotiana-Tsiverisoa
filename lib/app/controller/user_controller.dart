@@ -12,4 +12,15 @@ class UserController {
       onError(error);
     }
   }
+
+  Future<void> createUser(Map<String, dynamic> userData, Function onSuccess,
+      Function onError) async {
+    // Create a new user
+    try {
+      Map<String, dynamic> response = await userModel.createUser(userData);
+      onSuccess(response);
+    } catch (error) {
+      onError(error);
+    }
+  }
 }

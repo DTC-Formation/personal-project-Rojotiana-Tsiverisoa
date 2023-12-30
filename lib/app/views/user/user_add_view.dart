@@ -1,5 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import 'package:http/http.dart' as http;
+
+import 'package:tetiharana/app/controller/user_controller.dart';
+import 'package:tetiharana/app/services/auth_services.dart';
+import 'package:tetiharana/utilities/constants.dart';
+import 'package:tetiharana/utilities/helper.dart';
+import 'package:tetiharana/widget/dialog/dialog.dart';
 import 'package:tetiharana/widget/input/dropdown.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/button/button.dart';
@@ -20,6 +28,9 @@ class UserAddView extends StatefulWidget {
 }
 
 class _MemberAddState extends State<UserAddView> {
+  MyDialog myDialog = MyDialog();
+  Helper helper = Helper();
+
   SexeChoice? _sexe = SexeChoice.male;
   IconData _sexeIcon = Icons.male_rounded;
 
@@ -30,25 +41,86 @@ class _MemberAddState extends State<UserAddView> {
   TextEditingController emailController = TextEditingController();
   String birthdateController = "";
   String deathdateController = "";
+  String ruleController = "";
   String maritalStatusController = "";
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    onSubmit() {
-      // var data = {
-      //   "firstname": firstnameController.text,
-      //   "lastname": lastnameController.text,
-      //   "sexe": sexeController,
-      //   "email": emailController.text,
-      //   "birthdate": birthdateController,
-      //   "deathdate": deathdateController,
-      //   "marital_status": maritalStatusController,
-      // };
+// ***************** Create new user *****************
+    UserController userController = UserController();
 
-      // print(data);
+    onAddingSuccess() {
+      myDialog.showMyDialog(
+        title: "Félicitation",
+        description: "La personne a bien été ajoutée!",
+        confirmAction: () => {Navigator.of(context).pop()},
+        confirmTitle: "Ok",
+        context: context,
+      );
     }
+
+    onAddingFail(error) {
+      myDialog.showMyDialog(
+        title: "Erreur",
+        description: "$error",
+        confirmAction: () => {Navigator.of(context).pop()},
+        confirmTitle: "Ok",
+        context: context,
+      );
+    }
+
+    Future<void> onSubmit() async {
+      Dio dio = Dio();
+      AuthServices auth = AuthServices();
+      // const apiUrl = "http://localhost:8000/api";
+      String apiUrl = "${Constant.apiUrl}/api";
+      var token = await auth.getToken();
+      // dio.options.baseUrl = apiUrl;
+      dio.options.headers['Authorization'] = "Bearer $token";
+      // dio.options.contentType = Headers.formUrlEncodedContentType;
+      dio.options.headers['Content-type'] = 'application/json; charset=UTF-8';
+      final data = {
+        "firstname": firstnameController.text,
+        "lastname": lastnameController.text,
+        "sexe": sexeController,
+        "email": emailController.text,
+        "birthday": helper.formatDate(birthdateController),
+        "deathday": helper.formatDate(deathdateController),
+        "rule": ruleController,
+        "marital_status": maritalStatusController,
+      };
+      try {
+        final response = await dio.post("$apiUrl/user", data: data);
+        print(response);
+        onAddingFail(response);
+        // return response.data;
+      } catch (e) {
+        print(e);
+      }
+      // final response = await http.post(Uri.https(apiUrl, 'user'), body: data);
+      // print(response);
+    }
+
+    // onSubmit() async {
+    //   var data = {
+    //     "firstname": firstnameController.text,
+    //     "lastname": lastnameController.text,
+    //     "sexe": sexeController,
+    //     "email": emailController.text,
+    //     "birthdate": helper.formatDate(birthdateController),
+    //     "deathdate": helper.formatDate(deathdateController),
+    //     "rule": ruleController,
+    //     "marital_status": maritalStatusController,
+    //   };
+    //   try {
+    //     await userController.createUser(data, onAddingSuccess, onAddingFail);
+    //   } catch (error) {
+    //     print("Error creating user: $error");
+    //   }
+    //   // print(data);
+    // }
 
     clear() {
       setState(() {
@@ -293,6 +365,25 @@ class _MemberAddState extends State<UserAddView> {
                                   const EdgeInsets.fromLTRB(20, 10, 20, 20),
                               child: Column(
                                 children: [
+                                  MyDropdown(
+                                    items: [
+                                      DropdownItem(
+                                        list: "Visiteur",
+                                        value: "viewer",
+                                      ),
+                                      DropdownItem(
+                                        list: "Administrateur",
+                                        value: "admin",
+                                      ),
+                                    ],
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        ruleController = newValue;
+                                      });
+                                    },
+                                    hintText: 'Rôle',
+                                    controller: ruleController,
+                                  ),
                                   MyDropdown(
                                     items: [
                                       DropdownItem(
