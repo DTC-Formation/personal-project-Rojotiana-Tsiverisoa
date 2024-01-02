@@ -49,44 +49,14 @@ class _LoginViewState extends State<LoginView> {
     });
   }
 
-  onAuthFail(response) {
+  onAuthFail(String title, String message) {
     setState(() {
       isLoading = false;
     });
 
-    String title = "";
-    String description = "";
-
-    switch (response) {
-      case 401:
-        title = "Oupss";
-        description = "Veuillez vérifier votre email ou votre mot de passe!";
-        break;
-
-      case 404:
-        title = "Attention";
-        description =
-            "Veuillez remplir les champs correspondants s'il vous plaît!";
-        break;
-
-      case 500:
-        title = "Erreur";
-        description =
-            "Le serveur est en maintenance pour le moment. Veuillez réessayer plus tard!";
-        break;
-
-      default:
-        title = "Oupss";
-        description =
-            "Erreur de connexion! Veuillez réessayer s'il vous plaît.";
-        break;
-    }
-
-    debugPrint('$title. $description');
-
     myDialog.showMyDialog(
       title: title,
-      description: description,
+      description: message,
       confirmAction: () => {Navigator.of(context).pop()},
       confirmTitle: "Ok",
       context: context,

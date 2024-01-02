@@ -85,14 +85,14 @@ class _MyDrawerState extends State<MyDrawer> {
     );
   }
 
-  onLogoutError() {
+  onLogoutError(String title, String message) {
     setState(() {
       isLoading = false;
     });
 
     myDialog.showMyDialog(
-      title: "Erreur",
-      description: "Désolé, une erreur est survenu lors de la déconnexion!",
+      title: title,
+      description: message,
       confirmAction: () => {Navigator.of(context).pop()},
       confirmTitle: "Ok",
       context: context,
