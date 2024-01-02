@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:tetiharana/app/services/api_services.dart';
 import 'package:tetiharana/app/services/auth_services.dart';
 
@@ -27,8 +29,13 @@ class UserModel {
     return userData;
   }
 
-  Future<Map<String, dynamic>> createUser(Map<String, dynamic> userData) async {
-    // Create a new user
-    return await apiServices.createItems(endpoints: 'user', data: userData);
+  Future<int> createUser(Map<String, dynamic> body) async {
+    int response = await apiServices.createItems(
+      endpoints: "user",
+      body: body,
+    );
+
+    debugPrint("Response from UserModel.createUser: $response");
+    return response;
   }
 }

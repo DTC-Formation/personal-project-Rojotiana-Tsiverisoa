@@ -19,14 +19,24 @@ class UserController {
     }
   }
 
-  Future<void> createUser(Map<String, dynamic> userData, Function onSuccess,
-      Function onError) async {
+  Future<void> createUser({
+    required var body,
+    required Function onSuccess,
+    required Function onError,
+  }) async {
     // Create a new user
-    try {
-      Map<String, dynamic> response = await userModel.createUser(userData);
-      onSuccess(response);
-    } catch (error) {
-      onError(error);
+
+    var response = await userModel.createUser(body);
+    debugPrint("Response from UserController.createUser: $response");
+
+    switch (response) {
+      case 200 || 201:
+        onSuccess();
+        break;
+
+      default:
+        onError(response);
+        break;
     }
   }
 }

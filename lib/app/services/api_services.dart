@@ -1,26 +1,37 @@
+import 'package:flutter/material.dart';
+
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:tetiharana/app/services/auth_services.dart';
 import 'package:tetiharana/utilities/constants.dart';
+import 'package:tetiharana/utilities/helper.dart';
 
 class ApiServices {
-  AuthServices auth = AuthServices();
+  AuthServices authServices = AuthServices();
   String apiUrl = "${Constant.apiUrl}/api";
+  Helper helper = Helper();
   Dio dio = Dio();
 
   createItems({
     required String endpoints,
-    required var data,
+    required var body,
   }) async {
-    var token = await auth.getToken();
-    dio.options.headers['Authorization'] = "Bearer $token";
-    // final response;
+    var token = await authServices.getToken();
 
     try {
-      final response = await dio.post("$apiUrl/$endpoints", data: data);
-      return response.data;
+      Uri uri = helper.getUri(endpoints: endpoints);
+      var response = await http.post(uri, body: body, headers: {
+        "Authorization": "Bearer $token",
+      });
+
+      debugPrint(
+        "Response from ApiServices.createItems: ${response.statusCode}",
+      );
+
+      return response.statusCode;
     } catch (e) {
-      print(e);
+      debugPrint("Error from ApiServices.createItems: $e");
     }
   }
 
@@ -28,7 +39,7 @@ class ApiServices {
     required String endpoints,
     var params,
   }) async {
-    var token = await auth.getToken();
+    var token = await authServices.getToken();
     dio.options.headers['Authorization'] = "Bearer $token";
     Response response;
 
@@ -49,7 +60,7 @@ class ApiServices {
     var data,
     required int id,
   }) async {
-    var token = await auth.getToken();
+    var token = await authServices.getToken();
     dio.options.headers['Authorization'] = "Bearer $token";
     Response response;
 
@@ -65,7 +76,7 @@ class ApiServices {
     required String endpoints,
     required var id,
   }) async {
-    var token = await auth.getToken();
+    var token = await authServices.getToken();
     dio.options.headers['Authorization'] = "Bearer $token";
     Response response;
 
