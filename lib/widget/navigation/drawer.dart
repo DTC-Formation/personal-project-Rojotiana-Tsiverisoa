@@ -25,16 +25,20 @@ class _MyDrawerState extends State<MyDrawer> {
   String name = "";
   String initial = "";
   String? profile;
+  String firstname = "";
+  String lastname = "";
+  String filePath = "";
+  String filename = "";
 
   loadCurrentUser() async {
     await userController.getCurrentUser(onLoadSuccess, onLoadFail);
   }
 
   onLoadSuccess(userData) {
-    String firstname = userData['firstname'];
-    String lastname = userData['lastname'];
-    String filePath = helper.getFilePath("profile");
-    String filename = userData['filename'];
+    firstname = userData['firstname'] ?? '';
+    lastname = userData['lastname'] ?? '';
+    filePath = helper.getFilePath("profile");
+    filename = userData['filename'] ?? '';
 
     setState(() {
       name = "$lastname $firstname";
@@ -44,14 +48,7 @@ class _MyDrawerState extends State<MyDrawer> {
   }
 
   onLoadFail(error) {
-    // print("Une erreur est survenue! $error");
-    // myDialog.showMyDialog(
-    //   title: "Oupss",
-    //   description: "Une erreur est survenue!",
-    //   confirmAction: () => {Navigator.of(context).pop()},
-    //   confirmTitle: "Ok",
-    //   context: context,
-    // );
+    // debugPrint("Une erreur est survenue! $error");
   }
 
   @override
@@ -180,7 +177,7 @@ class _MyDrawerState extends State<MyDrawer> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        profile != null
+                        filename != ""
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(70),
                                 child: Container(
