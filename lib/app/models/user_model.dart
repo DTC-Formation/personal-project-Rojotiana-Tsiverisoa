@@ -7,8 +7,24 @@ class UserModel {
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     // Get current user info after log in
-    List<dynamic> response = await authServices.getCurrentUser();
-    return response.first;
+    AuthServices auth = AuthServices();
+    String token = await auth.getToken();
+    List<String> splittedToken = token.split('|');
+    String extractedToken = splittedToken.length > 1 ? splittedToken[1] : '';
+
+    var response = await authServices.getCurrentUser(
+      endpoints: "user/auth/$extractedToken",
+    );
+
+    if (response is List && response.isNotEmpty) {
+      // Assuming the list contains a single user object
+      Map<String, dynamic> userData = response[0];
+      return userData;
+    }
+
+    // Assuming response is already a Map
+    Map<String, dynamic> userData = response;
+    return userData;
   }
 
   Future<Map<String, dynamic>> createUser(Map<String, dynamic> userData) async {

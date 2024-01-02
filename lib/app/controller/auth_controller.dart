@@ -9,11 +9,11 @@ class AuthController {
   Future<void> login({
     required var body,
     required Function onSuccess,
-    required Function onError,
+    required Function(int) onError,
   }) async {
     var response = await authModel.login(body);
     debugPrint("Response from AuthController.login: $response");
-    
+
     switch (response) {
       case 200:
         onSuccess();
@@ -25,7 +25,7 @@ class AuthController {
     }
   }
 
-  // Log out session
+    // Log out session
   Future<void> logout(
     Function onSuccess,
     Function onError,

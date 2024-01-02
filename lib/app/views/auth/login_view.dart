@@ -42,19 +42,11 @@ class _LoginViewState extends State<LoginView> {
   }
 
   onAuthSuccess() {
-    // Navigator.of(context).pushNamed('/home');
+    Navigator.of(context).pushNamed('/home');
 
     setState(() {
       isLoading = false;
     });
-
-    myDialog.showMyDialog(
-      title: "Success",
-      description: "Io fa mety",
-      confirmAction: () => {Navigator.of(context).pop()},
-      confirmTitle: "Ok",
-      context: context,
-    );
   }
 
   onAuthFail(response) {

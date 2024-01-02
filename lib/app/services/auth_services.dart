@@ -3,28 +3,16 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:dio/dio.dart';
 
 import 'package:tetiharana/utilities/constants.dart';
 import 'package:tetiharana/utilities/helper.dart';
 
 class AuthServices {
-  // ***************  Using http ***************
   String apiUrl = "${Constant.apiUrl}";
   Helper helper = Helper();
 
   login({required String endpoints, required var body}) async {
-    String protocol = helper.splitUrl(url: apiUrl, output: "protocol");
-    String host = helper.splitUrl(url: apiUrl, output: "host");
-
-    Uri uri = (protocol == "http")
-        ? Uri.http(host, 'api/$endpoints')
-        : Uri.https(host, 'api/$endpoints');
-    Uri.http(host, 'api/$endpoints');
-    debugPrint("This is the uri: $uri");
-    debugPrint("This is the host: $host");
-    debugPrint("This is the protocol: $protocol");
-
+    Uri uri = helper.getUri(endpoints: endpoints);
     var response = await http.post(uri, body: body);
     debugPrint("Response from AuthServices.login: ${response.statusCode}");
 
@@ -40,52 +28,24 @@ class AuthServices {
     return response.statusCode;
   }
 
-  logout() async {
-    // AuthServices auth = AuthServices();
-    // var token = await auth.getToken();
-    // dio.options.headers['Authorization'] = "Bearer $token";
-    // Response response;
+  logout({required String endpoints}) async {
+    AuthServices auth = AuthServices();
+    String token = await auth.getToken();
+    Uri uri = helper.getUri(endpoints: endpoints);
 
-    // try {
-    //   response = await dio.post("$apiUrl/logout", data: {});
-    //   await auth.removeToken();
-    //   return response.statusCode;
-    // } on DioException catch (e) {
-    //   return e.response?.statusCode;
-    // }
+    try {
+      var response = await http.post(uri, body: {}, headers: {
+        "Authorization": "Bearer $token",
+      });
+      await auth.removeToken();
+
+      debugPrint("Response from AuthServices.logout: ${response.statusCode}");
+
+      return response.statusCode;
+    } catch (e) {
+      debugPrint("Error from AuthServices.logout: $e");
+    }
   }
-
-  // ***************  Using Dio ***************
-  // String apiUrl = "${Constant.apiUrl}/api";
-  Dio dio = Dio();
-
-  // login({required var data}) async {
-  //   Response response;
-
-  //   try {
-  //     response = await dio.post("$apiUrl/login", data: data);
-  //     AuthServices auth = AuthServices();
-  //     auth.saveToken(token: response.data['token']);
-  //     return response.statusCode;
-  //   } on DioException catch (e) {
-  //     return e.response?.statusCode;
-  //   }
-  // }
-
-  // logout() async {
-  //   AuthServices auth = AuthServices();
-  //   var token = await auth.getToken();
-  //   dio.options.headers['Authorization'] = "Bearer $token";
-  //   Response response;
-
-  //   try {
-  //     response = await dio.post("$apiUrl/logout", data: {});
-  //     await auth.removeToken();
-  //     return response.statusCode;
-  //   } on DioException catch (e) {
-  //     return e.response?.statusCode;
-  //   }
-  // }
 
   saveToken({required String token}) async {
     try {
@@ -110,19 +70,23 @@ class AuthServices {
     await prefs.remove('token');
   }
 
-  getCurrentUser() async {
+  getCurrentUser({required String endpoints}) async {
     AuthServices auth = AuthServices();
-    var token = await auth.getToken();
-    dio.options.headers['Authorization'] = "Bearer $token";
-    List<String> splittedToken = token.split('|');
-    String extractedToken = splittedToken.length > 1 ? splittedToken[1] : '';
-    Response response;
+    String token = await auth.getToken();
 
     try {
-      response = await dio.get("$apiUrl/user/auth/$extractedToken");
-      return response.data;
-    } on DioException catch (e) {
-      return e.response?.statusCode;
+      Uri uri = helper.getUri(endpoints: endpoints);
+      var response = await http.get(uri, headers: {
+        "Authorization": "Bearer $token",
+      });
+
+      debugPrint(
+        "Response from AuthServices.getCurrentUser: ${response.statusCode}",
+      );
+
+      return json.decode(response.body);
+    } catch (e) {
+      debugPrint("Error from AuthServices.getCurrentUser: $e");
     }
   }
 }

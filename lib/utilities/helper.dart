@@ -70,9 +70,9 @@ class Helper {
     }
   }
 
-  String splitUrl({required String url, required String output}) {
+  String splitUrl({required String output}) {
     String data = "";
-    Uri uri = Uri.parse(url);
+    Uri uri = Uri.parse(apiUrl);
 
     switch (output) {
       case "protocol":
@@ -85,5 +85,18 @@ class Helper {
     }
 
     return data;
+  }
+
+  Uri getUri({required String endpoints}) {
+    Helper helper = Helper();
+
+    String protocol = helper.splitUrl(output: "protocol");
+    String host = helper.splitUrl(output: "host");
+
+    Uri uri = (protocol == "http")
+        ? Uri.http(host, 'api/$endpoints')
+        : Uri.https(host, 'api/$endpoints');
+
+    return uri;
   }
 }

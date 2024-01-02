@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:tetiharana/app/models/user_model.dart';
 
 class UserController {
@@ -7,8 +9,12 @@ class UserController {
     // Get current user info after log in
     try {
       Map<String, dynamic> userData = await userModel.getCurrentUser();
+      debugPrint(
+        "Response from UserController.getCurrentUser: ${userData['email']}",
+      );
       onSuccess(userData);
     } catch (error) {
+      debugPrint("Error from UserController.getCurrentUser: $error");
       onError(error);
     }
   }
