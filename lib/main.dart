@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:tetiharana/app/views/about/about_view.dart';
-import 'package:tetiharana/app/views/auth/forgot_password_view.dart';
 import 'package:tetiharana/app/views/auth/login_view.dart';
-import 'package:tetiharana/app/views/familly/familly_list_view.dart';
-import 'package:tetiharana/app/views/gallery/gallery.dart';
-import 'package:tetiharana/app/views/home/home_view.dart';
-import 'package:tetiharana/app/views/tree/tree_view.dart';
-import 'package:tetiharana/app/views/user/user_add_view.dart';
-import 'package:tetiharana/app/views/user/user_info_view.dart';
-import 'package:tetiharana/app/views/user/user_profile_view.dart';
-import 'package:tetiharana/app/views/user/user_update_view.dart';
+import 'package:tetiharana/routes/app_routes.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
-  runApp(const MyApp());
+
+  // Check if the user is already logged in
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString('token');
+
+  runApp(
+    token != null ? const MyApp(initialRoute: AppRoutes.home) : const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+    this.initialRoute = AppRoutes.login,
+  });
+
+  final String initialRoute;
 
   // This widget is the root of your application.
   @override
@@ -33,20 +37,8 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: const LoginView(),
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => const LoginView(),
-        '/forgot-password': (context) => const ForgotPasswordView(),
-        '/home': (context) => const HomeView(),
-        '/tree-app': (context) => const TreeView(),
-        '/familly': (context) => const FamillyListView(),
-        '/user/add': (context) => const UserAddView(),
-        '/user/update': (context) => const UserUpdateView(),
-        '/user/view': (context) => const UserInfoView(),
-        '/gallery': (context) => const Gallery(),
-        '/user/profile': (context) => const UserProfileView(),
-        '/about': (context) => const AboutView(),
-      },
+      initialRoute: initialRoute,
+      routes: AppRoutes.routes,
     );
   }
 }
