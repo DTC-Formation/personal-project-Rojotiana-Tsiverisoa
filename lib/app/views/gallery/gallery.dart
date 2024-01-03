@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tetiharana/app/controller/gallery_controller.dart';
+import 'package:tetiharana/utilities/helper.dart';
 import 'package:tetiharana/utilities/tools.dart';
 import 'package:tetiharana/widget/loader/loader.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
@@ -15,6 +16,7 @@ class Gallery extends StatefulWidget {
 
 class _GalleryState extends State<Gallery> {
   GalleryController galleryController = GalleryController();
+  Helper helper = Helper();
 
   bool isLoading = false;
   List<GalleryItem> galleryItems = [];
@@ -33,9 +35,15 @@ class _GalleryState extends State<Gallery> {
     );
   }
 
-  onLoadSuccess(List<GalleryItem> data) {
+  onLoadSuccess(List data) {
     setState(() {
-      galleryItems = data;
+      galleryItems = data.map((item) {
+        return GalleryItem(
+          source: "${helper.getFilePath("profile")}/${item['filename']}",
+          name: item['firstname'],
+        );
+      }).toList();
+
       isLoading = false;
     });
   }
