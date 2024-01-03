@@ -90,12 +90,14 @@ class MyDatePicker extends StatefulWidget {
   final String title;
   final String? controller;
   final void Function(String) updateDate;
+  final bool required;
 
   const MyDatePicker({
     super.key,
     required this.title,
     this.controller,
     required this.updateDate,
+    this.required = false,
   });
 
   @override
@@ -119,14 +121,14 @@ class _MyDatePickerState extends State<MyDatePicker> {
             children: [
               widget.controller != ""
                   ? Text(
-                      widget.title,
+                      widget.required ? "${widget.title} *" : widget.title,
                       style: const TextStyle(
                         fontSize: 13,
                         color: Tools.color09,
                       ),
                     )
                   : Text(
-                      widget.title,
+                      widget.required ? "${widget.title} *" : widget.title,
                       style: const TextStyle(
                         fontSize: 0,
                         color: Tools.color09,

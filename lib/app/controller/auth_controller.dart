@@ -34,6 +34,12 @@ class AuthController {
         onError(title, message);
         break;
 
+      case 404:
+        title = "Attention";
+        message = "Veuillez remplir les champs correspondants s'il vous plaît!";
+        onError(title, message);
+        break;
+
       default:
         title = alertInfo['title']!;
         message = alertInfo['message']!;

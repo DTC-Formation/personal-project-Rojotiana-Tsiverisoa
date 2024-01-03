@@ -16,7 +16,7 @@ class AlertMessage {
 
       case 404:
         title = "Attention";
-        message = "Veuillez remplir les champs correspondants s'il vous plaît!";
+        message = "Les champs suivi de \"*\" sont obligatoires!";
         break;
 
       case 405:

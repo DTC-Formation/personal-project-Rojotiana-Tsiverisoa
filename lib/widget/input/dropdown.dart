@@ -8,6 +8,7 @@ class MyDropdown extends StatefulWidget {
   final List<DropdownItem> items;
   final void Function(String)? onChanged;
   final String? controller;
+  final bool required;
 
   const MyDropdown({
     super.key,
@@ -15,6 +16,7 @@ class MyDropdown extends StatefulWidget {
     required this.items,
     this.onChanged,
     this.controller,
+    this.required = false,
   });
 
   @override
@@ -34,21 +36,26 @@ class _MyDropdownState extends State<MyDropdown> {
         children: [
           widget.controller != ""
               ? Text(
-                  "${widget.hintText}",
+                  widget.required
+                      ? "${widget.hintText} *"
+                      : "${widget.hintText}",
                   style: const TextStyle(
                     fontSize: 13,
                     color: Tools.color09,
                   ),
                 )
               : Text(
-                  "${widget.hintText}",
+                  widget.required
+                      ? "${widget.hintText} *"
+                      : "${widget.hintText}",
                   style: const TextStyle(
                     fontSize: 0,
                     color: Tools.color09,
                   ),
                 ),
           CustomDropdown<DropdownItem>(
-            hintText: widget.hintText,
+            hintText:
+                widget.required ? "${widget.hintText} *" : "${widget.hintText}",
             items: widget.items,
             excludeSelected: false,
             onChanged: (DropdownItem? selectedItem) {

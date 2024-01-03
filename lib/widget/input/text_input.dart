@@ -6,12 +6,14 @@ class MyTextInput extends StatefulWidget {
   final String labelText;
   final IconData icon;
   final TextEditingController? inputController;
+  final bool required;
 
   const MyTextInput({
     super.key,
     required this.labelText,
     required this.icon,
     this.inputController,
+    this.required = false,
   });
 
   @override
@@ -21,7 +23,7 @@ class MyTextInput extends StatefulWidget {
 class _MyTextInputState extends State<MyTextInput> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: widget.inputController,
       cursorColor: Tools.color10,
       decoration: InputDecoration(
@@ -32,7 +34,7 @@ class _MyTextInputState extends State<MyTextInput> {
             color: Tools.color09,
           ),
         ),
-        labelText: widget.labelText,
+        labelText: widget.labelText + (widget.required ? ' *' : ''),
         floatingLabelStyle: const TextStyle(
           color: Tools.color09,
         ),
@@ -50,6 +52,12 @@ class _MyTextInputState extends State<MyTextInput> {
       style: const TextStyle(
         color: Tools.color10,
       ),
+      validator: (value) {
+        if (widget.required && (value == null || value.isEmpty)) {
+          return 'Ce champ est requis';
+        }
+        return null; // Return null if validation succeeds
+      },
     );
   }
 }

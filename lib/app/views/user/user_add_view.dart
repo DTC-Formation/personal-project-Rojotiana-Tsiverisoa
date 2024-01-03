@@ -27,6 +27,7 @@ class _MemberAddState extends State<UserAddView> {
   MyDialog myDialog = MyDialog();
   Helper helper = Helper();
   bool isLoading = false;
+  final _formKey = GlobalKey<FormState>();
 
   SexeChoice? _sexe = SexeChoice.male;
   IconData _sexeIcon = Icons.male_rounded;
@@ -88,6 +89,7 @@ class _MemberAddState extends State<UserAddView> {
         "marital_status": maritalStatusController,
       };
 
+      // if (_formKey.currentState!.validate()) {
       setState(() {
         isLoading = true;
       });
@@ -97,6 +99,7 @@ class _MemberAddState extends State<UserAddView> {
         onSuccess: onAddingSuccess,
         onError: onAddingFail,
       );
+      // }
     }
 
     clear() {
@@ -150,281 +153,292 @@ class _MemberAddState extends State<UserAddView> {
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // --------------------- Image ---------------------
-                    const MyBackgroundImage(
-                      source: "assets/images/background/bg_3.webp",
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // --------------------- Image ---------------------
+                      const MyBackgroundImage(
+                        source: "assets/images/background/bg_3.webp",
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
 
-                    // --------------------- Info perso ---------------------
-                    Stack(
-                      children: [
-                        Column(
-                          children: [
-                            SizedBox(
-                              width: size.width,
-                              height: 15,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: Tools.color09,
-                                ),
-                                borderRadius: BorderRadius.circular(
-                                  Tools.radius01,
-                                ),
+                      // --------------------- Info perso ---------------------
+                      Stack(
+                        children: [
+                          Column(
+                            children: [
+                              SizedBox(
+                                width: size.width,
+                                height: 15,
                               ),
-                              width: size.width,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                  20,
-                                  10,
-                                  20,
-                                  20,
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Tools.color09,
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                    Tools.radius01,
+                                  ),
                                 ),
-                                child: Column(
-                                  children: [
-                                    MyTextInput(
-                                      inputController: firstnameController,
-                                      labelText: "Nom(s)",
-                                      icon: Icons.person,
-                                    ),
-                                    MyTextInput(
-                                      inputController: lastnameController,
-                                      labelText: "prénom(s)",
-                                      icon: Icons.person,
-                                    ),
-                                    Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Flexible(
-                                              child: Text(
-                                                'Sexe',
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Tools.color10,
-                                                ),
-                                              ),
-                                            ),
-                                            Flexible(
-                                              child: Icon(
-                                                _sexeIcon,
-                                                color: Tools.color09,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Flexible(
-                                              child: RadioListTile<SexeChoice>(
-                                                activeColor: Tools.color08,
-                                                title: const Text(
-                                                  'Homme',
+                                width: size.width,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    20,
+                                    10,
+                                    20,
+                                    20,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      MyTextInput(
+                                        inputController: firstnameController,
+                                        labelText: "Nom(s)",
+                                        icon: Icons.person,
+                                        required: true,
+                                      ),
+                                      MyTextInput(
+                                        inputController: lastnameController,
+                                        labelText: "Prénom(s)",
+                                        icon: Icons.person,
+                                      ),
+                                      Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              const Flexible(
+                                                child: Text(
+                                                  'Sexe *',
                                                   style: TextStyle(
-                                                    fontSize: 15,
+                                                    fontSize: 16,
                                                     color: Tools.color10,
                                                   ),
                                                 ),
-                                                value: SexeChoice.male,
-                                                groupValue: _sexe,
-                                                onChanged: (SexeChoice? value) {
-                                                  setState(() {
-                                                    _sexe = value;
-                                                    _sexeIcon =
-                                                        Icons.male_rounded;
-                                                    sexeController = 'male';
-                                                  });
-                                                },
                                               ),
-                                            ),
-                                            Flexible(
-                                              child: RadioListTile<SexeChoice>(
-                                                activeColor: Tools.color08,
-                                                title: const Text(
-                                                  'Femme',
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Tools.color10,
-                                                  ),
+                                              Flexible(
+                                                child: Icon(
+                                                  _sexeIcon,
+                                                  color: Tools.color09,
                                                 ),
-                                                value: SexeChoice.female,
-                                                groupValue: _sexe,
-                                                onChanged: (SexeChoice? value) {
-                                                  setState(() {
-                                                    _sexe = value;
-                                                    _sexeIcon =
-                                                        Icons.female_rounded;
-                                                    sexeController = 'female';
-                                                  });
-                                                },
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Divider(
-                                          color: Tools.color09,
-                                        ),
-                                      ],
-                                    ),
-                                    MyTextInput(
-                                      inputController: emailController,
-                                      labelText: "Email",
-                                      icon: Icons.mail_outline,
-                                    ),
-                                    MyDatePicker(
-                                      title: "Date de naissance",
-                                      controller: birthdateController,
-                                      updateDate: (String newValue) {
-                                        setState(() {
-                                          birthdateController = newValue;
-                                        });
-                                      },
-                                    ),
-                                    MyDatePicker(
-                                      title: "Date de décès",
-                                      controller: deathdateController,
-                                      updateDate: (String newValue) {
-                                        setState(() {
-                                          deathdateController = newValue;
-                                        });
-                                      },
-                                    ),
-                                  ],
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Flexible(
+                                                child:
+                                                    RadioListTile<SexeChoice>(
+                                                  activeColor: Tools.color08,
+                                                  title: const Text(
+                                                    'Homme',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Tools.color10,
+                                                    ),
+                                                  ),
+                                                  value: SexeChoice.male,
+                                                  groupValue: _sexe,
+                                                  onChanged:
+                                                      (SexeChoice? value) {
+                                                    setState(() {
+                                                      _sexe = value;
+                                                      _sexeIcon =
+                                                          Icons.male_rounded;
+                                                      sexeController = 'male';
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                              Flexible(
+                                                child:
+                                                    RadioListTile<SexeChoice>(
+                                                  activeColor: Tools.color08,
+                                                  title: const Text(
+                                                    'Femme',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Tools.color10,
+                                                    ),
+                                                  ),
+                                                  value: SexeChoice.female,
+                                                  groupValue: _sexe,
+                                                  onChanged:
+                                                      (SexeChoice? value) {
+                                                    setState(() {
+                                                      _sexe = value;
+                                                      _sexeIcon =
+                                                          Icons.female_rounded;
+                                                      sexeController = 'female';
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Divider(
+                                            color: Tools.color09,
+                                          ),
+                                        ],
+                                      ),
+                                      MyTextInput(
+                                        inputController: emailController,
+                                        labelText: "Email",
+                                        icon: Icons.mail_outline,
+                                      ),
+                                      MyDatePicker(
+                                        title: "Date de naissance *",
+                                        controller: birthdateController,
+                                        updateDate: (String newValue) {
+                                          setState(() {
+                                            birthdateController = newValue;
+                                          });
+                                        },
+                                      ),
+                                      MyDatePicker(
+                                        title: "Date de décès",
+                                        controller: deathdateController,
+                                        updateDate: (String newValue) {
+                                          setState(() {
+                                            deathdateController = newValue;
+                                          });
+                                        },
+                                      ),
+                                      const ImagePicker(title: "Profile"),
+                                    ],
+                                  ),
                                 ),
+                              )
+                            ],
+                          ),
+                          customTitle('Informations personnelles'),
+                        ],
+                      ),
+
+                      const SizedBox(
+                        height: 15,
+                      ),
+
+                      // --------------------- Info supp ---------------------
+                      Stack(
+                        children: [
+                          Column(
+                            children: [
+                              SizedBox(
+                                width: size.width,
+                                height: 15,
                               ),
-                            )
-                          ],
-                        ),
-                        customTitle('Informations personnelles'),
-                      ],
-                    ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Tools.color09,
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                    Tools.radius01,
+                                  ),
+                                ),
+                                width: size.width,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                                  child: Column(
+                                    children: [
+                                      MyDropdown(
+                                        items: [
+                                          DropdownItem(
+                                            list: "Visiteur",
+                                            value: "viewer",
+                                          ),
+                                          DropdownItem(
+                                            list: "Administrateur",
+                                            value: "admin",
+                                          ),
+                                        ],
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            ruleController = newValue;
+                                          });
+                                        },
+                                        hintText: 'Rôle',
+                                        controller: ruleController,
+                                        required: true,
+                                      ),
+                                      MyDropdown(
+                                        items: [
+                                          DropdownItem(
+                                            list: "Célibataire",
+                                            value: "single",
+                                          ),
+                                          DropdownItem(
+                                            list: "Marié(e)",
+                                            value: "married",
+                                          ),
+                                          DropdownItem(
+                                            list: "Divorcé(e)",
+                                            value: "divorced",
+                                          ),
+                                        ],
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            maritalStatusController = newValue;
+                                          });
+                                        },
+                                        hintText: 'Situation matrimoniale',
+                                        controller: maritalStatusController,
+                                        required: true,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          customTitle('Informations supplémentaires'),
+                        ],
+                      ),
 
-                    const SizedBox(
-                      height: 15,
-                    ),
-
-                    // --------------------- Info supp ---------------------
-                    Stack(
-                      children: [
-                        Column(
-                          children: [
-                            SizedBox(
-                              width: size.width,
-                              height: 15,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      // --------------------- Button ---------------------
+                      Row(
+                        children: [
+                          Flexible(
+                            child: MyButton(
+                              title: 'Annuler',
+                              action: clear,
+                              textColor: Tools.color08,
+                              backgroundColor: Colors.transparent,
+                              borderColor: Tools.color08,
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: Tools.color09,
-                                ),
-                                borderRadius: BorderRadius.circular(
-                                  Tools.radius01,
-                                ),
-                              ),
-                              width: size.width,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                                child: Column(
-                                  children: [
-                                    MyDropdown(
-                                      items: [
-                                        DropdownItem(
-                                          list: "Visiteur",
-                                          value: "viewer",
-                                        ),
-                                        DropdownItem(
-                                          list: "Administrateur",
-                                          value: "admin",
-                                        ),
-                                      ],
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          ruleController = newValue;
-                                        });
-                                      },
-                                      hintText: 'Rôle',
-                                      controller: ruleController,
-                                    ),
-                                    MyDropdown(
-                                      items: [
-                                        DropdownItem(
-                                          list: "Célibataire",
-                                          value: "single",
-                                        ),
-                                        DropdownItem(
-                                          list: "Marié(e)",
-                                          value: "married",
-                                        ),
-                                        DropdownItem(
-                                          list: "Divorcé(e)",
-                                          value: "divorced",
-                                        ),
-                                      ],
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          maritalStatusController = newValue;
-                                        });
-                                      },
-                                      hintText: 'Situation matrimoniale',
-                                      controller: maritalStatusController,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        customTitle('Informations supplémentaires'),
-                      ],
-                    ),
-
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    // --------------------- Button ---------------------
-                    Row(
-                      children: [
-                        Flexible(
-                          child: MyButton(
-                            title: 'Annuler',
-                            action: clear,
-                            textColor: Tools.color08,
-                            backgroundColor: Colors.transparent,
-                            borderColor: Tools.color08,
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Flexible(
-                          child: MyButton(
-                            title: 'Enregistrer',
-                            action: onSubmit,
-                            textColor: Tools.color05,
-                            backgroundColor: Tools.color08,
-                            borderColor: Colors.transparent,
+                          const SizedBox(
+                            width: 10,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Flexible(
+                            child: MyButton(
+                              title: 'Enregistrer',
+                              action: onSubmit,
+                              textColor: Tools.color05,
+                              backgroundColor: Tools.color08,
+                              borderColor: Colors.transparent,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -488,8 +502,8 @@ class _ImagePickerState extends State<ImagePicker> {
                   decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        width: 1,
-                        color: Tools.color10,
+                        width: 1.5,
+                        color: Tools.color09,
                       ),
                     ),
                   ),
