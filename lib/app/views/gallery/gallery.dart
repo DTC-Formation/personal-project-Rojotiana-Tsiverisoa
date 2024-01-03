@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tetiharana/app/controller/gallery_controller.dart';
 import 'package:tetiharana/utilities/helper.dart';
 import 'package:tetiharana/utilities/tools.dart';
+import 'package:tetiharana/widget/dialog/dialog.dart';
 import 'package:tetiharana/widget/loader/loader.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/navigation/drawer.dart';
@@ -17,6 +18,7 @@ class Gallery extends StatefulWidget {
 class _GalleryState extends State<Gallery> {
   GalleryController galleryController = GalleryController();
   Helper helper = Helper();
+  MyDialog myDialog = MyDialog();
 
   bool isLoading = false;
   List<GalleryItem> galleryItems = [];
@@ -46,6 +48,16 @@ class _GalleryState extends State<Gallery> {
 
       isLoading = false;
     });
+
+    if (galleryItems.isEmpty) {
+      myDialog.showMyDialog(
+        title: "Aucune donnée trouvée",
+        description: "Il n'y a aucune donnée disponible pour le moment.",
+        confirmAction: () => {Navigator.of(context).pop()},
+        confirmTitle: "Ok",
+        context: context,
+      );
+    }
   }
 
   onLoadFail(error) {
