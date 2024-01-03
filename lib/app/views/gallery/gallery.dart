@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:tetiharana/app/controller/gallery_controller.dart';
 import 'package:tetiharana/utilities/tools.dart';
+import 'package:tetiharana/widget/loader/loader.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/navigation/drawer.dart';
 
@@ -12,55 +14,86 @@ class Gallery extends StatefulWidget {
 }
 
 class _GalleryState extends State<Gallery> {
-  List<GalleryItem> galleryItem = [
-    const GalleryItem(
-      source: "assets/images/familly/familly_1.webp",
-      name: "Nom",
-    ),
-    const GalleryItem(
-      source: "assets/images/familly/familly_2.webp",
-      name: "Nom",
-    ),
-    const GalleryItem(
-      source: "assets/images/familly/familly_3.webp",
-      name: "Nom",
-    ),
-  ];
+  GalleryController galleryController = GalleryController();
+
+  bool isLoading = false;
+  List<GalleryItem> galleryItems = [];
+  String filePath = "";
+  String filename = "";
+
+// ***************** Load gallery image *****************
+  loadGalleryImage() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await galleryController.getImageGallery(
+      onSuccess: onLoadSuccess,
+      onError: onLoadFail,
+    );
+  }
+
+  onLoadSuccess(List<GalleryItem> data) {
+    setState(() {
+      galleryItems = data;
+      isLoading = false;
+    });
+  }
+
+  onLoadFail(error) {
+    debugPrint("Error loading gallery: $error");
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadGalleryImage();
+  }
+// ***************** Ending to load gallery image *****************
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(58.0),
-          child: MyAppBar(
-            title: 'Gallerie',
-          ),
-        ),
-        drawer: const MyDrawer(),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // --------------------- Gallery ---------------------
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 1.15,
-                  child: GridView(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: const PreferredSize(
+              preferredSize: Size.fromHeight(58.0),
+              child: MyAppBar(
+                title: 'Gallerie',
+              ),
+            ),
+            drawer: const MyDrawer(),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // --------------------- Gallery ---------------------
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 1.15,
+                      child: GridView(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                        ),
+                        children: galleryItems,
+                      ),
                     ),
-                    children: galleryItem,
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          if (isLoading) const MyLoader(),
+        ],
       ),
     );
   }
@@ -119,7 +152,7 @@ class _GalleryItemState extends State<GalleryItem> {
                     borderRadius: BorderRadius.circular(
                       Tools.radius01,
                     ),
-                    child: Image.asset(
+                    child: Image.network(
                       widget.source,
                       fit: BoxFit.cover,
                     ),
@@ -169,7 +202,7 @@ class _GalleryItemState extends State<GalleryItem> {
         height: 150,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Tools.radius01),
-          child: Image.asset(
+          child: Image.network(
             widget.source,
             fit: BoxFit.cover,
           ),

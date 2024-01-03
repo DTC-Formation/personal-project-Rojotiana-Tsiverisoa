@@ -9,8 +9,7 @@ class UserModel {
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     // Get current user info after log in
-    AuthServices auth = AuthServices();
-    String token = await auth.getToken();
+    String token = await authServices.getToken();
     List<String> splittedToken = token.split('|');
     String extractedToken = splittedToken.length > 1 ? splittedToken[1] : '';
 
