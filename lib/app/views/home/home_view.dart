@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tetiharana/app/controller/user_controller.dart';
+import 'package:tetiharana/utilities/helper.dart';
 import 'package:tetiharana/widget/dialog/dialog.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/image/carousel.dart';
@@ -17,6 +18,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   UserController userController = UserController();
   MyDialog myDialog = MyDialog();
+  Helper helper = Helper();
   String lastname = "";
 
   loadCurrentUser() async {
@@ -25,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
 
   onLoadSuccess(userData) {
     setState(() {
-      lastname = userData['lastname'];
+      lastname = helper.getNamePart(userData['lastname']);
     });
   }
 

@@ -27,6 +27,7 @@ class _MyDrawerState extends State<MyDrawer> {
   String? profile;
   String firstname = "";
   String lastname = "";
+  String lastnamePart = "";
   String filePath = "";
   String filename = "";
 
@@ -37,11 +38,12 @@ class _MyDrawerState extends State<MyDrawer> {
   onLoadSuccess(userData) {
     firstname = userData['firstname'] ?? '';
     lastname = userData['lastname'] ?? '';
+    lastnamePart = helper.getNamePart(lastname);
     filePath = helper.getFilePath("profile");
     filename = userData['filename'] ?? '';
 
     setState(() {
-      name = "$lastname $firstname";
+      name = helper.processString("$lastnamePart $firstname");
       initial = helper.getInitial(firstname, lastname);
       profile = "$filePath/$filename";
     });

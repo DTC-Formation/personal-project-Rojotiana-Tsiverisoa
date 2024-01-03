@@ -99,4 +99,28 @@ class Helper {
 
     return uri;
   }
+
+  String getNamePart(String name) {
+    List<String> nameParts = name.split(' ');
+
+    // Check if there's a second part
+    if (nameParts.length > 1) {
+      return nameParts[1];
+    } else {
+      // If there's no second part, return the first part
+      return nameParts[0];
+    }
+  }
+
+  String processString(String input) {
+    String output = "";
+    if (input.length > 24) {
+      // If the string length is greater than 24, take the first 24 characters and add "..."
+      output = "${input.substring(0, 24)}...";
+    } else {
+      // If the string length is 24 or less, return the full string
+      output = input;
+    }
+    return output;
+  }
 }
