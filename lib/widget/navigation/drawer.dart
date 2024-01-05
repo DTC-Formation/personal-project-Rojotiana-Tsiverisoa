@@ -43,7 +43,10 @@ class _MyDrawerState extends State<MyDrawer> {
     filename = userData['filename'] ?? '';
 
     setState(() {
-      name = helper.processString("$lastnamePart $firstname");
+      name = helper.processString(
+        input: "$lastnamePart $firstname",
+        length: 24,
+      );
       initial = helper.getInitial(firstname, lastname);
       profile = "$filePath/$filename";
     });

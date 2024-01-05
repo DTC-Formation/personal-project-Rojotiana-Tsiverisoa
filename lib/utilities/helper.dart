@@ -112,11 +112,14 @@ class Helper {
     }
   }
 
-  String processString(String input) {
+  String processString({
+    required String input,
+    required int length,
+  }) {
     String output = "";
-    if (input.length > 24) {
+    if (input.length > length) {
       // If the string length is greater than 24, take the first 24 characters and add "..."
-      output = "${input.substring(0, 24)}...";
+      output = "${input.substring(0, length)}...";
     } else {
       // If the string length is 24 or less, return the full string
       output = input;

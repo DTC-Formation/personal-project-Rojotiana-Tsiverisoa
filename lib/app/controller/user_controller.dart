@@ -51,4 +51,38 @@ class UserController {
         break;
     }
   }
+
+  Future<void> getUsers({
+    required Function onSuccess,
+    required Function onError,
+  }) async {
+    try {
+      List<dynamic> data = await userModel.getUsers();
+      debugPrint(
+        "Response from UserController.getUsers: ${data.length} founds",
+      );
+      onSuccess(data);
+    } catch (error) {
+      debugPrint("Error from UserController.getUsers: $error");
+      onError(error);
+    }
+  }
+
+  Future<void> getUserById({
+    required int id,
+    required Function onSuccess,
+    required Function onError,
+  }) async {
+    // Get current user info by ID
+    try {
+      Map<String, dynamic> userData = await userModel.getUserById(id: id);
+      debugPrint(
+        "Response from UserController.getUserById: ${userData['email']}",
+      );
+      onSuccess(userData);
+    } catch (error) {
+      debugPrint("Error from UserController.getUserById: $error");
+      onError(error);
+    }
+  }
 }

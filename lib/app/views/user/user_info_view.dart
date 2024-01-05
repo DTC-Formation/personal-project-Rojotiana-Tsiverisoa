@@ -8,7 +8,12 @@ import 'package:tetiharana/utilities/tools.dart';
 import 'package:tetiharana/widget/panel/expansion_panel.dart';
 
 class UserInfoView extends StatefulWidget {
-  const UserInfoView({super.key});
+  final int uid;
+
+  const UserInfoView({
+    super.key,
+    required this.uid,
+  });
 
   @override
   State<UserInfoView> createState() => _UserInfoViewState();

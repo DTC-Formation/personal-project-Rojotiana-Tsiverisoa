@@ -6,6 +6,7 @@ import 'package:tetiharana/utilities/helper.dart';
 import 'package:tetiharana/utilities/tools.dart';
 import 'package:tetiharana/widget/dialog/dialog.dart';
 import 'package:tetiharana/widget/image/background_image.dart';
+import 'package:tetiharana/widget/loader/loader.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/navigation/drawer.dart';
 
@@ -58,14 +59,7 @@ class _FamillyListViewState extends State<FamillyListView> {
               context,
               MaterialPageRoute(
                 builder: (context) => FamillyTreeView(
-                  userInfo: [
-                    {
-                      "id": item['id'],
-                      "firstname": item['firstname'],
-                      "lastname": item['lastname'],
-                      "image": item['filename'],
-                    }
-                  ],
+                  uid: item['id'],
                 ),
               ),
             ),
@@ -99,41 +93,45 @@ class _FamillyListViewState extends State<FamillyListView> {
     super.initState();
     loadFamillyList();
   }
-
 // ***************** Ending to load familly list *****************
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(58.0),
-          child: MyAppBar(
-            title: 'Classement par famille',
-          ),
-        ),
-        drawer: const MyDrawer(),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // --------------------- Image ---------------------
-                const MyBackgroundImage(
-                  source: "assets/images/familly/familly_3.webp",
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: const PreferredSize(
+              preferredSize: Size.fromHeight(58.0),
+              child: MyAppBar(
+                title: 'Classement par famille',
+              ),
+            ),
+            drawer: const MyDrawer(),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // --------------------- Image ---------------------
+                    const MyBackgroundImage(
+                      source: "assets/images/familly/familly_3.webp",
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
 
-                // --------------------- Family list ---------------------
-                Column(
-                  children: famillyItem,
+                    // --------------------- Family list ---------------------
+                    Column(
+                      children: famillyItem,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          if (isLoading) const MyLoader(),
+        ],
       ),
     );
   }

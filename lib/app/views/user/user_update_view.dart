@@ -12,7 +12,11 @@ import 'package:tetiharana/widget/panel/expansion_panel.dart';
 enum SexeChoice { male, female }
 
 class UserUpdateView extends StatefulWidget {
-  const UserUpdateView({super.key});
+  final int uid;
+  const UserUpdateView({
+    super.key,
+    required this.uid,
+  });
 
   @override
   State<UserUpdateView> createState() => _UserUpdateViewState();

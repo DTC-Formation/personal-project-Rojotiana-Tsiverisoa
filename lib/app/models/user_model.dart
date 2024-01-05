@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
 import 'package:tetiharana/app/services/api_services.dart';
 import 'package:tetiharana/app/services/auth_services.dart';
@@ -34,7 +34,28 @@ class UserModel {
       body: body,
     );
 
-    debugPrint("Response from UserModel.createUser: $response");
     return response;
+  }
+
+  Future<List<dynamic>> getUsers() async {
+    var response = await apiServices.getItems(endpoints: "users");
+
+    // Assuming response is a JSON string, parse it into a List
+    List<dynamic> userData = json.decode(response);
+    return userData;
+  }
+
+  Future<Map<String, dynamic>> getUserById({required int id}) async {
+    var response = await apiServices.getItemsById(endpoints: "user", id: id);
+
+    if (response is List && response.isNotEmpty) {
+      // Assuming the list contains a single user object
+      Map<String, dynamic> userData = response[0];
+      return userData;
+    }
+
+    // Assuming response is already a Map
+    Map<String, dynamic> userData = response;
+    return userData;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 // import 'package:dio/dio.dart';
@@ -37,14 +39,11 @@ class ApiServices {
 
   getItems({
     required String endpoints,
-    var query,
   }) async {
     var token = await authServices.getToken();
 
     try {
-      Uri uri = (query != null)
-          ? helper.getUri(endpoints: "$endpoints/$query")
-          : helper.getUri(endpoints: endpoints);
+      Uri uri = helper.getUri(endpoints: endpoints);
 
       var response = await http.get(uri, headers: {
         "Authorization": "Bearer $token",
@@ -55,6 +54,29 @@ class ApiServices {
       );
 
       return response.body;
+    } catch (e) {
+      debugPrint("Error from ApiServices.getItems: $e");
+    }
+  }
+
+  getItemsById({
+    required String endpoints,
+    required int id,
+  }) async {
+    var token = await authServices.getToken();
+
+    try {
+      Uri uri = helper.getUri(endpoints: "$endpoints/$id");
+
+      var response = await http.get(uri, headers: {
+        "Authorization": "Bearer $token",
+      });
+
+      debugPrint(
+        "Response from ApiServices.getItemById: ${response.statusCode}",
+      );
+
+      return json.decode(response.body);
     } catch (e) {
       debugPrint("Error from ApiServices.getItems: $e");
     }
