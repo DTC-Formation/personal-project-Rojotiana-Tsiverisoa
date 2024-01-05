@@ -17,6 +17,8 @@ class Tools {
   static const Color color14 = Color.fromRGBO(112, 112, 112, 1); //
   static const Color color15 = Color.fromARGB(255, 231, 231, 231); //
   static const Color color16 = Color.fromARGB(255, 214, 164, 117); //
+  static const Color color17 = Color(0xFFEBDDFF); // #EBDDFF
+  static const Color color18 = Color(0xFFFFFBFF); // #FFFBFF
 
   static const LinearGradient gradient01 = LinearGradient(
     begin: Alignment.topLeft,
