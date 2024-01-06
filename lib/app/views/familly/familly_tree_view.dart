@@ -38,15 +38,6 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
     "profile": "",
   };
 
-  var motherInfo = {
-    "id": 0,
-    "initial": "",
-    "firstname": "",
-    "lastname": "",
-    "fullname": "",
-    "profile": "",
-  };
-
   var childrenInfo = {
     "id": 0,
     "initial": "",
@@ -56,7 +47,258 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
     "profile": "",
   };
 
-// ********************** Load user info **********************
+// ********************** Show menu **********************
+  showMenu({
+    required int id,
+    required String initial,
+    required String image,
+    required String firstname,
+    required String lastname,
+  }) {
+    // show the bottom sheet & display menu
+    return showModalBottomSheet<void>(
+      backgroundColor: Tools.color05,
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(10),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 260,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        image.isNotEmpty
+                            ? CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Tools.color17,
+                                backgroundImage: NetworkImage(
+                                  "$filePath/$image",
+                                ),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(70),
+                                child: Container(
+                                  color: Tools.color17,
+                                  width: 60,
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      initial,
+                                      style: const TextStyle(
+                                        color: Tools.color10,
+                                        fontSize: Tools.fontSize02,
+                                        fontWeight: Tools.fontWeight01,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              firstname,
+                              style: const TextStyle(
+                                color: Tools.color07,
+                                fontWeight: Tools.fontWeight01,
+                              ),
+                            ),
+                            Text(
+                              lastname,
+                              style: const TextStyle(
+                                color: Tools.color07,
+                                fontWeight: Tools.fontWeight01,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () => {Navigator.pop(context)},
+                      child: const Icon(
+                        Icons.close_rounded,
+                        color: Tools.color02,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserInfoView(uid: id),
+                      ),
+                    ),
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                    ),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Tools.color09,
+                        ),
+                      ),
+                    ),
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.info,
+                          color: Tools.color02,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Détails",
+                          style: TextStyle(
+                            color: Tools.color02,
+                            fontWeight: Tools.fontWeight01,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserUpdateView(uid: id),
+                      ),
+                    ),
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                    ),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Tools.color09,
+                        ),
+                      ),
+                    ),
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.edit,
+                          color: Tools.color02,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Modifier",
+                          style: TextStyle(
+                            color: Tools.color02,
+                            fontWeight: Tools.fontWeight01,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () => {onDelete(id)},
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                    ),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Tools.color09,
+                        ),
+                      ),
+                    ),
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.delete,
+                          color: Tools.color02,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Supprimer",
+                          style: TextStyle(
+                            color: Tools.color02,
+                            fontWeight: Tools.fontWeight01,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () => {Navigator.pop(context)},
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                    ),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Tools.color09,
+                        ),
+                        bottom: BorderSide(
+                          color: Tools.color09,
+                        ),
+                      ),
+                    ),
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.cancel_rounded,
+                          color: Tools.color02,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Annuler",
+                          style: TextStyle(
+                            color: Tools.color02,
+                            fontWeight: Tools.fontWeight01,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+// ***************** Ending to show menu *****************
+
+// ******************** Load user info ********************
+  List<UserInfo> spouseInfoList = [];
+
   loadUserInfo() async {
     setState(() {
       isLoading = true;
@@ -86,12 +328,83 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
       fatherInfo['profile'] = userData['filename'] ?? '';
 
       // --------------------- Mother info ---------------------
-      motherInfo['id'] = userData['id'] ?? '';
-      motherInfo['firstname'] = userData['firstname'] ?? '';
-      motherInfo['lastname'] = userData['lastname'] ?? '';
-      motherInfo['fullname'] =
-          "${motherInfo['firstname']} ${motherInfo['lastname']}";
-      motherInfo['profile'] = userData['filename'] ?? '';
+      var spouseInfoData = userData['spouse_info']['spouse_id'] ?? [];
+      var spouseNameData = userData['spouse_info']['spouse_name'] ?? [];
+
+      if (spouseInfoData is Map) {
+        // Add the spouse info to the list
+        spouseInfoList.add(
+          UserInfo(
+            onTap: () {
+              showMenu(
+                id: spouseInfoData['id'] as int,
+                initial: helper.getInitial(
+                  "${spouseInfoData['firstname']}",
+                  "${spouseInfoData['lastname']}",
+                ),
+                image: spouseInfoData['filename'] ?? "",
+                firstname: "${spouseInfoData['firstname']}",
+                lastname: "${spouseInfoData['lastname']}",
+              );
+            },
+            name: helper.processString(
+              input: "${spouseInfoData['firstname']}",
+              length: 8,
+            ),
+            image: spouseInfoData['filename'] ?? "",
+            initial: helper.getInitial(
+              "${spouseInfoData['firstname']}",
+              "${spouseInfoData['lastname']}",
+            ),
+          ),
+        );
+      } else {
+        for (var item in spouseInfoData) {
+          spouseInfoList.add(
+            UserInfo(
+              onTap: () {
+                showMenu(
+                  id: item['id'] as int,
+                  initial: helper.getInitial(
+                    "${item['firstname']}",
+                    "${item['lastname']}",
+                  ),
+                  image: item['filename'] ?? "",
+                  firstname: "${item['firstname']}",
+                  lastname: "${item['lastname']}",
+                );
+              },
+              name: helper.processString(
+                input: "${item['firstname']}",
+                length: 8,
+              ),
+              image: item['filename'] ?? "",
+              initial: helper.getInitial(
+                "${item['item']}",
+                "${item['lastname']}",
+              ),
+            ),
+          );
+        }
+      }
+
+      for (int i = 0; i < spouseNameData.length; i++) {
+        // Add the spouse name to the list
+        spouseInfoList.add(
+          UserInfo(
+            onTap: () {},
+            name: helper.processString(
+              input: "${spouseNameData[i]}",
+              length: 8,
+            ),
+            image: "",
+            initial: helper.getInitial(
+              "${spouseNameData[i]}",
+              "",
+            ),
+          ),
+        );
+      }
 
       // -------------------- Children info --------------------
       childrenInfo['id'] = userData['id'] ?? '';
@@ -117,7 +430,7 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
     super.initState();
     loadUserInfo();
   }
-// ***************** Ending to load user info *****************
+// *************** Ending to load user info ***************
 
   onDelete(int id) {
     myDialog.showMyDialog(
@@ -143,259 +456,7 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     filePath = helper.getFilePath("profile");
-
-    showMenu({
-      required int id,
-      required String initial,
-      required String image,
-      required String firstname,
-      required String lastname,
-    }) {
-      // show the bottom sheet & display menu
-      return showModalBottomSheet<void>(
-        backgroundColor: Tools.color05,
-        context: context,
-        builder: (BuildContext context) {
-          return Padding(
-            padding: const EdgeInsets.all(10),
-            child: SizedBox(
-              width: size.width,
-              height: 260,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Row(
-                          children: [
-                            image.isNotEmpty
-                                ? CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: Tools.color17,
-                                    backgroundImage: NetworkImage(
-                                      "$filePath/$image",
-                                    ),
-                                  )
-                                : ClipRRect(
-                                    borderRadius: BorderRadius.circular(70),
-                                    child: Container(
-                                      color: Tools.color17,
-                                      width: 60,
-                                      height: 60,
-                                      child: Center(
-                                        child: Text(
-                                          initial,
-                                          style: const TextStyle(
-                                            color: Tools.color10,
-                                            fontSize: Tools.fontSize02,
-                                            fontWeight: Tools.fontWeight01,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  firstname,
-                                  style: const TextStyle(
-                                    color: Tools.color07,
-                                    fontWeight: Tools.fontWeight01,
-                                  ),
-                                ),
-                                Text(
-                                  lastname,
-                                  style: const TextStyle(
-                                    color: Tools.color07,
-                                    fontWeight: Tools.fontWeight01,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Flexible(
-                        child: InkWell(
-                          onTap: () => {Navigator.pop(context)},
-                          child: const Icon(
-                            Icons.close_rounded,
-                            color: Tools.color02,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  InkWell(
-                    onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UserInfoView(uid: id),
-                        ),
-                      ),
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        bottom: 10,
-                      ),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                            color: Tools.color09,
-                          ),
-                        ),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.info,
-                            color: Tools.color02,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Détails",
-                            style: TextStyle(
-                              color: Tools.color02,
-                              fontWeight: Tools.fontWeight01,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UserUpdateView(uid: id),
-                        ),
-                      ),
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        bottom: 10,
-                      ),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                            color: Tools.color09,
-                          ),
-                        ),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.edit,
-                            color: Tools.color02,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Modifier",
-                            style: TextStyle(
-                              color: Tools.color02,
-                              fontWeight: Tools.fontWeight01,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () => {onDelete(id)},
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        bottom: 10,
-                      ),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                            color: Tools.color09,
-                          ),
-                        ),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.delete,
-                            color: Tools.color02,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Supprimer",
-                            style: TextStyle(
-                              color: Tools.color02,
-                              fontWeight: Tools.fontWeight01,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () => {Navigator.pop(context)},
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        bottom: 10,
-                      ),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                            color: Tools.color09,
-                          ),
-                          bottom: BorderSide(
-                            color: Tools.color09,
-                          ),
-                        ),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.cancel_rounded,
-                            color: Tools.color02,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Annuler",
-                            style: TextStyle(
-                              color: Tools.color02,
-                              fontWeight: Tools.fontWeight01,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      );
-    }
 
     List<UserInfo> parentInfo = [
       UserInfo(
@@ -409,13 +470,14 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
           )
         },
         name: helper.processString(
-          input: "${fatherInfo['firstname']}",
+          input: "${fatherInfo['firstname']} ${fatherInfo['lastname']}",
           length: 8,
         ),
         image: "${fatherInfo['profile']}",
         initial: "${fatherInfo['initial']}",
       ),
     ];
+    parentInfo.addAll(spouseInfoList);
 
     // List<UserInfo> childrenInfo = [
     //   UserInfo(
@@ -444,7 +506,8 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(58.0),
               child: MyAppBar(
-                title: 'Famille ${fatherInfo['firstname']}',
+                title:
+                    'Famille ${fatherInfo['firstname']} ${fatherInfo['lastname']}',
               ),
             ),
             drawer: const MyDrawer(),
@@ -452,24 +515,27 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Center(
-                  child: Column(
-                    children: [
-                      // ***************** Parents list *****************
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: parentInfo,
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      // ***************** Children list *****************
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: childrenInfo,
-                      // ),
-                    ],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Column(
+                      children: [
+                        // ***************** Parents list *****************
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: parentInfo,
+                        ),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        // ***************** Children list *****************
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   crossAxisAlignment: CrossAxisAlignment.center,
+                        //   children: childrenInfo,
+                        // ),
+                      ],
+                    ),
                   ),
                 ),
               ),

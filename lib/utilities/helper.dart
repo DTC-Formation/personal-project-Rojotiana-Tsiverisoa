@@ -126,4 +126,30 @@ class Helper {
     }
     return output;
   }
+
+  String getSexe({required String sexe}) {
+    String output = "";
+
+    if (sexe == "male") {
+      output = "Homme";
+    } else {
+      output = "Femme";
+    }
+
+    return output;
+  }
+
+  String formatDateString(String dateString) {
+    // Split the original string into day, month, and year
+    List<String> dateParts = dateString.split('-');
+    int year = int.parse(dateParts[0]);
+    int month = int.parse(dateParts[1]);
+    int day = int.parse(dateParts[2]);
+
+    // Format the date parts into the desired format
+    String formattedDateString =
+        '${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year';
+
+    return formattedDateString;
+  }
 }

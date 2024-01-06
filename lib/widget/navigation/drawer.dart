@@ -44,7 +44,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
     setState(() {
       name = helper.processString(
-        input: "$lastnamePart $firstname",
+        input: "$firstname $lastnamePart",
         length: 24,
       );
       initial = helper.getInitial(firstname, lastname);

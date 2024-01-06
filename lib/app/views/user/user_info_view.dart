@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tetiharana/app/controller/familly_controller.dart';
+import 'package:tetiharana/app/controller/user_controller.dart';
 
 import 'package:tetiharana/utilities/helper.dart';
+import 'package:tetiharana/widget/dialog/dialog.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
 import 'package:tetiharana/widget/navigation/drawer.dart';
 import 'package:tetiharana/widget/image/background_image.dart';
@@ -21,20 +24,110 @@ class UserInfoView extends StatefulWidget {
 
 class _UserInfoViewState extends State<UserInfoView> {
   Helper helper = Helper();
+  MyDialog myDialog = MyDialog();
+  UserController userController = UserController();
+  FamillyController famillyController = FamillyController();
+
   String profile = "";
   String initial = "";
+  bool isLoading = false;
+  String filePath = "";
+  String lastnamePart = "";
+  String name = "";
+
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController sexeController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  // TextEditingController contactController = TextEditingController();
+  TextEditingController birthdayController = TextEditingController();
+  TextEditingController deathdayController = TextEditingController();
+
+  TextEditingController fathernameController = TextEditingController();
+  TextEditingController mothernameController = TextEditingController();
+
+  TextEditingController spouseController = TextEditingController();
+  TextEditingController childrenController = TextEditingController();
+
+  // ********************** Load user info **********************
+  loadUserInfo() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await userController.getUserById(
+      id: widget.uid,
+      onSuccess: onLoadSuccess,
+      onError: onLoadFail,
+    );
+  }
+
+  onLoadSuccess(userData) {
+    filePath = helper.getFilePath("profile");
+    String sexe = "";
+    String birthday = "";
+    String deathday = "";
+    String filename = "";
+
+    setState(() {
+      initial = helper.getInitial(
+        "${userData['firstname']}",
+        "${userData['lastname']}",
+      );
+      firstnameController.text = userData['firstname'] ?? '';
+      lastnameController.text = userData['lastname'] ?? '';
+      lastnamePart = helper.getNamePart(lastnameController.text);
+      name = "${firstnameController.text} $lastnamePart";
+
+      sexe = userData['sexe'] ?? '';
+      sexeController.text = helper.getSexe(sexe: sexe);
+
+      emailController.text = userData['email'] ?? '';
+      // contactController.text = userData['contact'] ?? '';
+
+      birthday = userData['birthday'] ?? '';
+      birthdayController.text = helper.formatDateString(birthday);
+
+      deathday = userData['deathday'] ?? '';
+      deathdayController.text =
+          deathday.isNotEmpty ? helper.formatDateString(deathday) : '';
+
+      filename = userData['filename'] ?? '';
+      profile = filename.isNotEmpty ? "$filePath/$filename" : "";
+
+      fathernameController.text = "";
+      mothernameController.text = "";
+
+      debugPrint("spouse_info: ${userData['spouse_info']}");
+      spouseController.text = "";
+
+      String jsonData = userData['children'] ?? '';
+      int numberOfChild = famillyController.getChildNumber(
+        data: jsonData,
+      );
+      childrenController.text = numberOfChild.toString();
+
+      isLoading = false;
+    });
+  }
+
+  onLoadFail(error) {
+    debugPrint("Error loading user info: $error");
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserInfo();
+  }
+// ***************** Ending to load user info *****************
 
   @override
   Widget build(BuildContext context) {
     // *************** Info perso ***************
-    TextEditingController firstnameController = TextEditingController();
-    TextEditingController lastnameController = TextEditingController();
-    TextEditingController sexeController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController contactController = TextEditingController();
-    TextEditingController birthdayController = TextEditingController();
-    TextEditingController deathdayController = TextEditingController();
-
     List<UserInfoItem> infoPerso = [
       UserInfoItem(
         title: "Nom(s):",
@@ -56,11 +149,11 @@ class _UserInfoViewState extends State<UserInfoView> {
         controller: emailController,
         readOnly: true,
       ),
-      UserInfoItem(
-        title: "Contact:",
-        controller: contactController,
-        readOnly: true,
-      ),
+      // UserInfoItem(
+      //   title: "Contact:",
+      //   controller: contactController,
+      //   readOnly: true,
+      // ),
       UserInfoItem(
         title: "Date de naissance:",
         controller: birthdayController,
@@ -75,9 +168,6 @@ class _UserInfoViewState extends State<UserInfoView> {
     // *************** End Info perso ***************
 
     // *************** parents info ***************
-    TextEditingController fathernameController = TextEditingController();
-    TextEditingController mothernameController = TextEditingController();
-
     List<UserInfoItem> parents = [
       UserInfoItem(
         title: "Nom du père:",
@@ -93,9 +183,6 @@ class _UserInfoViewState extends State<UserInfoView> {
     // *************** End parents info ***************
 
     // *************** Marital status info ***************
-    TextEditingController spouseController = TextEditingController();
-    TextEditingController childrenController = TextEditingController();
-
     List<UserInfoItem> maritalStatus = [
       UserInfoItem(
         title: "Epoux(se) de:",
@@ -123,10 +210,10 @@ class _UserInfoViewState extends State<UserInfoView> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(58.0),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(58.0),
           child: MyAppBar(
-            title: 'A propos de utilisateur',
+            title: 'A propos de $name',
           ),
         ),
         drawer: const MyDrawer(),

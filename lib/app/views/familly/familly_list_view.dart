@@ -45,6 +45,9 @@ class _FamillyListViewState extends State<FamillyListView> {
         int numberOfChild = famillyController.getChildNumber(
           data: jsonData,
         );
+        String firstname = item['firstname'] ?? "";
+        String lastname = item['lastname'] ?? "";
+        String lastnamePart = helper.getNamePart(lastname);
 
         return FamillyItem(
           initial: helper.getInitial(
@@ -52,7 +55,7 @@ class _FamillyListViewState extends State<FamillyListView> {
             item['lastname'],
           ),
           image: "${item['filename']}",
-          famillyName: "${item['firstname']}",
+          famillyName: "$firstname $lastnamePart",
           child: numberOfChild,
           action: () => {
             Navigator.push(
@@ -93,6 +96,7 @@ class _FamillyListViewState extends State<FamillyListView> {
     super.initState();
     loadFamillyList();
   }
+
 // ***************** Ending to load familly list *****************
   @override
   Widget build(BuildContext context) {
