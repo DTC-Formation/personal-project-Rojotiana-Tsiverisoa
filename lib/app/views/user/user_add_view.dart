@@ -121,7 +121,7 @@ class _MemberAddState extends State<UserAddView> {
         right: 0,
         child: Center(
           child: Container(
-            color: Tools.color05,
+            color: Tools.color18,
             padding: const EdgeInsets.only(
               left: 5,
               right: 5,
@@ -131,7 +131,7 @@ class _MemberAddState extends State<UserAddView> {
               style: const TextStyle(
                 color: Tools.color02,
                 fontSize: Tools.fontSize02,
-                backgroundColor: Tools.color05,
+                backgroundColor: Tools.color18,
               ),
             ),
           ),
