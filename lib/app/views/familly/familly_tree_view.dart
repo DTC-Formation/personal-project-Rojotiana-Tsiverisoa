@@ -380,7 +380,7 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
               ),
               image: item['filename'] ?? "",
               initial: helper.getInitial(
-                "${item['item']}",
+                "${item['firstname']}",
                 "${item['lastname']}",
               ),
             ),
