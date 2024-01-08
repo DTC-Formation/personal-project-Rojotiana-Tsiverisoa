@@ -320,161 +320,165 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
       fatherInfo['profile'] = userData['filename'] ?? '';
 
       // --------------------- Mother info ---------------------
-      var spouseInfoData = userData['spouse_info']['spouse_id'] ?? [];
-      var spouseNameData = userData['spouse_info']['spouse_name'] ?? [];
+      if (userData['spouse_info'] != null) {
+        var spouseInfoData = userData['spouse_info']['spouse_id'] ?? [];
+        var spouseNameData = userData['spouse_info']['spouse_name'] ?? [];
 
-      if (spouseInfoData is Map) {
-        // Add the spouse info to the list
-        spouseInfoList.add(
-          UserInfo(
-            onTap: () {
-              showMenu(
-                id: spouseInfoData['id'] as int,
-                initial: helper.getInitial(
-                  "${spouseInfoData['firstname']}",
-                  "${spouseInfoData['lastname']}",
-                ),
-                image: spouseInfoData['filename'] ?? "",
-                firstname: "${spouseInfoData['firstname']}",
-                lastname: "${spouseInfoData['lastname']}",
-              );
-            },
-            name: helper.processString(
-              input: "${spouseInfoData['firstname']}",
-              length: 8,
-            ),
-            image: spouseInfoData['filename'] ?? "",
-            initial: helper.getInitial(
-              "${spouseInfoData['firstname']}",
-              "${spouseInfoData['lastname']}",
-            ),
-          ),
-        );
-      } else {
-        for (var item in spouseInfoData) {
+        if (spouseInfoData is Map) {
+          // Add the spouse info to the list
           spouseInfoList.add(
             UserInfo(
               onTap: () {
                 showMenu(
-                  id: item['id'] as int,
+                  id: spouseInfoData['id'] as int,
                   initial: helper.getInitial(
-                    "${item['firstname']}",
-                    "${item['lastname']}",
+                    "${spouseInfoData['firstname']}",
+                    "${spouseInfoData['lastname']}",
                   ),
-                  image: item['filename'] ?? "",
-                  firstname: "${item['firstname']}",
-                  lastname: "${item['lastname']}",
+                  image: spouseInfoData['filename'] ?? "",
+                  firstname: "${spouseInfoData['firstname']}",
+                  lastname: "${spouseInfoData['lastname']}",
                 );
               },
               name: helper.processString(
-                input: "${item['firstname']}",
+                input: "${spouseInfoData['firstname']}",
                 length: 8,
               ),
-              image: item['filename'] ?? "",
+              image: spouseInfoData['filename'] ?? "",
               initial: helper.getInitial(
-                "${item['firstname']}",
-                "${item['lastname']}",
+                "${spouseInfoData['firstname']}",
+                "${spouseInfoData['lastname']}",
+              ),
+            ),
+          );
+        } else {
+          for (var item in spouseInfoData) {
+            spouseInfoList.add(
+              UserInfo(
+                onTap: () {
+                  showMenu(
+                    id: item['id'] as int,
+                    initial: helper.getInitial(
+                      "${item['firstname']}",
+                      "${item['lastname']}",
+                    ),
+                    image: item['filename'] ?? "",
+                    firstname: "${item['firstname']}",
+                    lastname: "${item['lastname']}",
+                  );
+                },
+                name: helper.processString(
+                  input: "${item['firstname']}",
+                  length: 8,
+                ),
+                image: item['filename'] ?? "",
+                initial: helper.getInitial(
+                  "${item['firstname']}",
+                  "${item['lastname']}",
+                ),
+              ),
+            );
+          }
+        }
+
+        for (int i = 0; i < spouseNameData.length; i++) {
+          // Add the spouse name to the list
+          spouseInfoList.add(
+            UserInfo(
+              onTap: () {},
+              name: helper.processString(
+                input: "${spouseNameData[i]}",
+                length: 8,
+              ),
+              image: "",
+              initial: helper.getInitial(
+                "${spouseNameData[i]}",
+                "",
               ),
             ),
           );
         }
       }
 
-      for (int i = 0; i < spouseNameData.length; i++) {
-        // Add the spouse name to the list
-        spouseInfoList.add(
-          UserInfo(
-            onTap: () {},
-            name: helper.processString(
-              input: "${spouseNameData[i]}",
-              length: 8,
-            ),
-            image: "",
-            initial: helper.getInitial(
-              "${spouseNameData[i]}",
-              "",
-            ),
-          ),
-        );
-      }
-
       // -------------------- Children info --------------------
-      var childrenInfoData = userData['children_info']['children_id'] ?? [];
-      var childrenNameData = userData['children_info']['children_name'] ?? [];
+      if (userData['children_info'] != null) {
+        var childrenInfoData = userData['children_info']['children_id'] ?? [];
+        var childrenNameData = userData['children_info']['children_name'] ?? [];
 
-      if (childrenInfoData is Map) {
-        // Add the spouse info to the list
-        childrenInfoList.add(
-          UserInfo(
-            onTap: () {
-              showMenu(
-                id: childrenInfoData['id'] as int,
-                initial: helper.getInitial(
-                  "${childrenInfoData['firstname']}",
-                  "${childrenInfoData['lastname']}",
-                ),
-                image: childrenInfoData['filename'] ?? "",
-                firstname: "${childrenInfoData['firstname']}",
-                lastname: "${childrenInfoData['lastname']}",
-              );
-            },
-            name: helper.processString(
-              input: "${childrenInfoData['firstname']}",
-              length: 8,
-            ),
-            image: childrenInfoData['filename'] ?? "",
-            initial: helper.getInitial(
-              "${childrenInfoData['firstname']}",
-              "${childrenInfoData['lastname']}",
-            ),
-          ),
-        );
-      } else {
-        for (var item in childrenInfoData) {
+        if (childrenInfoData is Map) {
+          // Add the spouse info to the list
           childrenInfoList.add(
             UserInfo(
               onTap: () {
                 showMenu(
-                  id: item['id'] as int,
+                  id: childrenInfoData['id'] as int,
                   initial: helper.getInitial(
-                    "${item['firstname']}",
-                    "${item['lastname']}",
+                    "${childrenInfoData['firstname']}",
+                    "${childrenInfoData['lastname']}",
                   ),
-                  image: item['filename'] ?? "",
-                  firstname: "${item['firstname']}",
-                  lastname: "${item['lastname']}",
+                  image: childrenInfoData['filename'] ?? "",
+                  firstname: "${childrenInfoData['firstname']}",
+                  lastname: "${childrenInfoData['lastname']}",
                 );
               },
               name: helper.processString(
-                input: "${item['firstname']}",
+                input: "${childrenInfoData['firstname']}",
                 length: 8,
               ),
-              image: item['filename'] ?? "",
+              image: childrenInfoData['filename'] ?? "",
               initial: helper.getInitial(
-                "${item['firstname']}",
-                "${item['lastname']}",
+                "${childrenInfoData['firstname']}",
+                "${childrenInfoData['lastname']}",
+              ),
+            ),
+          );
+        } else {
+          for (var item in childrenInfoData) {
+            childrenInfoList.add(
+              UserInfo(
+                onTap: () {
+                  showMenu(
+                    id: item['id'] as int,
+                    initial: helper.getInitial(
+                      "${item['firstname']}",
+                      "${item['lastname']}",
+                    ),
+                    image: item['filename'] ?? "",
+                    firstname: "${item['firstname']}",
+                    lastname: "${item['lastname']}",
+                  );
+                },
+                name: helper.processString(
+                  input: "${item['firstname']}",
+                  length: 8,
+                ),
+                image: item['filename'] ?? "",
+                initial: helper.getInitial(
+                  "${item['firstname']}",
+                  "${item['lastname']}",
+                ),
+              ),
+            );
+          }
+        }
+
+        for (int i = 0; i < childrenNameData.length; i++) {
+          // Add the spouse name to the list
+          childrenInfoList.add(
+            UserInfo(
+              onTap: () {},
+              name: helper.processString(
+                input: "${childrenNameData[i]}",
+                length: 8,
+              ),
+              image: "",
+              initial: helper.getInitial(
+                "${childrenNameData[i]}",
+                "",
               ),
             ),
           );
         }
-      }
-
-      for (int i = 0; i < childrenNameData.length; i++) {
-        // Add the spouse name to the list
-        childrenInfoList.add(
-          UserInfo(
-            onTap: () {},
-            name: helper.processString(
-              input: "${childrenNameData[i]}",
-              length: 8,
-            ),
-            image: "",
-            initial: helper.getInitial(
-              "${childrenNameData[i]}",
-              "",
-            ),
-          ),
-        );
       }
 
       isLoading = false;

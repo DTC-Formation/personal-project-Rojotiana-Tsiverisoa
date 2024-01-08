@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:tetiharana/app/controller/familly_controller.dart';
 import 'package:tetiharana/app/controller/user_controller.dart';
-
 import 'package:tetiharana/utilities/helper.dart';
 import 'package:tetiharana/widget/dialog/dialog.dart';
 import 'package:tetiharana/widget/navigation/app_bar.dart';
@@ -50,6 +50,8 @@ class _UserInfoViewState extends State<UserInfoView> {
   TextEditingController childrenController = TextEditingController();
 
   // ********************** Load user info **********************
+  List<ChildrenItem> childrenInfoList = [];
+
   loadUserInfo() async {
     setState(() {
       isLoading = true;
@@ -70,6 +72,7 @@ class _UserInfoViewState extends State<UserInfoView> {
     String filename = "";
 
     setState(() {
+      // --------------------- Info perso ---------------------
       initial = helper.getInitial(
         "${userData['firstname']}",
         "${userData['lastname']}",
@@ -95,17 +98,112 @@ class _UserInfoViewState extends State<UserInfoView> {
       filename = userData['filename'] ?? '';
       profile = filename.isNotEmpty ? "$filePath/$filename" : "";
 
-      fathernameController.text = "";
-      mothernameController.text = "";
+      // --------------------- Parents info ---------------------
+      if (userData['parent_info'] != null) {
+        var father = userData['parent_info']['father'] ?? [];
+        var mother = userData['parent_info']['mother'] ?? [];
+        var fatherInfoData = father['father_id'] ?? [];
+        var fatherNameData = father['father_name'] ?? [];
+        var motherInfoData = mother['mother_id'] ?? [];
+        var motherNameData = mother['mother_name'] ?? [];
 
-      debugPrint("spouse_info: ${userData['spouse_info']}");
-      spouseController.text = "";
+        if (fatherInfoData is Map) {
+          fathernameController.text =
+              "${fatherInfoData['firstname']} ${fatherInfoData['lastname']}";
+        } else {
+          for (var item in fatherInfoData) {
+            fathernameController.text =
+                "${item['firstname']} ${item['lastname']}";
+          }
+        }
+
+        for (int i = 0; i < fatherNameData.length; i++) {
+          fathernameController.text = "${fatherNameData[i]}";
+        }
+
+        if (motherInfoData is Map) {
+          mothernameController.text =
+              "${motherInfoData['firstname']} ${motherInfoData['lastname']}";
+        } else {
+          for (var item in motherInfoData) {
+            mothernameController.text =
+                "${item['firstname']} ${item['lastname']}";
+          }
+        }
+
+        for (int i = 0; i < motherNameData.length; i++) {
+          mothernameController.text = "${motherNameData[i]}";
+        }
+      }
+
+      // -------------------- Martial status --------------------
+      if (userData['spouse_info'] != null) {
+        var spouseInfoData = userData['spouse_info']['spouse_id'] ?? [];
+        var spouseNameData = userData['spouse_info']['spouse_name'] ?? [];
+
+        if (spouseInfoData is Map) {
+          spouseController.text =
+              "${spouseInfoData['firstname']} ${spouseInfoData['lastname']}";
+        } else {
+          for (var item in spouseInfoData) {
+            spouseController.text = "${item['firstname']} ${item['lastname']}";
+          }
+        }
+
+        for (int i = 0; i < spouseNameData.length; i++) {
+          spouseController.text = "${spouseNameData[i]}";
+        }
+      }
 
       String jsonData = userData['children'] ?? '';
+
       int numberOfChild = famillyController.getChildNumber(
         data: jsonData,
       );
       childrenController.text = numberOfChild.toString();
+
+      // --------------------- Children info --------------------
+      if (userData['children_info'] != null) {
+        var childrenInfoData = userData['children_info']['children_id'] ?? [];
+        var childrenNameData = userData['children_info']['children_name'] ?? [];
+
+        if (childrenInfoData is Map) {
+          birthday = childrenInfoData['birthday'] ?? "";
+
+          childrenInfoList.add(
+            ChildrenItem(
+              profile: childrenInfoData['filename'] ?? "",
+              firstname: '${childrenInfoData['firstname']}',
+              lastname: '${childrenInfoData['lastname']}',
+              age: helper.ageCalculator(birthday),
+            ),
+          );
+        } else {
+          for (var item in childrenInfoData) {
+            birthday = item['birthday'] ?? "";
+
+            childrenInfoList.add(
+              ChildrenItem(
+                profile: item['filename'] ?? "",
+                firstname: '${item['firstname']}',
+                lastname: '${item['lastname']}',
+                age: helper.ageCalculator(birthday),
+              ),
+            );
+          }
+        }
+
+        for (int i = 0; i < childrenNameData.length; i++) {
+          childrenInfoList.add(
+            ChildrenItem(
+              profile: '',
+              firstname: '${childrenNameData[i]}',
+              lastname: '',
+              age: 0,
+            ),
+          );
+        }
+      }
 
       isLoading = false;
     });
@@ -127,6 +225,8 @@ class _UserInfoViewState extends State<UserInfoView> {
 
   @override
   Widget build(BuildContext context) {
+    String filePath = helper.getFilePath("profile");
+
     // *************** Info perso ***************
     List<UserInfoItem> infoPerso = [
       UserInfoItem(
@@ -144,26 +244,29 @@ class _UserInfoViewState extends State<UserInfoView> {
         controller: sexeController,
         readOnly: true,
       ),
-      UserInfoItem(
-        title: "Email:",
-        controller: emailController,
-        readOnly: true,
-      ),
-      // UserInfoItem(
-      //   title: "Contact:",
-      //   controller: contactController,
-      //   readOnly: true,
-      // ),
+      if (emailController.text.isNotEmpty)
+        UserInfoItem(
+          title: "Email:",
+          controller: emailController,
+          readOnly: true,
+        ),
+      // if (contactController.text.isNotEmpty)
+      //   UserInfoItem(
+      //     title: "Contact:",
+      //     controller: contactController,
+      //     readOnly: true,
+      //   ),
       UserInfoItem(
         title: "Date de naissance:",
         controller: birthdayController,
         readOnly: true,
       ),
-      UserInfoItem(
-        title: "Date de décès:",
-        controller: deathdayController,
-        readOnly: true,
-      ),
+      if (deathdayController.text.isNotEmpty)
+        UserInfoItem(
+          title: "Date de décès:",
+          controller: deathdayController,
+          readOnly: true,
+        ),
     ];
     // *************** End Info perso ***************
 
@@ -198,14 +301,8 @@ class _UserInfoViewState extends State<UserInfoView> {
     // *************** End Marital status info ***************
 
     // *************** Children info ***************
-    List<ChildrenItem> children = [
-      ChildrenItem(
-        profile: "",
-        firstname: "RAKOTOVOLOLONA",
-        lastname: "Tsiverisoa Rojotiana",
-        age: helper.ageCalculator("1990-02-14"),
-      ),
-    ];
+    List<ChildrenItem> children = [];
+    children.addAll(childrenInfoList);
     // *************** End children info ***************
 
     return SafeArea(
@@ -241,8 +338,8 @@ class _UserInfoViewState extends State<UserInfoView> {
                                 child: CircleAvatar(
                                   radius: 70,
                                   backgroundColor: Colors.transparent,
-                                  backgroundImage: AssetImage(
-                                    profile,
+                                  backgroundImage: NetworkImage(
+                                    "$filePath/$profile",
                                   ),
                                 ),
                               ),
@@ -300,153 +397,6 @@ class _UserInfoViewState extends State<UserInfoView> {
     );
   }
 }
-
-// class UserInfoItem extends StatefulWidget {
-//   final String title;
-//   final String? content;
-
-//   const UserInfoItem({
-//     super.key,
-//     required this.title,
-//     this.content,
-//   });
-
-//   @override
-//   State<UserInfoItem> createState() => _UserInfoItemState();
-// }
-
-// class _UserInfoItemState extends State<UserInfoItem> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(
-//         top: 8,
-//         bottom: 8,
-//       ),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Flexible(
-//             child: Text(
-//               widget.title,
-//               style: const TextStyle(
-//                 color: Tools.color06,
-//                 fontWeight: Tools.fontWeight01,
-//               ),
-//             ),
-//           ),
-//           Flexible(
-//             child: Text(
-//               "${widget.content}",
-//               textAlign: TextAlign.right,
-//               style: const TextStyle(
-//                 color: Tools.color02,
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class ChildrenItem extends StatefulWidget {
-//   final String profile;
-//   final String firstname;
-//   final String lastname;
-//   final int age;
-
-//   const ChildrenItem({
-//     super.key,
-//     required this.profile,
-//     required this.firstname,
-//     required this.lastname,
-//     required this.age,
-//   });
-
-//   @override
-//   State<ChildrenItem> createState() => _ChildrenItemState();
-// }
-
-// class _ChildrenItemState extends State<ChildrenItem> {
-//   Helper helper = Helper();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     String initial = helper.getInitial(widget.firstname, widget.lastname);
-
-//     return Padding(
-//       padding: const EdgeInsets.only(
-//         top: 5,
-//         bottom: 5,
-//       ),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Row(
-//             children: [
-//               widget.profile != ""
-//                   ? CircleAvatar(
-//                       radius: 20,
-//                       backgroundColor: Tools.color02,
-//                       backgroundImage: AssetImage(
-//                         widget.profile,
-//                       ),
-//                     )
-//                   : ClipRRect(
-//                       borderRadius: BorderRadius.circular(20),
-//                       child: Container(
-//                         width: 40,
-//                         height: 40,
-//                         color: Tools.color02,
-//                         padding: const EdgeInsets.all(8),
-//                         child: Center(
-//                           child: Text(
-//                             initial,
-//                             style: const TextStyle(
-//                               fontWeight: Tools.fontWeight01,
-//                               color: Tools.color05,
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//               const SizedBox(
-//                 width: 10,
-//               ),
-//               Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     widget.firstname,
-//                     style: const TextStyle(
-//                       color: Tools.color06,
-//                       fontWeight: Tools.fontWeight01,
-//                     ),
-//                   ),
-//                   Text(
-//                     widget.lastname,
-//                     style: const TextStyle(
-//                       color: Tools.color06,
-//                       fontWeight: Tools.fontWeight01,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//           Text(
-//             "${widget.age} ans",
-//             textAlign: TextAlign.right,
-//             style: const TextStyle(
-//               color: Tools.color02,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class UserInfoItem extends StatefulWidget {
   final String title;
@@ -529,6 +479,7 @@ class _ChildrenItemState extends State<ChildrenItem> {
   @override
   Widget build(BuildContext context) {
     String initial = helper.getInitial(widget.firstname, widget.lastname);
+    String filePath = helper.getFilePath("profile");
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -540,12 +491,12 @@ class _ChildrenItemState extends State<ChildrenItem> {
         children: [
           Row(
             children: [
-              widget.profile != ""
+              widget.profile.isNotEmpty
                   ? CircleAvatar(
                       radius: 20,
                       backgroundColor: Tools.color02,
-                      backgroundImage: AssetImage(
-                        widget.profile,
+                      backgroundImage: NetworkImage(
+                        "$filePath/${widget.profile}",
                       ),
                     )
                   : ClipRRect(
@@ -590,13 +541,14 @@ class _ChildrenItemState extends State<ChildrenItem> {
               ),
             ],
           ),
-          Text(
-            "${widget.age} ans",
-            textAlign: TextAlign.right,
-            style: const TextStyle(
-              color: Tools.color02,
+          if (widget.age != 0)
+            Text(
+              "${widget.age} ans",
+              textAlign: TextAlign.right,
+              style: const TextStyle(
+                color: Tools.color02,
+              ),
             ),
-          ),
         ],
       ),
     );
