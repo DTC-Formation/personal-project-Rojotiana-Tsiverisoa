@@ -38,15 +38,6 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
     "profile": "",
   };
 
-  var childrenInfo = {
-    "id": 0,
-    "initial": "",
-    "firstname": "",
-    "lastname": "",
-    "fullname": "",
-    "profile": "",
-  };
-
 // ********************** Show menu **********************
   showMenu({
     required int id,
@@ -298,6 +289,7 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
 
 // ******************** Load user info ********************
   List<UserInfo> spouseInfoList = [];
+  List<UserInfo> childrenInfoList = [];
 
   loadUserInfo() async {
     setState(() {
@@ -407,12 +399,83 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
       }
 
       // -------------------- Children info --------------------
-      childrenInfo['id'] = userData['id'] ?? '';
-      childrenInfo['firstname'] = userData['firstname'] ?? '';
-      childrenInfo['lastname'] = userData['lastname'] ?? '';
-      childrenInfo['fullname'] =
-          "${childrenInfo['firstname']} ${childrenInfo['lastname']}";
-      childrenInfo['profile'] = userData['filename'] ?? '';
+      var childrenInfoData = userData['children_info']['children_id'] ?? [];
+      var childrenNameData = userData['children_info']['children_name'] ?? [];
+
+      if (childrenInfoData is Map) {
+        // Add the spouse info to the list
+        childrenInfoList.add(
+          UserInfo(
+            onTap: () {
+              showMenu(
+                id: childrenInfoData['id'] as int,
+                initial: helper.getInitial(
+                  "${childrenInfoData['firstname']}",
+                  "${childrenInfoData['lastname']}",
+                ),
+                image: childrenInfoData['filename'] ?? "",
+                firstname: "${childrenInfoData['firstname']}",
+                lastname: "${childrenInfoData['lastname']}",
+              );
+            },
+            name: helper.processString(
+              input: "${childrenInfoData['firstname']}",
+              length: 8,
+            ),
+            image: childrenInfoData['filename'] ?? "",
+            initial: helper.getInitial(
+              "${childrenInfoData['firstname']}",
+              "${childrenInfoData['lastname']}",
+            ),
+          ),
+        );
+      } else {
+        for (var item in childrenInfoData) {
+          childrenInfoList.add(
+            UserInfo(
+              onTap: () {
+                showMenu(
+                  id: item['id'] as int,
+                  initial: helper.getInitial(
+                    "${item['firstname']}",
+                    "${item['lastname']}",
+                  ),
+                  image: item['filename'] ?? "",
+                  firstname: "${item['firstname']}",
+                  lastname: "${item['lastname']}",
+                );
+              },
+              name: helper.processString(
+                input: "${item['firstname']}",
+                length: 8,
+              ),
+              image: item['filename'] ?? "",
+              initial: helper.getInitial(
+                "${item['firstname']}",
+                "${item['lastname']}",
+              ),
+            ),
+          );
+        }
+      }
+
+      for (int i = 0; i < childrenNameData.length; i++) {
+        // Add the spouse name to the list
+        childrenInfoList.add(
+          UserInfo(
+            onTap: () {},
+            name: helper.processString(
+              input: "${childrenNameData[i]}",
+              length: 8,
+            ),
+            image: "",
+            initial: helper.getInitial(
+              "${childrenNameData[i]}",
+              "",
+            ),
+          ),
+        );
+      }
 
       isLoading = false;
     });
@@ -479,26 +542,6 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
     ];
     parentInfo.addAll(spouseInfoList);
 
-    // List<UserInfo> childrenInfo = [
-    //   UserInfo(
-    //     onTap: () => {
-    //       showMenu(
-    //         id: fatherInfo['id'] as int,
-    //         initial: "${fatherInfo['initial']}",
-    //         image: "${fatherInfo['profile']}",
-    //         firstname: "${fatherInfo['firstname']}",
-    //         lastname: "${fatherInfo['lastname']}",
-    //       )
-    //     },
-    //     name: helper.processString(
-    //       input: "${fatherInfo['firstname']}",
-    //       length: 8,
-    //     ),
-    //     image: "${fatherInfo['profile']}",
-    //     initial: "${fatherInfo['initial']}",
-    //   ),
-    // ];
-
     return SafeArea(
       child: Stack(
         children: [
@@ -529,11 +572,11 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
                           height: 25,
                         ),
                         // ***************** Children list *****************
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   crossAxisAlignment: CrossAxisAlignment.center,
-                        //   children: childrenInfo,
-                        // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: childrenInfoList,
+                        ),
                       ],
                     ),
                   ),
