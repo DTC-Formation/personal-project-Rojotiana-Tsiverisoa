@@ -34,6 +34,9 @@ class _UserInfoViewState extends State<UserInfoView> {
   String filePath = "";
   String lastnamePart = "";
   String name = "";
+  List<dynamic> fatherName = [];
+  List<dynamic> motherName = [];
+  List<dynamic> spouseName = [];
 
   TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
@@ -43,10 +46,6 @@ class _UserInfoViewState extends State<UserInfoView> {
   TextEditingController birthdayController = TextEditingController();
   TextEditingController deathdayController = TextEditingController();
 
-  TextEditingController fathernameController = TextEditingController();
-  TextEditingController mothernameController = TextEditingController();
-
-  TextEditingController spouseController = TextEditingController();
   TextEditingController childrenController = TextEditingController();
 
   // ********************** Load user info **********************
@@ -102,37 +101,40 @@ class _UserInfoViewState extends State<UserInfoView> {
       if (userData['parent_info'] != null) {
         var father = userData['parent_info']['father'] ?? [];
         var mother = userData['parent_info']['mother'] ?? [];
-        var fatherInfoData = father['father_id'] ?? [];
-        var fatherNameData = father['father_name'] ?? [];
-        var motherInfoData = mother['mother_id'] ?? [];
-        var motherNameData = mother['mother_name'] ?? [];
 
-        if (fatherInfoData is Map) {
-          fathernameController.text =
-              "${fatherInfoData['firstname']} ${fatherInfoData['lastname']}";
-        } else {
-          for (var item in fatherInfoData) {
-            fathernameController.text =
-                "${item['firstname']} ${item['lastname']}";
+        if (father != null) {
+          var fatherInfoData = father['father_id'] ?? [];
+          var fatherNameData = father['father_name'] ?? [];
+
+          if (fatherInfoData is Map) {
+            fatherName.add(
+                "${fatherInfoData['firstname']} ${fatherInfoData['lastname']}");
+          } else {
+            for (var item in fatherInfoData) {
+              fatherName.add("${item['firstname']} ${item['lastname']}");
+            }
+          }
+
+          for (int i = 0; i < fatherNameData.length; i++) {
+            fatherName.add(fatherNameData[i]);
           }
         }
 
-        for (int i = 0; i < fatherNameData.length; i++) {
-          fathernameController.text = "${fatherNameData[i]}";
-        }
-
-        if (motherInfoData is Map) {
-          mothernameController.text =
-              "${motherInfoData['firstname']} ${motherInfoData['lastname']}";
-        } else {
-          for (var item in motherInfoData) {
-            mothernameController.text =
-                "${item['firstname']} ${item['lastname']}";
+        if (mother.isNotEmpty) {
+          var motherInfoData = mother['mother_id'] ?? [];
+          var motherNameData = mother['mother_name'] ?? [];
+          if (motherInfoData is Map) {
+            motherName.add(
+                "${motherInfoData['firstname']} ${motherInfoData['lastname']}");
+          } else {
+            for (var item in motherInfoData) {
+              motherName.add("${item['firstname']} ${item['lastname']}");
+            }
           }
-        }
 
-        for (int i = 0; i < motherNameData.length; i++) {
-          mothernameController.text = "${motherNameData[i]}";
+          for (int i = 0; i < motherNameData.length; i++) {
+            motherName.add("${motherNameData[i]}");
+          }
         }
       }
 
@@ -142,19 +144,18 @@ class _UserInfoViewState extends State<UserInfoView> {
         var spouseNameData = userData['spouse_info']['spouse_name'] ?? [];
 
         if (spouseInfoData is Map) {
-          spouseController.text =
-              "${spouseInfoData['firstname']} ${spouseInfoData['lastname']}";
+          spouseName.add(
+              "${spouseInfoData['firstname']} ${spouseInfoData['lastname']}");
         } else {
           for (var item in spouseInfoData) {
-            spouseController.text = "${item['firstname']} ${item['lastname']}";
+            spouseName.add("${item['firstname']} ${item['lastname']}");
           }
         }
 
         for (int i = 0; i < spouseNameData.length; i++) {
-          spouseController.text = "${spouseNameData[i]}";
+          spouseName.add("${spouseNameData[i]}");
         }
       }
-
       String jsonData = userData['children'] ?? '';
 
       int numberOfChild = famillyController.getChildNumber(
@@ -225,8 +226,6 @@ class _UserInfoViewState extends State<UserInfoView> {
 
   @override
   Widget build(BuildContext context) {
-    String filePath = helper.getFilePath("profile");
-
     // *************** Info perso ***************
     List<UserInfoItem> infoPerso = [
       UserInfoItem(
@@ -271,32 +270,27 @@ class _UserInfoViewState extends State<UserInfoView> {
     // *************** End Info perso ***************
 
     // *************** parents info ***************
-    List<UserInfoItem> parents = [
-      UserInfoItem(
-        title: "Nom du père:",
-        controller: fathernameController,
-        readOnly: true,
-      ),
-      UserInfoItem(
-        title: "Nom de la mère:",
-        controller: mothernameController,
-        readOnly: true,
-      ),
+    List<ExtraInfoItem> parents = [
+      if (fatherName.isNotEmpty)
+        ExtraInfoItem(
+          title: "Nom du père:",
+          name: fatherName,
+        ),
+      if (motherName.isNotEmpty)
+        ExtraInfoItem(
+          title: "Nom de la mère:",
+          name: motherName,
+        ),
     ];
     // *************** End parents info ***************
 
     // *************** Marital status info ***************
-    List<UserInfoItem> maritalStatus = [
-      UserInfoItem(
-        title: "Epoux(se) de:",
-        controller: spouseController,
-        readOnly: true,
-      ),
-      UserInfoItem(
-        title: "Nombres d'enfants:",
-        controller: childrenController,
-        readOnly: true,
-      ),
+    List<ExtraInfoItem> maritalStatus = [
+      if (spouseName.isNotEmpty)
+        ExtraInfoItem(
+          title: "Epoux(se):",
+          name: spouseName,
+        ),
     ];
     // *************** End Marital status info ***************
 
@@ -339,7 +333,7 @@ class _UserInfoViewState extends State<UserInfoView> {
                                   radius: 70,
                                   backgroundColor: Colors.transparent,
                                   backgroundImage: NetworkImage(
-                                    "$filePath/$profile",
+                                    profile,
                                   ),
                                 ),
                               ),
@@ -376,18 +370,32 @@ class _UserInfoViewState extends State<UserInfoView> {
                     title: "Informations personnelles",
                     children: infoPerso,
                   ),
-                  MyExpansionPanel(
-                    title: "Parents",
-                    children: parents,
-                  ),
-                  MyExpansionPanel(
-                    title: "Situation matrimoniale",
-                    children: maritalStatus,
-                  ),
-                  MyExpansionPanel(
-                    title: "Enfants",
-                    children: children,
-                  ),
+                  if (fatherName.isNotEmpty || motherName.isNotEmpty)
+                    MyExpansionPanel(
+                      title: "Parents",
+                      children: parents,
+                    ),
+                  if (maritalStatus.isNotEmpty ||
+                      childrenController.text != "0")
+                    MyExpansionPanel(
+                      title: "Situation matrimoniale",
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: maritalStatus,
+                        ),
+                        UserInfoItem(
+                          title: "Nombres d'enfants:",
+                          controller: childrenController,
+                          readOnly: true,
+                        )
+                      ],
+                    ),
+                  if (children.isNotEmpty)
+                    MyExpansionPanel(
+                      title: "Enfants",
+                      children: children,
+                    ),
                 ],
               ),
             ),
@@ -530,13 +538,14 @@ class _ChildrenItemState extends State<ChildrenItem> {
                       fontWeight: Tools.fontWeight01,
                     ),
                   ),
-                  Text(
-                    widget.lastname,
-                    style: const TextStyle(
-                      color: Tools.color06,
-                      fontWeight: Tools.fontWeight01,
+                  if (widget.lastname.isNotEmpty)
+                    Text(
+                      widget.lastname,
+                      style: const TextStyle(
+                        color: Tools.color06,
+                        fontWeight: Tools.fontWeight01,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ],
@@ -547,6 +556,60 @@ class _ChildrenItemState extends State<ChildrenItem> {
               textAlign: TextAlign.right,
               style: const TextStyle(
                 color: Tools.color02,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class ExtraInfoItem extends StatefulWidget {
+  final String title;
+  final List<dynamic> name;
+  final bool readOnly;
+
+  const ExtraInfoItem({
+    super.key,
+    required this.title,
+    required this.name,
+    this.readOnly = false,
+  });
+
+  @override
+  State<ExtraInfoItem> createState() => _ExtraInfoItemState();
+}
+
+class _ExtraInfoItemState extends State<ExtraInfoItem> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 8,
+        bottom: 8,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.title,
+            style: const TextStyle(
+              color: Tools.color06,
+              fontWeight: Tools.fontWeight01,
+            ),
+          ),
+          for (String name in widget.name)
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 8,
+                bottom: 3,
+              ),
+              child: Text(
+                "- $name",
+                style: const TextStyle(
+                  color: Tools.color02,
+                ),
               ),
             ),
         ],
