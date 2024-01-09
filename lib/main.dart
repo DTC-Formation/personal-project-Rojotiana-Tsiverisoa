@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,9 +14,14 @@ void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
 
-  runApp(
-    token != null ? const MyApp(initialRoute: AppRoutes.home) : const MyApp(),
-  );
+  // Lock screen orientation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(token != null
+        ? const MyApp(initialRoute: AppRoutes.home)
+        : const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
