@@ -58,4 +58,14 @@ class UserModel {
     Map<String, dynamic> userData = response;
     return userData;
   }
+
+  Future<int> deleteUser({required int id}) async {
+    // Delete user
+    int response = await apiServices.deleteItems(
+      endpoints: "user",
+      id: id,
+    );
+
+    return response;
+  }
 }

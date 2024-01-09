@@ -503,21 +503,67 @@ class _FamillyTreeViewState extends State<FamillyTreeView> {
     myDialog.showMyDialog(
       title: "Avertissement",
       description: "Êtes-vous sûr de vouloir supprimer cette personne?",
-      confirmAction: confirmDeletion,
+      confirmAction: () => {confirmDeletion(id)},
       confirmTitle: "Oui",
       cancelTitle: "Non",
       context: context,
     );
   }
 
-  confirmDeletion() {
+  onDeleteUserSuccess(String title, String message) {
     Navigator.of(context).pop();
+
+    // refresh page after deleting
+    setState(() {
+      fatherInfo = {
+        "id": 0,
+        "initial": "",
+        "firstname": "",
+        "lastname": "",
+        "fullname": "",
+        "profile": "",
+      };
+      spouseInfoList.clear();
+      childrenInfoList.clear();
+      loadUserInfo();
+
+      isLoading = false;
+    });
+
     myDialog.showMyDialog(
-      title: "Félicitation",
-      description: "La personne a bien été supprimer de la liste.",
+      title: title,
+      description: message,
       confirmAction: () => {Navigator.of(context).pop()},
       confirmTitle: "Ok",
       context: context,
+    );
+  }
+
+  onDeleteUserFail(String title, String message) {
+    setState(() {
+      isLoading = false;
+    });
+
+    myDialog.showMyDialog(
+      title: title,
+      description: message,
+      confirmAction: () => {Navigator.of(context).pop()},
+      confirmTitle: "Ok",
+      context: context,
+    );
+  }
+
+  confirmDeletion(int id) async {
+    Navigator.of(context).pop();
+
+    setState(() {
+      isLoading = true;
+    });
+
+    await userController.deleteUser(
+      id: id,
+      onSuccess: onDeleteUserSuccess,
+      onError: onDeleteUserFail,
     );
   }
 

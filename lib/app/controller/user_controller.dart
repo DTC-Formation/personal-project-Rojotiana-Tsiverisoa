@@ -85,4 +85,33 @@ class UserController {
       onError(error);
     }
   }
+
+  Future<void> deleteUser({
+    required int id,
+    required Function(String, String) onSuccess,
+    required Function(String, String) onError,
+  }) async {
+    // Delete an user
+    int statusCode = await userModel.deleteUser(id: id);
+    debugPrint("Response from UserController.deleteUser: $statusCode");
+
+    Map<String, String> alertInfo = alertMessage.getMessage(
+      statusCode: statusCode,
+    );
+
+    switch (statusCode) {
+      case 200:
+      case 201:
+        title = "Félicitation";
+        message = "La personne a bien été supprimer de la liste!";
+        onSuccess(title, message);
+        break;
+
+      default:
+        title = alertInfo['title']!;
+        message = alertInfo['message']!;
+        onError(title, message);
+        break;
+    }
+  }
 }

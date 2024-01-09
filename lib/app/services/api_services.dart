@@ -2,18 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-// import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:tetiharana/app/services/auth_services.dart';
-// import 'package:tetiharana/utilities/constants.dart';
 import 'package:tetiharana/utilities/helper.dart';
 
 class ApiServices {
   AuthServices authServices = AuthServices();
   Helper helper = Helper();
-  // String apiUrl = "${Constant.apiUrl}/api";
-  // Dio dio = Dio();
 
   createItems({
     required String endpoints,
@@ -114,4 +110,27 @@ class ApiServices {
   //     print(e);
   //   }
   // }
+
+  deleteItems({
+    required String endpoints,
+    required var id,
+  }) async {
+    var token = await authServices.getToken();
+
+    try {
+      Uri uri = helper.getUri(endpoints: "$endpoints/$id");
+
+      var response = await http.delete(uri, headers: {
+        "Authorization": "Bearer $token",
+      });
+
+      debugPrint(
+        "Response from ApiServices.deleteItems: ${response.statusCode}",
+      );
+
+      return response.statusCode;
+    } catch (e) {
+      debugPrint("Error from ApiServices.deleteItems: $e");
+    }
+  }
 }
